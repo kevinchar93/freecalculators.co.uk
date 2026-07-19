@@ -1,49 +1,43 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import {
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { toUrl } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
+import { cn } from '@/lib/utils';
 import type { NavItem } from '@/types';
 
-export function NavFooter({
-    items,
-    className,
-    ...props
-}: ComponentPropsWithoutRef<typeof SidebarGroup> & {
+type Props = {
     items: NavItem[];
-}) {
+    className?: string;
+};
+
+export function NavFooter({ items, className }: Props) {
     return (
-        <SidebarGroup
-            {...props}
-            className={`group-data-[collapsible=icon]:p-0 ${className || ''}`}
+        <footer
+            className={cn(
+                'border-t border-brand-border bg-brand-subtle',
+                className,
+            )}
         >
-            <SidebarGroupContent>
-                <SidebarMenu>
-                    {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton
-                                asChild
-                                className="text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
+            <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-4 text-center sm:px-6 md:flex-row md:items-start md:justify-between md:text-left lg:px-8">
+                <span className="font-logo text-lg font-bold text-neutral-900 dark:text-white">
+                    freecalculators<span className="text-brand">.co.uk</span>
+                </span>
+
+                <div className="flex flex-col items-center gap-2 md:items-end">
+                    <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+                        {items.map((item) => (
+                            <Link
+                                key={item.title}
+                                href={item.href}
+                                className="text-sm text-neutral-600 transition-colors hover:text-brand dark:text-neutral-400"
                             >
-                                <a
-                                    href={toUrl(item.href)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {item.icon && (
-                                        <item.icon className="h-5 w-5" />
-                                    )}
-                                    <span>{item.title}</span>
-                                </a>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-            </SidebarGroupContent>
-        </SidebarGroup>
+                                {item.title}
+                            </Link>
+                        ))}
+                    </nav>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-500">
+                        &copy; {new Date().getFullYear()} freecalculators.co.uk.
+                        All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
     );
 }
