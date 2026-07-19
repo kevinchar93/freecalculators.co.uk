@@ -28,7 +28,7 @@ export function NavBar({
         className,
       )}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-240 px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           {/* Logo */}
           <Link href={home()} prefetch className="flex items-center font-logo">

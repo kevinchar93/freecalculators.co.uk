@@ -15,7 +15,7 @@ export function NavFooter({ items, className }: Props) {
                 className,
             )}
         >
-            <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-4 text-center sm:px-6 md:flex-row md:items-start md:justify-between md:text-left lg:px-8">
+            <div className="mx-auto flex max-w-240 flex-col items-center gap-6 px-4 py-4 text-center sm:px-6 md:flex-row md:items-start md:justify-between md:text-left lg:px-8">
                 <span className="font-logo text-lg font-bold text-neutral-900 dark:text-white">
                     freecalculators<span className="text-brand">.co.uk</span>
                 </span>

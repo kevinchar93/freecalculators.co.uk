@@ -64,6 +64,7 @@
   --color-brand-subtle: var(--brand-subtle);
   --color-brand-subtle-foreground: var(--brand-subtle-foreground);
   --color-brand-border: var(--brand-border);
+  --color-brand-canvas: var(--brand-canvas);
 }
 
 :root {
@@ -106,6 +107,7 @@
   --brand-subtle: #eff8f1;
   --brand-subtle-foreground: #1b7a4b;
   --brand-border: #d7e8dc;
+  --brand-canvas: #f5fbf3;
 }
 
 .dark {
@@ -147,6 +149,7 @@
   --brand-subtle: #10261a;
   --brand-subtle-foreground: #34a866;
   --brand-border: #1e4530;
+  --brand-canvas: #0f1a13;
 }
 
 @layer base {
