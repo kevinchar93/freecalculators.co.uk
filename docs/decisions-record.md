@@ -1,10 +1,10 @@
-# Mortgage Calculator — Decision Record
+# Decision Record
 
-A running log of notable design/spec decisions for the mortgage calculator. 
+A running log of notable design/spec decisions for the application
 
-Each entry: what was decided, why, and the date it was decided. Newest at the top.
+Each entry: what was decided / where in the repo, why, and the date it was decided. Newest at the top.
 
-## Zero interest rate (`r = 0`) is rejected at input validation
+## Mortgage Calculator - Zero interest rate (`r = 0`) is rejected at input validation
 
 2026-08-02
 
