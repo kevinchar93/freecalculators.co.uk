@@ -63,14 +63,14 @@ Calculates monthly repayments for a residential mortgage, and highlights the "pa
 ### Loan amount
 
 - what it is:
-  - The actual amount of money lent for the mortgage, this becomes the "Principal" of the loan∏ 
+  - The actual amount of money lent for the mortgage, this becomes the "Principal" of the loan
 - symbol: `loanAmount`
 - calculation
   - `propertyPrice - deposit`
 
 ### Loan to value percentage
 
-- what is is:
+- what is:
   - The percentage of a property's value that is being borrowed as a mortgage.
 - symbol: `loanToValuePercentage`
 - calculation
@@ -78,7 +78,7 @@ Calculates monthly repayments for a residential mortgage, and highlights the "pa
 
 ### Monthly repayment
 
-- what is is:
+- what is:
   - The monthly payment that has to be made each month through the mortgage term to fully pay of the mortgage.
 - symbol: `monthlyRepayment`
 - calculation
@@ -169,19 +169,23 @@ Depends only on rate and term — the loan size doesn't matter.
 
 ## Outputs
 
+The output will be placed onto "cards" depending on the user's selection. 
+
 ### When user has NOT checked "I have a fixed/tracker deal"
 
-- Single Card
-  - Title: Your Results
-  - Monthly Payment: £Y
-  - House Price: £Y
-  - Deposit: £Y (Y%)
-  - Loan Amount: £Y
-  - Total Paid (Y Monthly payments): £Y
-  - Total Interest: £Y
-  - Principal / Interest split: Y% principal / Y% interest
-  - Payoff date: Month Year
-  - Payment Schedule Table
+The user will see a single cards of output "Your Results"
+
+# Single Card - "Your Results"
+
+- Monthly Payment: £Y
+- House Price: £Y
+- Deposit: £Y (Y%)
+- Loan Amount: £Y
+- Total Paid (Y Monthly payments): £Y
+- Total Interest: £Y
+- Principal / Interest split: Y% principal / Y% interest
+- Payoff date: Month Year
+- Payment Schedule Table
 
 **Calculations**
   - Monthly Payment
@@ -217,58 +221,68 @@ Depends only on rate and term — the loan size doesn't matter.
   
 ### When user HAS checked "I have a fixed/tracker deal"
 
-- 3 Cards
+The user will see 3 cards of output
+- During Your Deal
+- After Your Deal
+- Summary
 
-- Card 1
-  - Title: "During Your Deal"
-  - Monthly Payment: £Y
-  - Total Paid (Y Monthly payments): £Y
-  - Balance at end of deal: £Y
-  - Total Interest: £Y
-  - Principal / Interest split: Y% principle / Y% interest
-  - Deal end date: Month Year
-  - Payment Schedule Table
+#### Card 1 - "During Your Deal"
+
+- Monthly Payment: £Y
+- Total Paid (Y Monthly payments): £Y
+- Balance at end of deal: £Y
+- Total Interest: £Y
+- Principal / Interest split: Y% principle / Y% interest
+- Deal end date: Month Year
+- Payment Schedule Table
 
 **Calculations**
 - Loan Amount
     - `= loanAmount`
+
 - Monthly Payment
   - `= monthlyRepayment`
-    - use `mortgageTermInMonths` for input, payment will only be for `dealTermInMonths` months
+    - use `mortgageTermInMonths` for amortization input, payment will only be for `dealTermInMonths` months
+  - *interest-only* `= monthlyRepaymentInterestOnly`
+
 - Total Paid
   - `totalPaidDealPeriod = dealTermInMonths * monthlyRepayment`
+  - *interest-only* `= dealTermInMonths * monthlyRepaymentInterestOnly`
+
 - Balance at end of deal:
   - `balanceAtEndOfDealPeriod = remainingBalanceKPayments`
     - where `K` is `dealTermInMonths`
-    - use `mortgageTermInMonths` for input, payment will only be for `dealTermInMonths` months
+    - use `mortgageTermInMonths` for amortization input, payment will only be for `dealTermInMonths` months
+  - *interest-only* `= loanAmount` because the balance will never reduce
+
 - Total Interest
   - `totalInterest = totalPaidDealPeriod - (loanAmount - balanceAtEndOfDealPeriod)`
+  - *interest-only* `= totalPaid` because only interest is being paid
+
 - Principal / Interest split:
   - `totalPrincipal = totalPaidDealPeriod - totalInterest`
   - `principal = (totalPrincipal / totalPaidDealPeriod) * 100`
   - `interest = (totalInterest / totalPaidDealPeriod) * 100`
+  - *interest-only* hidden. Always 0% principal / 100% interest under interest-only, so it's not informative.
+
 - Deal end date
     - `addMonths(startDate, dealTermInMonths)`
+    - *interest-only* same calculation but relabelled to "Deal period ends". Balance never reaches zero under interest-only, so "payoff" is misleading.
+
 - Payment Schedule Table
     - `= amortisationSchedule`
+    - *interest-only* kept as-is. Principal column will always read 0 and Balance will stay flat at the loan amount, but showing that flatness is itself useful to the user.
 
+#### Card 2 - "After Your Deal"
 
-**Interest-only adjustments (Card 1)**
-- Balance at end of deal — will equal the original loan amount, since nothing is amortized. Kept as-is; demonstrates the balance hasn't moved.
-- Total Interest — will equal Total Paid. Kept as a separate field rather than collapsed; the equality itself signals "you're building zero equity."
-- Principal / Interest split — hidden, same reasoning as the single-card case.
-- Payment Schedule Table — kept as-is, same flat Principal/Balance behaviour as the single-card case.
-
-- Card 2
-  - Title: "After Your Deal"
-  - subtitle: on Y% SVR
-  - Monthly Payment: £Y
-    - sub text: £Y increase, Y% change
-  - Total Paid (Y Monthly payments): £Y
-  - Total Interest: £Y
-  - Principal / Interest split: Y% principle / Y% interest
-  - End date: Month Year
-  - Payment Schedule Table
+- subtitle: on Y% SVR
+- Monthly Payment: £Y
+  - sub text: £Y increase, Y% change
+- Total Paid (Y Monthly payments): £Y
+- Total Interest: £Y
+- Principal / Interest split: Y% principle / Y% interest
+- End date: Month Year
+- Payment Schedule Table
 
 **Calculations**
 
@@ -285,14 +299,14 @@ Depends only on rate and term — the loan size doesn't matter.
 - Principal / Interest split — hidden, same reasoning as Card 1.
 - Payment Schedule Table — kept as-is, same flat Principal/Balance behaviour as Card 1.
 
-- Card 3
-  - Title: "Summary"
-  - House Price: £Y
-  - Deposit: £Y (Y%)
-  - Loan Amount: £Y
-  - Total Paid (Y Monthly payments): £Y
-  - Total Interest: £Y
-  - Principal / Interest split: Y% principle / Y% interest
+#### Card 3 - "Summary"
+
+- House Price: £Y
+- Deposit: £Y (Y%)
+- Loan Amount: £Y
+- Total Paid (Y Monthly payments): £Y
+- Total Interest: £Y
+- Principal / Interest split: Y% principle / Y% interest
 
 **Calculations**
 
@@ -301,63 +315,20 @@ Depends only on rate and term — the loan size doesn't matter.
 - Total Interest
 - Principal / Interest split
 
+- Repayment vehicle notice
+  - shown only for *interest-only*. Not present for standard repayment mortgages, since those amortize to zero and need no such warning. Warns the user that they are just paying interest and will need a method to repay the balance in full at the end.
+  
+
 **Interest-only adjustments (Card 3)**
 - Total Interest — will equal Total Paid, same reasoning as Cards 1 & 2.
 - Principal / Interest split — hidden, same reasoning as Cards 1 & 2.
 - Repayment vehicle notice — shown only for interest-only, same reasoning as the single-card case. Not present for standard repayment mortgages.
-
 
 - each payment schedule table is an amortization table with these columns
     - Year
     - Interest
     - Principal
     - Balance
-
-### Deal period (Cards 1, 2, 3)
-
-`n_total` = Mortgage term in months. `n_deal` = Deal term in months. `n_remaining` = `n_total - n_deal`.
-
-Card 1 — During Your Deal
-
-`P` = Loan amount, `n` = `n_total`, `i` = deal rate / 12 (Interest rate for Fixed, or `Base rate + Margin` for Tracker), throughout.
-
-- Monthly Payment: Monthly repayment (repayment type) formula, or interest-only formula if Repayment type = Interest-only
-- Total Paid: `Monthly Payment * n_deal`
-- Balance at end of deal: `B_k` with `k = n_deal`
-  - Interest-only: equals Loan amount, since `B_k` never decreases
-- Total Interest: `Total Paid - (Loan amount - Balance at end of deal)`
-  - Interest-only: `Total Interest = Total Paid`, same reasoning as the no-deal-period case
-- Principal / Interest split: `Principal % = ((Loan amount - Balance at end of deal) / Total Paid) * 100`, `Interest % = (Total Interest / Total Paid) * 100`
-  - Interest-only: not calculated — field hidden
-- Deal end date: `Mortgage start date + n_deal months`
-- Payment Schedule Table: amortisation schedule for months `1..n_deal`, same per-year row structure as the no-deal-period case
-  - Interest-only: Principal column = 0, Balance column flat at Loan amount, same reasoning as the no-deal-period case
-
-Card 2 — After Your Deal
-
-`P` = Balance at end of deal (Card 1), `n` = `n_remaining`, `i` = SVR / 12, throughout.
-
-- Monthly Payment: Monthly repayment (repayment type) formula, or interest-only formula if Repayment type = Interest-only
-- £ increase: `Card 2 Monthly Payment - Card 1 Monthly Payment`
-- % change: `(£ increase / Card 1 Monthly Payment) * 100`
-- Total Paid: `Monthly Payment * n_remaining`
-- Total Interest: `Total Paid - Balance at end of deal (Card 1)`
-  - Interest-only: `Total Interest = Total Paid`, same reasoning as Card 1
-- Principal / Interest split: `Principal % = (Balance at end of deal (Card 1) / Total Paid) * 100`, `Interest % = (Total Interest / Total Paid) * 100`
-  - Interest-only: not calculated — field hidden
-- End date: `Deal end date (Card 1) + n_remaining months`
-- Payment Schedule Table: amortisation schedule for months `1..n_remaining` starting from `P` = Balance at end of deal, same per-year row structure as Card 1
-  - Interest-only: same flat Principal/Balance behaviour as Card 1
-
-Card 3 — Summary
-
-- House Price / Deposit / Loan Amount: same values as the inputs / Loan amount (shared formula)
-- Total Paid: `Card 1 Total Paid + Card 2 Total Paid`
-- Total Interest: `Card 1 Total Interest + Card 2 Total Interest`
-  - Interest-only: `Total Interest = Total Paid`, following from both cards individually satisfying this
-- Principal / Interest split: recomputed from the summed totals — `Principal % = ((Card 1 + Card 2 principal paid) / Total Paid) * 100` — not an average of the two cards' percentages
-  - Interest-only: not calculated — field hidden
-- Repayment vehicle notice: not a calculation — static text, interest-only only, same as the no-deal-period case
 
 ## pSEO Variations
 
