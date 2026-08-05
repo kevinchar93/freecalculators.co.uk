@@ -60,6 +60,8 @@ Calculates monthly repayments for a residential mortgage, and highlights the "pa
 
 ## Calculations
 
+> **Precision & rounding:** All calculations are performed in full floating-point precision. Rounding to whole pounds (or pennies) happens **only at display time** — never feed a rounded value back into another formula. Because the amortisation schedule is kept in full precision, the balance lands on exactly £0.00 at the final payment, and headline totals (e.g. `wholeLoanTotalInterest`) are taken from their closed-form expressions rather than by summing rounded table rows.
+
 ### Loan amount
 
 - what it is:
@@ -163,7 +165,8 @@ END FOR
 - calculation:
   - `r` = annual rate / 12
   - `n` = total number of monthly payments over which the loan is being amortised
-  - `monthPrincipalFirstExceedsInterest = CEILING(n + 1 - (ln(2) / ln(1 + r)))`
+  - `monthPrincipalFirstExceedsInterest = CLAMP(CEILING(n + 1 - (ln(2) / ln(1 + r))), 1, n)`
+    - The `CLAMP(..., 1, n)` is **required, not cosmetic**. The inner expression is the exact real-valued crossover point, but it can fall outside `[1, n]`. When the rate is low and/or the term is short, principal already exceeds interest in month 1, so the raw value goes ≤ 0 (e.g. at 4.5% over 15 years it evaluates to `-4`); at very high rates it can exceed `n`. In those cases the true answer is the nearest real month — month 1 or month `n` respectively. Do not "simplify" the clamp away.
 
 Depends only on rate and term — the loan size doesn't matter.
 
