@@ -62,6 +62,23 @@ Calculates monthly repayments for a residential mortgage, and highlights the "pa
 
 > **Precision & rounding:** All calculations are performed in full floating-point precision. Rounding to whole pounds (or pennies) happens **only at display time** — never feed a rounded value back into another formula. Because the amortisation schedule is kept in full precision, the balance lands on exactly £0.00 at the final payment, and headline totals (e.g. `wholeLoanTotalInterest`) are taken from their closed-form expressions rather than by summing rounded table rows.
 
+### Rates
+
+Every formula below takes a monthly rate `r = annual rate / 12`. Which **annual rate** to use depends on the period being calculated. These are the named annual rates the cards reference:
+
+- symbol: `dealRate`
+  - the annual rate that applies **during** the deal period (Card 1)
+  - `dealRate = dealType == "tracker" ? (baseRate + margin) : interestRate`
+  - For a tracker the `Interest rate` field is disabled (see Inputs), so the deal rate is the effective `baseRate + margin` — **not** the `Interest rate` field.
+- symbol: `postDealRate`
+  - the annual rate that applies **after** the deal period, once the borrower rolls onto the lender's Standard Variable Rate (Card 2)
+  - `postDealRate = svr`
+- symbol: `wholeTermRate`
+  - the annual rate used when there is **no** deal period — the single rate that applies for the entire mortgage term (single-card "Your Results")
+  - `wholeTermRate = interestRate`
+
+Whenever a card's calculation invokes `monthlyRepayment`, `remainingBalanceKPayments`, or the amortisation schedule, feed it `r = (the card's applicable rate) / 12`.
+
 ### Loan amount
 
 - what it is:
@@ -192,14 +209,14 @@ The user will see a single cards of output "Your Results"
 
 **Calculations**
   - Monthly Payment
-    - `= monthlyRepayment`
-    - *interest-only* `= monthlyRepaymentInterestOnly`
+    - `= monthlyRepayment`, using `r = wholeTermRate / 12` and `mortgageTermInMonths` (see Rates)
+    - *interest-only* `= monthlyRepaymentInterestOnly` (also uses `r = wholeTermRate / 12`)
 
   - Loan Amount
     - `= loanAmount`
 
   - Total Paid
-    - `= monthlyRepayment * mortgageTermInMonths`
+    - `totalPaid = monthlyRepayment * mortgageTermInMonths`
     - *interest-only* `= monthlyRepaymentInterestOnly * mortgageTermInMonths`
   
   - Total Interest
@@ -219,7 +236,9 @@ The user will see a single cards of output "Your Results"
     - `= amortisationSchedule`
     - *interest-only* kept as-is. Principal column will always read 0 and Balance will stay flat at the loan amount, but showing that flatness is itself useful to the user.
 
-  - Repayment vehicle notice
+  - Remaining balance
+    - `= loanAmount`
+    - Repayment vehicle notice
     - shown only for *interest-only*. Not present for standard repayment mortgages, since those amortize to zero and need no such warning. Warns the user that they are just paying interest and will need a method to repay the balance in full at the end.
   
 ### When user HAS checked "I have a fixed/tracker deal"
@@ -245,8 +264,9 @@ The user will see 3 cards of output
 
 - Monthly Payment
   - `= monthlyRepayment`
+    - use `r = dealRate / 12` for the rate (see Rates)
     - use `mortgageTermInMonths` for amortization input, payment will only be for `dealTermInMonths` months
-  - *interest-only* `= monthlyRepaymentInterestOnly`
+  - *interest-only* `= monthlyRepaymentInterestOnly` (also uses `r = dealRate / 12`)
 
 - Total Paid
   - `totalPaidDealPeriod = dealTermInMonths * monthlyRepayment`
@@ -278,6 +298,8 @@ The user will see 3 cards of output
 
 #### Card 2 - "After Your Deal"
 
+> **Visibility rule:** This card is only shown when `dealTermInMonths < mortgageTermInMonths`. When `dealTermInMonths >= mortgageTermInMonths` the deal covers the entire loan — there is no post-deal (SVR) period, so `postDealTermInMonths` would be `0` (a division by zero in the amortisation formula) or negative. In that case **hide Card 2 entirely** and drop the "After Your Deal" reference from the Summary; the borrower is on the deal rate for the whole term, so "During Your Deal" already tells the full story. Input validation should also cap `dealTerm <= mortgageTerm`.
+
 - subtitle: on Y% SVR
 - Monthly Payment: £Y
   - sub text: £Y increase, Y% change
@@ -289,18 +311,47 @@ The user will see 3 cards of output
 
 **Calculations**
 
-- Monthly Payment
-  - changes
-- Total Paid
-- Total Interest
-- Principal / Interest split
-- End date: Month Year
-- Payment Schedule Table
+Card 2 re-amortises the balance at the end of the deal period over the **remaining** term.
 
-**Interest-only adjustments (Card 2)**
-- Total Interest — will equal Total Paid, same reasoning as Card 1.
-- Principal / Interest split — hidden, same reasoning as Card 1.
-- Payment Schedule Table — kept as-is, same flat Principal/Balance behaviour as Card 1.
+- `postDealStartDate = addMonths(startDate, dealTermInMonths)`
+- `postDealBalance = balanceAtEndOfDealPeriod`
+- `postDealTermInMonths = mortgageTermInMonths - dealTermInMonths` 
+
+- Monthly Payment
+  - `postDealMonthlyPayment = monthlyRepayment FORMULA`
+    - use `postDealBalance` in the amortisation formula for the loan amount
+    - use `postDealRate` (SVR) for the rate
+    - use `postDealTermInMonths` for number of months
+  -  *interest-only* `= postDealMonthlyRepaymentInterestOnly` , same inputs above for re-amortisation
+  - sub text (the "payment shock", measured against the during-deal payment from Card 1)
+    - `paymentIncrease = postDealMonthlyPayment - dealMonthlyPayment`
+    - `paymentPercentChange = (postDealMonthlyPayment / dealMonthlyPayment - 1) * 100`
+    - where `dealMonthlyPayment` is Card 1's Monthly Payment (`monthlyRepayment`, or `monthlyRepaymentInterestOnly` under interest-only)
+    - if `paymentIncrease` is negative (e.g. a tracker whose SVR is below the deal rate) it is a payment *decrease*; label the sub text accordingly rather than as an "increase"
+
+- Total Paid
+  - `postDealTotalPaid = postDealTermInMonths * postDealMonthlyPayment`
+  - *interest-only* `= postDealTermInMonths * postDealMonthlyRepaymentInterestOnly`
+
+- Total Interest
+  - `postDealTotalInterest = postDealTotalPaid - postDealBalance`
+  - *interest-only* `= postDealTotalPaid` because only interest is being paid
+
+- Principal / Interest split
+  - `principal = (postDealBalance / postDealTotalPaid) * 100`
+  - `interest = (postDealTotalInterest / postDealTotalPaid) * 100`
+  - *interest-only* hidden. Always 0% principal / 100% interest under interest-only, so it's not informative.
+
+- End date: Month Year
+  - `= addMonths(postDealStartDate, postDealTermInMonths)`
+    - *interest-only* same calculation but relabelled to "Full balance due on". Balance never reaches zero under interest-only, so "payoff" is misleading.
+
+- Payment Schedule Table
+    - `= amortisationSchedule LOOP`
+    - use `postDealBalance` in the amortisation formula for the loan amount
+    - use `postDealRate` (SVR) for the rate
+    - use `postDealTermInMonths` for number of months
+    - *interest-only* kept as-is. Principal column will always read 0 and Balance will stay flat at the loan amount, but showing that flatness is itself useful to the user.
 
 #### Card 3 - "Summary"
 
