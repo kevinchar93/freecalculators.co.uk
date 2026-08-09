@@ -259,7 +259,7 @@ The user will see 3 cards of output
 - Payment Schedule Table
 
 **Calculations**
-- Loan Amount
+- Loan Amount - *not shown on card but used in calculation*
     - `= loanAmount`
 
 - Monthly Payment
@@ -362,29 +362,25 @@ Card 2 re-amortises the balance at the end of the deal period over the **remaini
 - Loan Amount: £Y
 - Total Paid (Y Monthly payments): £Y
 - Total Interest: £Y
-- Principal / Interest split: Y% principle / Y% interest
+- Principal / Interest split: Y% principal / Y% interest
 
 **Calculations**
 
 - Loan Amount
+    - `= loanAmount`
 - Total Paid
+    - `fullTermTotalPaid = totalPaidDealPeriod + postDealTotalPaid`
+    - if card 2 hidden `postDealTotalPaid = 0`
 - Total Interest
+  - `fullTermTotalInterest = fullTermTotalPaid - loanAmount`
+  - *interest-only* `= fullTermTotalPaid` because only interest is being paid
 - Principal / Interest split
+  - `principal = (loanAmount / fullTermTotalPaid) * 100`
+  - `interest = (fullTermTotalInterest / fullTermTotalPaid) * 100`
+  - *interest-only* hidden. Always 0% principal / 100% interest under interest-only, so it's not informative.
 
 - Repayment vehicle notice
   - shown only for *interest-only*. Not present for standard repayment mortgages, since those amortize to zero and need no such warning. Warns the user that they are just paying interest and will need a method to repay the balance in full at the end.
-  
-
-**Interest-only adjustments (Card 3)**
-- Total Interest — will equal Total Paid, same reasoning as Cards 1 & 2.
-- Principal / Interest split — hidden, same reasoning as Cards 1 & 2.
-- Repayment vehicle notice — shown only for interest-only, same reasoning as the single-card case. Not present for standard repayment mortgages.
-
-- each payment schedule table is an amortization table with these columns
-    - Year
-    - Interest
-    - Principal
-    - Balance
 
 ## pSEO Variations
 
