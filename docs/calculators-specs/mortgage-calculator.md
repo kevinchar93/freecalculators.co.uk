@@ -318,11 +318,13 @@ Card 2 re-amortises the balance at the end of the deal period over the **remaini
 - `postDealTermInMonths = mortgageTermInMonths - dealTermInMonths` 
 
 - Monthly Payment
-  - `postDealMonthlyPayment = monthlyRepayment FORMULA`
-    - use `postDealBalance` in the amortisation formula for the loan amount
-    - use `postDealRate` (SVR) for the rate
-    - use `postDealTermInMonths` for number of months
-  -  *interest-only* `= postDealMonthlyRepaymentInterestOnly` , same inputs above for re-amortisation
+  - `postDealMonthlyPayment = monthlyRepayment`
+    - `P` (loan amount) = `postDealBalance`
+    - `r` = `postDealRate / 12`
+    - `n` = `postDealTermInMonths`
+  - *interest-only* `= monthlyRepaymentInterestOnly`
+    - `P` = `postDealBalance` (= `loanAmount`, since an interest-only balance never reduces)
+    - `r` = `postDealRate / 12`
   - sub text (the "payment shock", measured against the during-deal payment from Card 1)
     - `paymentIncrease = postDealMonthlyPayment - dealMonthlyPayment`
     - `paymentPercentChange = (postDealMonthlyPayment / dealMonthlyPayment - 1) * 100`
@@ -331,7 +333,7 @@ Card 2 re-amortises the balance at the end of the deal period over the **remaini
 
 - Total Paid
   - `postDealTotalPaid = postDealTermInMonths * postDealMonthlyPayment`
-  - *interest-only* `= postDealTermInMonths * postDealMonthlyRepaymentInterestOnly`
+  - *interest-only* `= postDealTermInMonths * monthlyRepaymentInterestOnly` (using the post-deal inputs above)
 
 - Total Interest
   - `postDealTotalInterest = postDealTotalPaid - postDealBalance`
@@ -347,10 +349,10 @@ Card 2 re-amortises the balance at the end of the deal period over the **remaini
     - *interest-only* same calculation but relabelled to "Full balance due on". Balance never reaches zero under interest-only, so "payoff" is misleading.
 
 - Payment Schedule Table
-    - `= amortisationSchedule LOOP`
-    - use `postDealBalance` in the amortisation formula for the loan amount
-    - use `postDealRate` (SVR) for the rate
-    - use `postDealTermInMonths` for number of months
+    - `= amortisationSchedule`
+    - `P` (loan amount) = `postDealBalance`
+    - `r` = `postDealRate / 12`
+    - `n` = `postDealTermInMonths`
     - *interest-only* kept as-is. Principal column will always read 0 and Balance will stay flat at the loan amount, but showing that flatness is itself useful to the user.
 
 #### Card 3 - "Summary"
