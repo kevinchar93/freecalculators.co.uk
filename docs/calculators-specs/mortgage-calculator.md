@@ -8,15 +8,15 @@ Calculates monthly repayments for a residential mortgage, and highlights the "pa
 
 | Input                       | Type              | Default                  | Required |
 | --------------------------- | ----------------- | ------------------------ | -------- |
+| Repayment type              | Enum              | Repayment                | Yes      |
 | Property price              | Currency (£)      | £250,000                 | Yes      |
 | Deposit                     | Currency (£) or % | 10%                      | Yes      |
 | Mortgage term               | Years             | 25 years                 | Yes      |
-| Repayment type              | Enum              | Repayment                | Yes      |
+| Interest rate               | %                 | From `market-rates.json` | Yes*     |
 | Start date                  | Month/Year        | Next Month               | No       |
 | I have a fixed/tracker deal | Boolean checkbox  | Unchecked                | No       |
 | Deal type                   | Enum              | Fixed                    | No       |
 | Deal term                   | Years             | 2 years                  | No       |
-| Interest rate               | %                 | From `market-rates.json` | Yes*     |
 | Base rate                   | %                 | From `market-rates.json` | No       |
 | Margin                      | %                 | From `market-rates.json` | No       |
 | SVR (post-deal rate)        | %                 | From `market-rates.json` | No       |
@@ -195,7 +195,7 @@ The output will be placed onto "cards" depending on the user's selection.
 
 The user will see a single cards of output "Your Results"
 
-# Single Card - "Your Results"
+#### Single Card - "Your Results"
 
 - Monthly Payment: £Y
 - House Price: £Y
