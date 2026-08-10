@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { cn } from '@/lib/utils';
 import { blog } from '@/routes';
 
 type MortgageType = 'repayment' | 'interest-only';
@@ -516,6 +517,9 @@ function RepaymentVehicleNotice({ loanAmount }: { loanAmount: string }) {
   );
 }
 
+const toggleSelectedClass =
+  'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground';
+
 export default function MortgageCalculatorPage() {
   const formId = useId();
 
@@ -623,10 +627,16 @@ export default function MortgageCalculatorPage() {
                     }}
                     className="w-full"
                   >
-                    <ToggleGroupItem value="repayment" className="flex-1">
+                    <ToggleGroupItem
+                      value="repayment"
+                      className={cn('flex-1', toggleSelectedClass)}
+                    >
                       Repayment
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="interest-only" className="flex-1">
+                    <ToggleGroupItem
+                      value="interest-only"
+                      className={cn('flex-1', toggleSelectedClass)}
+                    >
                       Interest Only
                     </ToggleGroupItem>
                   </ToggleGroup>
@@ -689,12 +699,14 @@ export default function MortgageCalculatorPage() {
                       <ToggleGroupItem
                         value="amount"
                         aria-label="Enter deposit as an amount"
+                        className={toggleSelectedClass}
                       >
                         £
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         value="percent"
                         aria-label="Enter deposit as a percentage"
+                        className={toggleSelectedClass}
                       >
                         %
                       </ToggleGroupItem>
@@ -759,7 +771,7 @@ export default function MortgageCalculatorPage() {
                 </div>
 
                 {/* mortgage term + interest rate */}
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-5">
                   <div>
                     <Label htmlFor={`${formId}-mortgageTerm`}>
                       Mortgage Term
@@ -787,16 +799,28 @@ export default function MortgageCalculatorPage() {
                       }}
                       className="mt-2 w-full"
                     >
-                      <ToggleGroupItem value="15" className="flex-1">
+                      <ToggleGroupItem
+                        value="15"
+                        className={cn('flex-1', toggleSelectedClass)}
+                      >
                         15y
                       </ToggleGroupItem>
-                      <ToggleGroupItem value="20" className="flex-1">
+                      <ToggleGroupItem
+                        value="20"
+                        className={cn('flex-1', toggleSelectedClass)}
+                      >
                         20y
                       </ToggleGroupItem>
-                      <ToggleGroupItem value="25" className="flex-1">
+                      <ToggleGroupItem
+                        value="25"
+                        className={cn('flex-1', toggleSelectedClass)}
+                      >
                         25y
                       </ToggleGroupItem>
-                      <ToggleGroupItem value="30" className="flex-1">
+                      <ToggleGroupItem
+                        value="30"
+                        className={cn('flex-1', toggleSelectedClass)}
+                      >
                         30y
                       </ToggleGroupItem>
                     </ToggleGroup>
@@ -867,10 +891,16 @@ export default function MortgageCalculatorPage() {
                         }}
                         className="w-full"
                       >
-                        <ToggleGroupItem value="fixed" className="flex-1">
+                        <ToggleGroupItem
+                          value="fixed"
+                          className={cn('flex-1', toggleSelectedClass)}
+                        >
                           Fixed
                         </ToggleGroupItem>
-                        <ToggleGroupItem value="tracker" className="flex-1">
+                        <ToggleGroupItem
+                          value="tracker"
+                          className={cn('flex-1', toggleSelectedClass)}
+                        >
                           Tracker
                         </ToggleGroupItem>
                       </ToggleGroup>
