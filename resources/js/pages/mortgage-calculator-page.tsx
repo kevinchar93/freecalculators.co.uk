@@ -518,7 +518,10 @@ function RepaymentVehicleNotice({ loanAmount }: { loanAmount: string }) {
 }
 
 const toggleSelectedClass =
-  'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground';
+  'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground data-[state=off]:bg-background';
+
+const frostedCardClass =
+  'dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none dark:backdrop-blur-xl';
 
 export default function MortgageCalculatorPage() {
   const formId = useId();
@@ -608,7 +611,9 @@ export default function MortgageCalculatorPage() {
         </div>
         <div className="mx-auto mt-8 grid max-w-120 grid-cols-1 gap-6 px-4 sm:px-6 md:max-w-240 md:grid-cols-[13fr_9fr] md:items-start lg:px-8">
           {/* form */}
-          <Card className="rounded-2xl border-brand-border p-5">
+          <Card
+            className={cn('rounded-2xl border-brand-border p-5', frostedCardClass)}
+          >
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-5">
                 {/* mortgage type */}
@@ -651,6 +656,7 @@ export default function MortgageCalculatorPage() {
                     <Button
                       type="button"
                       variant="outline"
+                      className="w-16"
                       aria-label="Subtract £10,000"
                       onClick={() =>
                         setPropertyPrice((value) => Math.max(0, value - 10000))
@@ -664,6 +670,7 @@ export default function MortgageCalculatorPage() {
                         type="number"
                         id={`${formId}-propertyPrice`}
                         name="propertyPrice"
+                        className="bg-background"
                         value={propertyPrice}
                         onChange={(event) =>
                           setPropertyPrice(Number(event.target.value))
@@ -673,6 +680,7 @@ export default function MortgageCalculatorPage() {
                     <Button
                       type="button"
                       variant="outline"
+                      className="w-16"
                       aria-label="Add £10,000"
                       onClick={() => setPropertyPrice((value) => value + 10000)}
                     >
@@ -695,18 +703,19 @@ export default function MortgageCalculatorPage() {
                           handleDepositModeChange(value as DepositMode);
                         }
                       }}
+                      className="w-16"
                     >
                       <ToggleGroupItem
                         value="amount"
                         aria-label="Enter deposit as an amount"
-                        className={toggleSelectedClass}
+                        className={cn('flex-1', toggleSelectedClass)}
                       >
                         £
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         value="percent"
                         aria-label="Enter deposit as a percentage"
-                        className={toggleSelectedClass}
+                        className={cn('flex-1', toggleSelectedClass)}
                       >
                         %
                       </ToggleGroupItem>
@@ -737,6 +746,7 @@ export default function MortgageCalculatorPage() {
                         type="number"
                         id={`${formId}-deposit`}
                         name="deposit"
+                        className="bg-background"
                         value={
                           depositMode === 'amount' ? deposit : depositPercent
                         }
@@ -781,6 +791,7 @@ export default function MortgageCalculatorPage() {
                         type="number"
                         id={`${formId}-mortgageTerm`}
                         name="mortgageTerm"
+                        className="bg-background"
                         value={mortgageTerm}
                         onChange={(event) =>
                           setMortgageTerm(Number(event.target.value))
@@ -836,6 +847,7 @@ export default function MortgageCalculatorPage() {
                         step="0.01"
                         id={`${formId}-interestRate`}
                         name="interestRate"
+                        className="bg-background"
                         value={interestRate}
                         disabled={hasDeal && isTracker}
                         onChange={(event) =>
@@ -861,7 +873,7 @@ export default function MortgageCalculatorPage() {
                     name="startDate"
                     value={startDate}
                     onChange={(event) => setStartDate(event.target.value)}
-                    className="mt-2"
+                    className="mt-2 bg-background"
                   />
                 </div>
 
@@ -918,6 +930,7 @@ export default function MortgageCalculatorPage() {
                               step="0.01"
                               id={`${formId}-baseRate`}
                               name="baseRate"
+                              className="bg-background"
                               value={baseRate}
                               onChange={(event) =>
                                 setBaseRate(Number(event.target.value))
@@ -934,6 +947,7 @@ export default function MortgageCalculatorPage() {
                               step="0.01"
                               id={`${formId}-margin`}
                               name="margin"
+                              className="bg-background"
                               value={margin}
                               onChange={(event) =>
                                 setMargin(Number(event.target.value))
@@ -952,6 +966,7 @@ export default function MortgageCalculatorPage() {
                           type="number"
                           id={`${formId}-dealTerm`}
                           name="dealTerm"
+                          className="bg-background"
                           value={dealTerm}
                           onChange={(event) =>
                             setDealTerm(Number(event.target.value))
@@ -971,6 +986,7 @@ export default function MortgageCalculatorPage() {
                           step="0.01"
                           id={`${formId}-svr`}
                           name="svr"
+                          className="bg-background"
                           value={svr}
                           onChange={(event) =>
                             setSvr(Number(event.target.value))
@@ -986,7 +1002,11 @@ export default function MortgageCalculatorPage() {
                   </div>
                 )}
 
-                <Button type="submit" size="lg">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="bg-brand text-brand-foreground hover:bg-brand/90"
+                >
                   Calculate Payments
                 </Button>
               </div>
@@ -1012,7 +1032,9 @@ export default function MortgageCalculatorPage() {
 
             {showSingleCard && (
               /* your results (no deal period) */
-              <Card className="rounded-2xl border-brand-border p-0">
+              <Card
+                className={cn('rounded-2xl border-brand-border p-0', frostedCardClass)}
+              >
                 <div className="p-5">
                   <h2 className="mb-4 text-xl font-semibold">Your Results</h2>
                   <div className="flex flex-col gap-4">
@@ -1078,7 +1100,9 @@ export default function MortgageCalculatorPage() {
             {hasDeal && (
               <>
                 {/* during your deal results */}
-                <Card className="rounded-2xl border-brand-border p-0">
+                <Card
+                className={cn('rounded-2xl border-brand-border p-0', frostedCardClass)}
+              >
                   <div className="rounded-t-2xl bg-brand-subtle-foreground px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
                     During Your Deal
                   </div>
@@ -1130,7 +1154,9 @@ export default function MortgageCalculatorPage() {
 
                 {/* after your deal results */}
                 {showAfterDealCard && (
-                  <Card className="rounded-2xl border-brand-border p-0">
+                  <Card
+                className={cn('rounded-2xl border-brand-border p-0', frostedCardClass)}
+              >
                     <div className="rounded-t-2xl bg-neutral-500 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
                       After Your Deal
                     </div>
@@ -1179,7 +1205,9 @@ export default function MortgageCalculatorPage() {
                 )}
 
                 {/* summary */}
-                <Card className="rounded-2xl border-brand-border p-0">
+                <Card
+                className={cn('rounded-2xl border-brand-border p-0', frostedCardClass)}
+              >
                   <div className="rounded-t-2xl bg-neutral-700 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
                     Summary
                   </div>
