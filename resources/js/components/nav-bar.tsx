@@ -1,7 +1,8 @@
 import { Link } from '@inertiajs/react';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, Moon, Search, Sun, X } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { useAppearance } from '@/hooks/use-appearance';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn } from '@/lib/utils';
 import { home } from '@/routes';
@@ -20,6 +21,7 @@ export function NavBar({
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { isCurrentUrl } = useCurrentUrl();
+  const { resolvedAppearance, updateAppearance } = useAppearance();
 
   return (
     <nav
@@ -38,64 +40,111 @@ export function NavBar({
             <span className="text-lg font-bold text-brand">.co.uk</span>
           </Link>
 
-          {/* Desktop Navigation + Search */}
-          <div className="hidden gap-8 md:flex">
-            <div className="flex items-stretch gap-6">
-              {items.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  className={cn(
-                    '-mb-px inline-flex items-center border-b-2 text-sm font-medium transition-colors',
-                    isCurrentUrl(item.href)
-                      ? 'border-brand text-brand'
-                      : 'border-transparent text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:text-white',
-                  )}
-                >
-                  {item.title}
-                </Link>
-              ))}
+          {/* Desktop Navigation + Search + Theme Toggle + Mobile Menu Button */}
+          <div className="flex items-center gap-4 md:gap-6">
+            <div className="hidden gap-8 md:flex">
+              <div className="flex items-stretch gap-6">
+                {items.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className={cn(
+                      '-mb-px inline-flex items-center border-b-2 text-sm font-medium transition-colors',
+                      isCurrentUrl(item.href)
+                        ? 'border-brand text-brand'
+                        : 'border-transparent text-neutral-600 hover:border-neutral-300 hover:text-neutral-900 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:text-white',
+                    )}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="relative flex items-center">
+                <Input
+                  type="search"
+                  placeholder={searchPlaceholder}
+                  className="w-64 rounded-full bg-neutral-100 pr-9 pl-4 focus-visible:ring-brand dark:bg-neutral-900"
+                />
+                <Search className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+              </div>
             </div>
 
-            <div className="relative flex items-center">
-              <Input
-                type="search"
-                placeholder={searchPlaceholder}
-                className="w-64 rounded-full bg-neutral-100 pr-9 pl-4 focus-visible:ring-brand dark:bg-neutral-900"
-              />
-              <Search className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
+            {/* Theme Toggle */}
             <button
               type="button"
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+              onClick={() =>
+                updateAppearance(
+                  resolvedAppearance === 'dark' ? 'light' : 'dark',
+                )
+              }
+              className="hidden items-center text-neutral-600 hover:text-neutral-900 md:flex dark:text-neutral-400 dark:hover:text-white"
             >
               <span className="sr-only">
-                {isOpen ? 'Close menu' : 'Open menu'}
+                {resolvedAppearance === 'dark'
+                  ? 'Switch to light mode'
+                  : 'Switch to dark mode'}
               </span>
-              {isOpen ? (
-                <X className="h-6 w-6" />
+              {resolvedAppearance === 'dark' ? (
+                <Sun className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Moon className="h-5 w-5" />
               )}
             </button>
+
+            {/* Mobile Menu Button */}
+            <div className="flex items-center md:hidden">
+              <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+              >
+                <span className="sr-only">
+                  {isOpen ? 'Close menu' : 'Open menu'}
+                </span>
+                {isOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Navigation Panel */}
         {isOpen && (
           <div className="-mx-4 border-t border-sidebar-border/80 py-4 sm:-mx-6 md:hidden lg:-mx-8">
-            <div className="relative px-4 sm:px-6 lg:px-8">
-              <Input
-                type="search"
-                placeholder="Search"
-                className="w-full rounded-full bg-neutral-100 pr-9 pl-4 focus-visible:ring-brand dark:bg-neutral-900"
-              />
-              <Search className="pointer-events-none absolute top-1/2 right-7 h-4 w-4 -translate-y-1/2 text-neutral-400 sm:right-9 dark:text-neutral-500" />
+            <div className="flex items-center gap-2 px-4 sm:px-6 lg:px-8">
+              <div className="relative flex-1">
+                <Input
+                  type="search"
+                  placeholder="Search"
+                  className="w-full rounded-full bg-neutral-100 pr-9 pl-4 focus-visible:ring-brand dark:bg-neutral-900"
+                />
+                <Search className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  updateAppearance(
+                    resolvedAppearance === 'dark' ? 'light' : 'dark',
+                  )
+                }
+                className="flex shrink-0 items-center text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+              >
+                <span className="sr-only">
+                  {resolvedAppearance === 'dark'
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode'}
+                </span>
+                {resolvedAppearance === 'dark' ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </button>
             </div>
 
             <div className="mt-4 flex flex-col gap-1">
