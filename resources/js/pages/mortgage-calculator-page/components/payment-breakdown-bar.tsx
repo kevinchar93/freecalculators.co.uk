@@ -1,3 +1,5 @@
+import copy from '../copy.json';
+
 export function PaymentBreakdownBar({
   principalPercent,
   interestPercent,
@@ -13,10 +15,12 @@ export function PaymentBreakdownBar({
 }) {
   return (
     <div>
-      <h3 className="mb-2 text-sm font-semibold">Payment Breakdown</h3>
+      <h3 className="mb-2 text-sm font-semibold">
+        {copy['paymentBreakdown.heading']}
+      </h3>
       <div
         role="img"
-        aria-label={`Principal ${principalPercentLabel}, Interest ${interestPercentLabel}`}
+        aria-label={`${copy['paymentBreakdown.principalPrefix']} ${principalPercentLabel}, ${copy['paymentBreakdown.interestPrefix']} ${interestPercentLabel}`}
         className="flex h-2 w-full overflow-hidden rounded-full"
       >
         <span
@@ -29,8 +33,12 @@ export function PaymentBreakdownBar({
         />
       </div>
       <div className="mt-2 flex justify-between text-sm">
-        <span>Principal {principalPercentLabel}</span>
-        <span>Interest {interestPercentLabel}</span>
+        <span>
+          {copy['paymentBreakdown.principalPrefix']} {principalPercentLabel}
+        </span>
+        <span>
+          {copy['paymentBreakdown.interestPrefix']} {interestPercentLabel}
+        </span>
       </div>
     </div>
   );

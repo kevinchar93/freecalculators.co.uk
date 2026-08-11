@@ -98,3 +98,21 @@ export function changeText(increase: number, percent?: number): string {
 
   return `${sign}${magnitude} once your deal ends${suffix}`;
 }
+
+export function depositPercentToAmount(propertyPrice: number, depositPercent: number): number {
+  return Math.round((propertyPrice * depositPercent) / 100)
+}
+
+export function depositAmountToPercent(propertyPrice: number, depositAmount: number): number {
+  return propertyPrice > 0
+    ? Math.round((depositAmount / propertyPrice) * 1000) / 10
+    : 0
+}
+
+export function calcLoanAmount(propertyPrice: number, depositAmount: number) {
+  return Math.max(0, propertyPrice - depositAmount)
+}
+
+export function calcLoanToValue(propertyPrice: number, loanAmount: number) {
+  return propertyPrice > 0 ? (loanAmount / propertyPrice) * 100 : 0
+}

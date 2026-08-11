@@ -1,0 +1,16 @@
+{
+  "mortgageType": "repayment",
+  "propertyPrice": 250000,
+  "depositMode": "amount",
+  "deposit": 50000,
+  "depositPercent": 20,
+  "mortgageTerm": 25,
+  "interestRate": 5.25,
+  "startDate": "2026-09",
+  "hasDeal": true,
+  "dealType": "fixed",
+  "dealTerm": 5,
+  "svr": 7.5,
+  "baseRate": 4.75,
+  "margin": 0.5
+}

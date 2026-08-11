@@ -4,6 +4,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import copy from '../copy.json';
 import type { ScheduleRow } from '../types';
 
 export function PaymentScheduleSection({ rows }: { rows: ScheduleRow[] }) {
@@ -15,25 +16,27 @@ export function PaymentScheduleSection({ rows }: { rows: ScheduleRow[] }) {
           variant="outline"
           className="w-full justify-between"
         >
-          Payment Schedule
+          {copy['paymentSchedule.triggerButton']}
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="mt-2 max-h-85 overflow-auto rounded-md border border-brand-border">
         <table className="w-full text-left text-sm">
-          <caption className="sr-only">Payment amortisation schedule</caption>
+          <caption className="sr-only">
+            {copy['paymentSchedule.captionSr']}
+          </caption>
           <thead>
             <tr>
               <th scope="col" className="px-3 py-2">
-                Month
+                {copy['paymentSchedule.columnMonth']}
               </th>
               <th scope="col" className="px-3 py-2">
-                Interest
+                {copy['paymentSchedule.columnInterest']}
               </th>
               <th scope="col" className="px-3 py-2">
-                Principal
+                {copy['paymentSchedule.columnPrincipal']}
               </th>
               <th scope="col" className="px-3 py-2">
-                Balance
+                {copy['paymentSchedule.columnBalance']}
               </th>
             </tr>
           </thead>

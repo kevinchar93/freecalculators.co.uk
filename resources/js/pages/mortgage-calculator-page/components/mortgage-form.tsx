@@ -7,11 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
+import copy from '../copy.json';
 import type { DealType, DepositMode, MortgageType } from '../types';
 import { frostedCardClass } from './results-panel';
 
 const toggleSelectedClass =
   'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground data-[state=off]:bg-background';
+const inputClass = 'bg-background focus-visible:ring-brand';
 
 interface MortgageFormProps {
   mortgageType: MortgageType;
@@ -91,7 +93,7 @@ export function MortgageForm({
           {/* mortgage type */}
           <fieldset>
             <legend className="mb-2 block text-sm font-medium">
-              Mortgage Type
+              {copy['form.mortgageTypeLegend']}
             </legend>
             <ToggleGroup
               type="single"
@@ -108,31 +110,33 @@ export function MortgageForm({
                 value="repayment"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                Repayment
+                {copy['form.mortgageTypeRepayment']}
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="interest-only"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                Interest Only
+                {copy['form.mortgageTypeInterestOnly']}
               </ToggleGroupItem>
             </ToggleGroup>
           </fieldset>
 
           {/* property price */}
           <div>
-            <Label htmlFor={`${formId}-propertyPrice`}>Property Price</Label>
+            <Label htmlFor={`${formId}-propertyPrice`}>
+              {copy['form.propertyPriceLabel']}
+            </Label>
             <div className="mt-2 flex gap-2">
               <Button
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label="Subtract £10,000"
+                aria-label={copy['form.propertyPriceSubtractAria']}
                 onClick={() =>
                   setPropertyPrice((value) => Math.max(0, value - 10000))
                 }
               >
-                -10k
+                {copy['form.propertyPriceSubtractButton']}
               </Button>
               <div className="flex grow items-center gap-2">
                 <span aria-hidden="true">£</span>
@@ -140,7 +144,7 @@ export function MortgageForm({
                   type="number"
                   id={`${formId}-propertyPrice`}
                   name="propertyPrice"
-                  className="bg-background"
+                  className={inputClass}
                   value={propertyPrice}
                   onChange={(event) =>
                     setPropertyPrice(Number(event.target.value))
@@ -151,10 +155,10 @@ export function MortgageForm({
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label="Add £10,000"
+                aria-label={copy['form.propertyPriceAddAria']}
                 onClick={() => setPropertyPrice((value) => value + 10000)}
               >
-                +10k
+                {copy['form.propertyPriceAddButton']}
               </Button>
             </div>
           </div>
@@ -162,7 +166,9 @@ export function MortgageForm({
           {/* deposit */}
           <div>
             <div className="flex items-center justify-between">
-              <Label htmlFor={`${formId}-deposit`}>Deposit Amount</Label>
+              <Label htmlFor={`${formId}-deposit`}>
+                {copy['form.depositLabel']}
+              </Label>
               <ToggleGroup
                 type="single"
                 variant="outline"
@@ -177,17 +183,17 @@ export function MortgageForm({
               >
                 <ToggleGroupItem
                   value="amount"
-                  aria-label="Enter deposit as an amount"
+                  aria-label={copy['form.depositModeAmountAria']}
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  £
+                  {copy['form.depositModeAmountButton']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="percent"
-                  aria-label="Enter deposit as a percentage"
+                  aria-label={copy['form.depositModePercentAria']}
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  %
+                  {copy['form.depositModePercentButton']}
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
@@ -196,7 +202,9 @@ export function MortgageForm({
                 type="button"
                 variant="outline"
                 aria-label={
-                  depositMode === 'amount' ? 'Subtract £10,000' : 'Subtract 5%'
+                  depositMode === 'amount'
+                    ? copy['form.depositSubtractAmountAria']
+                    : copy['form.depositSubtractPercentAria']
                 }
                 onClick={() =>
                   depositMode === 'amount'
@@ -204,7 +212,9 @@ export function MortgageForm({
                     : setDepositPercent((value) => Math.max(0, value - 5))
                 }
               >
-                {depositMode === 'amount' ? '−10k' : '−5%'}
+                {depositMode === 'amount'
+                  ? copy['form.depositSubtractAmountButton']
+                  : copy['form.depositSubtractPercentButton']}
               </Button>
               <div className="flex grow items-center gap-2">
                 {depositMode === 'amount' && <span aria-hidden="true">£</span>}
@@ -212,7 +222,7 @@ export function MortgageForm({
                   type="number"
                   id={`${formId}-deposit`}
                   name="deposit"
-                  className="bg-background"
+                  className={inputClass}
                   value={depositMode === 'amount' ? deposit : depositPercent}
                   onChange={(event) =>
                     depositMode === 'amount'
@@ -225,37 +235,54 @@ export function MortgageForm({
               <Button
                 type="button"
                 variant="outline"
-                aria-label={depositMode === 'amount' ? 'Add £10,000' : 'Add 5%'}
+                aria-label={
+                  depositMode === 'amount'
+                    ? copy['form.depositAddAmountAria']
+                    : copy['form.depositAddPercentAria']
+                }
                 onClick={() =>
                   depositMode === 'amount'
                     ? setDeposit((value) => value + 10000)
                     : setDepositPercent((value) => value + 5)
                 }
               >
-                {depositMode === 'amount' ? '+10k' : '+5%'}
+                {depositMode === 'amount'
+                  ? copy['form.depositAddAmountButton']
+                  : copy['form.depositAddPercentButton']}
               </Button>
             </div>
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              Loan to Value (LTV) <span>{loanToValue.toFixed(1)}%</span>
-            </p>
+            <div className="mt-3 flex">
+              <div className="inline-flex items-center gap-2">
+                <span className="text-sm font-medium">
+                  {copy['form.loanToValueLabel']}
+                </span>
+                <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                  {loanToValue.toFixed(1)}%
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* mortgage term + interest rate */}
           <div className="grid grid-cols-1 gap-5">
             <div>
-              <Label htmlFor={`${formId}-mortgageTerm`}>Mortgage Term</Label>
+              <Label htmlFor={`${formId}-mortgageTerm`}>
+                {copy['form.mortgageTermLabel']}
+              </Label>
               <div className="mt-2 flex items-center gap-2">
                 <Input
                   type="number"
                   id={`${formId}-mortgageTerm`}
                   name="mortgageTerm"
-                  className="bg-background"
+                  className={inputClass}
                   value={mortgageTerm}
                   onChange={(event) =>
                     setMortgageTerm(Number(event.target.value))
                   }
                 />
-                <span aria-hidden="true">years</span>
+                <span aria-hidden="true">
+                  {copy['form.mortgageTermYearsSuffix']}
+                </span>
               </div>
               <ToggleGroup
                 type="single"
@@ -272,38 +299,40 @@ export function MortgageForm({
                   value="15"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  15y
+                  {copy['form.mortgageTerm15Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="20"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  20y
+                  {copy['form.mortgageTerm20Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="25"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  25y
+                  {copy['form.mortgageTerm25Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="30"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  30y
+                  {copy['form.mortgageTerm30Label']}
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
 
             <div>
-              <Label htmlFor={`${formId}-interestRate`}>Interest Rate</Label>
+              <Label htmlFor={`${formId}-interestRate`}>
+                {copy['form.interestRateLabel']}
+              </Label>
               <div className="mt-2 flex items-center gap-2">
                 <Input
                   type="number"
                   step="0.01"
                   id={`${formId}-interestRate`}
                   name="interestRate"
-                  className="bg-background"
+                  className={inputClass}
                   value={interestRate}
                   disabled={hasDeal && isTracker}
                   onChange={(event) =>
@@ -314,7 +343,7 @@ export function MortgageForm({
               </div>
               {hasDeal && isTracker && (
                 <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
-                  Disabled — using base rate + margin below instead.
+                  {copy['form.interestRateDisabledNotice']}
                 </p>
               )}
             </div>
@@ -322,14 +351,16 @@ export function MortgageForm({
 
           {/* start date */}
           <div>
-            <Label htmlFor={`${formId}-startDate`}>Start Date</Label>
+            <Label htmlFor={`${formId}-startDate`}>
+              {copy['form.startDateLabel']}
+            </Label>
             <Input
               type="month"
               id={`${formId}-startDate`}
               name="startDate"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
-              className="mt-2 bg-background"
+              className={cn('mt-2', inputClass)}
             />
           </div>
 
@@ -339,14 +370,14 @@ export function MortgageForm({
               checked={hasDeal}
               onCheckedChange={(checked) => setHasDeal(checked === true)}
             />
-            I have a fixed or tracker deal
+            {copy['form.hasDealCheckboxLabel']}
           </label>
 
           {hasDeal && (
             <div className="flex flex-col gap-5 rounded-md border border-brand-border bg-brand-subtle p-4">
               <fieldset>
                 <legend className="mb-2 block text-sm font-medium">
-                  Deal Type
+                  {copy['form.dealTypeLegend']}
                 </legend>
                 <ToggleGroup
                   type="single"
@@ -363,13 +394,13 @@ export function MortgageForm({
                     value="fixed"
                     className={cn('flex-1', toggleSelectedClass)}
                   >
-                    Fixed
+                    {copy['form.dealTypeFixed']}
                   </ToggleGroupItem>
                   <ToggleGroupItem
                     value="tracker"
                     className={cn('flex-1', toggleSelectedClass)}
                   >
-                    Tracker
+                    {copy['form.dealTypeTracker']}
                   </ToggleGroupItem>
                 </ToggleGroup>
               </fieldset>
@@ -377,14 +408,16 @@ export function MortgageForm({
               {isTracker && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor={`${formId}-baseRate`}>Base Rate</Label>
+                    <Label htmlFor={`${formId}-baseRate`}>
+                      {copy['form.baseRateLabel']}
+                    </Label>
                     <div className="mt-2 flex items-center gap-2">
                       <Input
                         type="number"
                         step="0.01"
                         id={`${formId}-baseRate`}
                         name="baseRate"
-                        className="bg-background"
+                        className={inputClass}
                         value={baseRate}
                         onChange={(event) =>
                           setBaseRate(Number(event.target.value))
@@ -394,14 +427,16 @@ export function MortgageForm({
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor={`${formId}-margin`}>Margin</Label>
+                    <Label htmlFor={`${formId}-margin`}>
+                      {copy['form.marginLabel']}
+                    </Label>
                     <div className="mt-2 flex items-center gap-2">
                       <Input
                         type="number"
                         step="0.01"
                         id={`${formId}-margin`}
                         name="margin"
-                        className="bg-background"
+                        className={inputClass}
                         value={margin}
                         onChange={(event) =>
                           setMargin(Number(event.target.value))
@@ -414,41 +449,42 @@ export function MortgageForm({
               )}
 
               <div>
-                <Label htmlFor={`${formId}-dealTerm`}>Deal Term</Label>
+                <Label htmlFor={`${formId}-dealTerm`}>
+                  {copy['form.dealTermLabel']}
+                </Label>
                 <div className="mt-2 flex items-center gap-2">
                   <Input
                     type="number"
                     id={`${formId}-dealTerm`}
                     name="dealTerm"
-                    className="bg-background"
+                    className={inputClass}
                     value={dealTerm}
                     onChange={(event) =>
                       setDealTerm(Number(event.target.value))
                     }
                   />
-                  <span aria-hidden="true">years</span>
+                  <span aria-hidden="true">
+                    {copy['form.dealTermYearsSuffix']}
+                  </span>
                 </div>
               </div>
 
               <div>
-                <Label htmlFor={`${formId}-svr`}>
-                  Standard Variable Rate (SVR)
-                </Label>
+                <Label htmlFor={`${formId}-svr`}>{copy['form.svrLabel']}</Label>
                 <div className="mt-2 flex items-center gap-2">
                   <Input
                     type="number"
                     step="0.01"
                     id={`${formId}-svr`}
                     name="svr"
-                    className="bg-background"
+                    className={inputClass}
                     value={svr}
                     onChange={(event) => setSvr(Number(event.target.value))}
                   />
                   <span aria-hidden="true">%</span>
                 </div>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  This is the rate your mortgage reverts to once your deal
-                  period ends.
+                  {copy['form.svrNotice']}
                 </p>
               </div>
             </div>
@@ -459,7 +495,7 @@ export function MortgageForm({
             size="lg"
             className="bg-brand text-brand-foreground hover:bg-brand/90"
           >
-            Calculate Payments
+            {copy['form.submitButton']}
           </Button>
         </div>
       </form>

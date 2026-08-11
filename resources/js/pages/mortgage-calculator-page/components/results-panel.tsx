@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import copy from '../copy.json';
 import {
   afterDealCardInterestOnly,
   afterDealCardRepayment,
@@ -45,16 +46,16 @@ export function ResultsPanel({
     <div className="flex flex-col gap-6">
       {/* advert */}
       <Card className="rounded-2xl border-brand-border bg-brand-subtle p-5">
-        <p className="font-semibold">Get Pre-Approved Today</p>
+        <p className="font-semibold">{copy['results.adTopHeading']}</p>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          Rates as low as 4.95% APR. No credit impact.
+          {copy['results.adTopBody']}
         </p>
         <p>
           <a
             href=""
             className="text-brand-subtle-foreground underline underline-offset-4"
           >
-            Learn More -&gt;
+            {copy['results.adTopLink']}
           </a>
         </p>
       </Card>
@@ -68,11 +69,13 @@ export function ResultsPanel({
           )}
         >
           <div className="p-5">
-            <h2 className="mb-4 text-xl font-semibold">Your Results</h2>
+            <h2 className="mb-4 text-xl font-semibold">
+              {copy['results.yourResultsHeading']}
+            </h2>
             <div className="flex flex-col gap-4">
               <div>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Monthly Payment
+                  {copy['results.monthlyPaymentLabel']}
                 </p>
                 <p className="text-4xl font-bold text-brand-subtle-foreground">
                   {single.monthly}
@@ -81,15 +84,15 @@ export function ResultsPanel({
 
               <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
                 <div className="flex justify-between">
-                  <dt>House Price</dt>
+                  <dt>{copy['results.housePriceLabel']}</dt>
                   <dd>{single.housePrice}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Deposit</dt>
+                  <dt>{copy['results.depositLabel']}</dt>
                   <dd>{single.depositLine}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Loan Amount</dt>
+                  <dt>{copy['results.loanAmountLabel']}</dt>
                   <dd>{single.loan}</dd>
                 </div>
                 <div className="flex justify-between">
@@ -97,7 +100,7 @@ export function ResultsPanel({
                   <dd>{single.totalPaid}</dd>
                 </div>
                 <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
-                  <dt>Total Interest</dt>
+                  <dt>{copy['results.totalInterestLabel']}</dt>
                   <dd>{single.totalInterest}</dd>
                 </div>
               </dl>
@@ -139,12 +142,12 @@ export function ResultsPanel({
             )}
           >
             <div className="rounded-t-2xl bg-brand-subtle-foreground px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-              During Your Deal
+              {copy['results.duringDealBadge']}
             </div>
             <div className="flex flex-col gap-4 p-5">
               <div>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Monthly payment
+                  {copy['results.monthlyPaymentLowerLabel']}
                 </p>
                 <p className="text-4xl font-bold">{during.monthly}</p>
               </div>
@@ -155,11 +158,11 @@ export function ResultsPanel({
                   <dd>{during.totalPaid}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Interest payments</dt>
+                  <dt>{copy['results.interestPaymentsLabel']}</dt>
                   <dd>{during.totalInterest}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Principal payments</dt>
+                  <dt>{copy['results.principalPaymentsLabel']}</dt>
                   <dd>{during.totalPrincipal}</dd>
                 </div>
               </dl>
@@ -175,12 +178,12 @@ export function ResultsPanel({
               )}
 
               <div className="flex justify-between border-t border-brand-border pt-1 text-sm font-semibold">
-                <dt>Balance at end of deal</dt>
+                <dt>{copy['results.balanceAtEndLabel']}</dt>
                 <dd>{during.balanceAtEnd}</dd>
               </div>
 
               <div className="rounded-md border border-brand-border bg-brand-subtle px-3 py-2.5 text-sm">
-                Your deal will end {during.date}
+                {copy['results.dealEndNoticePrefix']} {during.date}
               </div>
 
               <PaymentScheduleSection rows={during.schedule} />
@@ -196,12 +199,12 @@ export function ResultsPanel({
               )}
             >
               <div className="rounded-t-2xl bg-neutral-500 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-                After Your Deal
+                {copy['results.afterDealBadge']}
               </div>
               <div className="flex flex-col gap-4 p-5">
                 <div>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Monthly payment
+                    {copy['results.monthlyPaymentLowerLabel']}
                   </p>
                   <p className="text-4xl font-bold">{after.monthly}</p>
                   <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
@@ -215,7 +218,7 @@ export function ResultsPanel({
                     <dd>{after.totalPaid}</dd>
                   </div>
                   <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
-                    <dt>Total Interest</dt>
+                    <dt>{copy['results.totalInterestLabel']}</dt>
                     <dd>{after.totalInterest}</dd>
                   </div>
                 </dl>
@@ -250,21 +253,23 @@ export function ResultsPanel({
             )}
           >
             <div className="rounded-t-2xl bg-neutral-700 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-              Summary
+              {copy['results.summaryBadge']}
             </div>
             <div className="p-5">
-              <h2 className="mb-2 text-lg font-semibold">Full Term Overview</h2>
+              <h2 className="mb-2 text-lg font-semibold">
+                {copy['results.fullTermOverviewHeading']}
+              </h2>
               <dl className="flex flex-col gap-1 text-sm">
                 <div className="flex justify-between">
-                  <dt>House Price</dt>
+                  <dt>{copy['results.housePriceLabel']}</dt>
                   <dd>{summary.housePrice}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Deposit</dt>
+                  <dt>{copy['results.depositLabel']}</dt>
                   <dd>{summary.depositLine}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>Loan Amount</dt>
+                  <dt>{copy['results.loanAmountLabel']}</dt>
                   <dd>{summary.loan}</dd>
                 </div>
                 <div className="flex justify-between">
@@ -272,7 +277,7 @@ export function ResultsPanel({
                   <dd>{summary.totalPaid}</dd>
                 </div>
                 <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
-                  <dt>Total Interest</dt>
+                  <dt>{copy['results.totalInterestLabel']}</dt>
                   <dd>{summary.totalInterest}</dd>
                 </div>
               </dl>
@@ -301,16 +306,16 @@ export function ResultsPanel({
 
       {/* advert */}
       <Card className="rounded-2xl border-brand-border bg-brand-subtle p-5">
-        <p className="font-semibold">Compare Mortgage Deals</p>
+        <p className="font-semibold">{copy['results.adBottomHeading']}</p>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          See today&apos;s best fixed and tracker rates from UK lenders.
+          {copy['results.adBottomBody']}
         </p>
         <p>
           <a
             href=""
             className="text-brand-subtle-foreground underline underline-offset-4"
           >
-            Compare Now -&gt;
+            {copy['results.adBottomLink']}
           </a>
         </p>
       </Card>
