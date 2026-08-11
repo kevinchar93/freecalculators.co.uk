@@ -1,0 +1,468 @@
+import { useId } from 'react';
+import type { Dispatch, FormEvent, SetStateAction } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { cn } from '@/lib/utils';
+import type { DealType, DepositMode, MortgageType } from '../types';
+import { frostedCardClass } from './results-panel';
+
+const toggleSelectedClass =
+  'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground data-[state=off]:bg-background';
+
+interface MortgageFormProps {
+  mortgageType: MortgageType;
+  setMortgageType: Dispatch<SetStateAction<MortgageType>>;
+  propertyPrice: number;
+  setPropertyPrice: Dispatch<SetStateAction<number>>;
+  depositMode: DepositMode;
+  onDepositModeChange: (mode: DepositMode) => void;
+  deposit: number;
+  setDeposit: Dispatch<SetStateAction<number>>;
+  depositPercent: number;
+  setDepositPercent: Dispatch<SetStateAction<number>>;
+  loanToValue: number;
+  mortgageTerm: number;
+  setMortgageTerm: Dispatch<SetStateAction<number>>;
+  interestRate: number;
+  setInterestRate: Dispatch<SetStateAction<number>>;
+  startDate: string;
+  setStartDate: Dispatch<SetStateAction<string>>;
+  hasDeal: boolean;
+  setHasDeal: Dispatch<SetStateAction<boolean>>;
+  isTracker: boolean;
+  dealType: DealType;
+  setDealType: Dispatch<SetStateAction<DealType>>;
+  dealTerm: number;
+  setDealTerm: Dispatch<SetStateAction<number>>;
+  svr: number;
+  setSvr: Dispatch<SetStateAction<number>>;
+  baseRate: number;
+  setBaseRate: Dispatch<SetStateAction<number>>;
+  margin: number;
+  setMargin: Dispatch<SetStateAction<number>>;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+
+export function MortgageForm({
+  mortgageType,
+  setMortgageType,
+  propertyPrice,
+  setPropertyPrice,
+  depositMode,
+  onDepositModeChange,
+  deposit,
+  setDeposit,
+  depositPercent,
+  setDepositPercent,
+  loanToValue,
+  mortgageTerm,
+  setMortgageTerm,
+  interestRate,
+  setInterestRate,
+  startDate,
+  setStartDate,
+  hasDeal,
+  setHasDeal,
+  isTracker,
+  dealType,
+  setDealType,
+  dealTerm,
+  setDealTerm,
+  svr,
+  setSvr,
+  baseRate,
+  setBaseRate,
+  margin,
+  setMargin,
+  onSubmit,
+}: MortgageFormProps) {
+  const formId = useId();
+
+  return (
+    <Card
+      className={cn('rounded-2xl border-brand-border p-5', frostedCardClass)}
+    >
+      <form onSubmit={onSubmit}>
+        <div className="flex flex-col gap-5">
+          {/* mortgage type */}
+          <fieldset>
+            <legend className="mb-2 block text-sm font-medium">
+              Mortgage Type
+            </legend>
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              value={mortgageType}
+              onValueChange={(value) => {
+                if (value) {
+                  setMortgageType(value as MortgageType);
+                }
+              }}
+              className="w-full"
+            >
+              <ToggleGroupItem
+                value="repayment"
+                className={cn('flex-1', toggleSelectedClass)}
+              >
+                Repayment
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="interest-only"
+                className={cn('flex-1', toggleSelectedClass)}
+              >
+                Interest Only
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </fieldset>
+
+          {/* property price */}
+          <div>
+            <Label htmlFor={`${formId}-propertyPrice`}>Property Price</Label>
+            <div className="mt-2 flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-16"
+                aria-label="Subtract £10,000"
+                onClick={() =>
+                  setPropertyPrice((value) => Math.max(0, value - 10000))
+                }
+              >
+                -10k
+              </Button>
+              <div className="flex grow items-center gap-2">
+                <span aria-hidden="true">£</span>
+                <Input
+                  type="number"
+                  id={`${formId}-propertyPrice`}
+                  name="propertyPrice"
+                  className="bg-background"
+                  value={propertyPrice}
+                  onChange={(event) =>
+                    setPropertyPrice(Number(event.target.value))
+                  }
+                />
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-16"
+                aria-label="Add £10,000"
+                onClick={() => setPropertyPrice((value) => value + 10000)}
+              >
+                +10k
+              </Button>
+            </div>
+          </div>
+
+          {/* deposit */}
+          <div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor={`${formId}-deposit`}>Deposit Amount</Label>
+              <ToggleGroup
+                type="single"
+                variant="outline"
+                size="sm"
+                value={depositMode}
+                onValueChange={(value) => {
+                  if (value) {
+                    onDepositModeChange(value as DepositMode);
+                  }
+                }}
+                className="w-16"
+              >
+                <ToggleGroupItem
+                  value="amount"
+                  aria-label="Enter deposit as an amount"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  £
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="percent"
+                  aria-label="Enter deposit as a percentage"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  %
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+            <div className="mt-2 flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                aria-label={
+                  depositMode === 'amount' ? 'Subtract £10,000' : 'Subtract 5%'
+                }
+                onClick={() =>
+                  depositMode === 'amount'
+                    ? setDeposit((value) => Math.max(0, value - 10000))
+                    : setDepositPercent((value) => Math.max(0, value - 5))
+                }
+              >
+                {depositMode === 'amount' ? '−10k' : '−5%'}
+              </Button>
+              <div className="flex grow items-center gap-2">
+                {depositMode === 'amount' && <span aria-hidden="true">£</span>}
+                <Input
+                  type="number"
+                  id={`${formId}-deposit`}
+                  name="deposit"
+                  className="bg-background"
+                  value={depositMode === 'amount' ? deposit : depositPercent}
+                  onChange={(event) =>
+                    depositMode === 'amount'
+                      ? setDeposit(Number(event.target.value))
+                      : setDepositPercent(Number(event.target.value))
+                  }
+                />
+                {depositMode === 'percent' && <span aria-hidden="true">%</span>}
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                aria-label={depositMode === 'amount' ? 'Add £10,000' : 'Add 5%'}
+                onClick={() =>
+                  depositMode === 'amount'
+                    ? setDeposit((value) => value + 10000)
+                    : setDepositPercent((value) => value + 5)
+                }
+              >
+                {depositMode === 'amount' ? '+10k' : '+5%'}
+              </Button>
+            </div>
+            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+              Loan to Value (LTV) <span>{loanToValue.toFixed(1)}%</span>
+            </p>
+          </div>
+
+          {/* mortgage term + interest rate */}
+          <div className="grid grid-cols-1 gap-5">
+            <div>
+              <Label htmlFor={`${formId}-mortgageTerm`}>Mortgage Term</Label>
+              <div className="mt-2 flex items-center gap-2">
+                <Input
+                  type="number"
+                  id={`${formId}-mortgageTerm`}
+                  name="mortgageTerm"
+                  className="bg-background"
+                  value={mortgageTerm}
+                  onChange={(event) =>
+                    setMortgageTerm(Number(event.target.value))
+                  }
+                />
+                <span aria-hidden="true">years</span>
+              </div>
+              <ToggleGroup
+                type="single"
+                variant="outline"
+                value={String(mortgageTerm)}
+                onValueChange={(value) => {
+                  if (value) {
+                    setMortgageTerm(Number(value));
+                  }
+                }}
+                className="mt-2 w-full"
+              >
+                <ToggleGroupItem
+                  value="15"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  15y
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="20"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  20y
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="25"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  25y
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="30"
+                  className={cn('flex-1', toggleSelectedClass)}
+                >
+                  30y
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+
+            <div>
+              <Label htmlFor={`${formId}-interestRate`}>Interest Rate</Label>
+              <div className="mt-2 flex items-center gap-2">
+                <Input
+                  type="number"
+                  step="0.01"
+                  id={`${formId}-interestRate`}
+                  name="interestRate"
+                  className="bg-background"
+                  value={interestRate}
+                  disabled={hasDeal && isTracker}
+                  onChange={(event) =>
+                    setInterestRate(Number(event.target.value))
+                  }
+                />
+                <span aria-hidden="true">%</span>
+              </div>
+              {hasDeal && isTracker && (
+                <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
+                  Disabled — using base rate + margin below instead.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* start date */}
+          <div>
+            <Label htmlFor={`${formId}-startDate`}>Start Date</Label>
+            <Input
+              type="month"
+              id={`${formId}-startDate`}
+              name="startDate"
+              value={startDate}
+              onChange={(event) => setStartDate(event.target.value)}
+              className="mt-2 bg-background"
+            />
+          </div>
+
+          {/* has deal */}
+          <label className="flex cursor-pointer items-center gap-2.5 text-sm">
+            <Checkbox
+              checked={hasDeal}
+              onCheckedChange={(checked) => setHasDeal(checked === true)}
+            />
+            I have a fixed or tracker deal
+          </label>
+
+          {hasDeal && (
+            <div className="flex flex-col gap-5 rounded-md border border-brand-border bg-brand-subtle p-4">
+              <fieldset>
+                <legend className="mb-2 block text-sm font-medium">
+                  Deal Type
+                </legend>
+                <ToggleGroup
+                  type="single"
+                  variant="outline"
+                  value={dealType}
+                  onValueChange={(value) => {
+                    if (value) {
+                      setDealType(value as DealType);
+                    }
+                  }}
+                  className="w-full"
+                >
+                  <ToggleGroupItem
+                    value="fixed"
+                    className={cn('flex-1', toggleSelectedClass)}
+                  >
+                    Fixed
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="tracker"
+                    className={cn('flex-1', toggleSelectedClass)}
+                  >
+                    Tracker
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </fieldset>
+
+              {isTracker && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor={`${formId}-baseRate`}>Base Rate</Label>
+                    <div className="mt-2 flex items-center gap-2">
+                      <Input
+                        type="number"
+                        step="0.01"
+                        id={`${formId}-baseRate`}
+                        name="baseRate"
+                        className="bg-background"
+                        value={baseRate}
+                        onChange={(event) =>
+                          setBaseRate(Number(event.target.value))
+                        }
+                      />
+                      <span aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor={`${formId}-margin`}>Margin</Label>
+                    <div className="mt-2 flex items-center gap-2">
+                      <Input
+                        type="number"
+                        step="0.01"
+                        id={`${formId}-margin`}
+                        name="margin"
+                        className="bg-background"
+                        value={margin}
+                        onChange={(event) =>
+                          setMargin(Number(event.target.value))
+                        }
+                      />
+                      <span aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <Label htmlFor={`${formId}-dealTerm`}>Deal Term</Label>
+                <div className="mt-2 flex items-center gap-2">
+                  <Input
+                    type="number"
+                    id={`${formId}-dealTerm`}
+                    name="dealTerm"
+                    className="bg-background"
+                    value={dealTerm}
+                    onChange={(event) =>
+                      setDealTerm(Number(event.target.value))
+                    }
+                  />
+                  <span aria-hidden="true">years</span>
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor={`${formId}-svr`}>
+                  Standard Variable Rate (SVR)
+                </Label>
+                <div className="mt-2 flex items-center gap-2">
+                  <Input
+                    type="number"
+                    step="0.01"
+                    id={`${formId}-svr`}
+                    name="svr"
+                    className="bg-background"
+                    value={svr}
+                    onChange={(event) => setSvr(Number(event.target.value))}
+                  />
+                  <span aria-hidden="true">%</span>
+                </div>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                  This is the rate your mortgage reverts to once your deal
+                  period ends.
+                </p>
+              </div>
+            </div>
+          )}
+
+          <Button
+            type="submit"
+            size="lg"
+            className="bg-brand text-brand-foreground hover:bg-brand/90"
+          >
+            Calculate Payments
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+}
