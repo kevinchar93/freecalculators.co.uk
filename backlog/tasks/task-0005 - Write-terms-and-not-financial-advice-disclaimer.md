@@ -4,7 +4,9 @@ title: Write terms and not-financial-advice disclaimer
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - business-legal
 dependencies: []
 ordinal: 5000
 ---
