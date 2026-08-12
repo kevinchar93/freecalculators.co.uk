@@ -4,7 +4,9 @@ title: Decide hosting platform
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - decisions
 dependencies: []
 ordinal: 7000
 ---
