@@ -4,7 +4,9 @@ title: Build editable content layer
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - pseo
 dependencies:
   - TASK-0014
 ordinal: 15000
