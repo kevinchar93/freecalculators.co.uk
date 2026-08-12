@@ -4,7 +4,9 @@ title: Integrate consent banner
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:38'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - launch
 dependencies:
   - TASK-0009
 ordinal: 23000
