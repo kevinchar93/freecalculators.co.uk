@@ -4,7 +4,9 @@ title: Set up production deployment
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:38'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - infra-deploy
 dependencies:
   - TASK-0007
   - TASK-0003
