@@ -4,7 +4,9 @@ title: Set up Google Search Console and submit sitemap
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:38'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - launch
 dependencies:
   - TASK-0019
   - TASK-0021
