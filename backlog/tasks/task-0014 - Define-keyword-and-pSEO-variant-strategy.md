@@ -4,7 +4,9 @@ title: Define keyword and pSEO variant strategy
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - pseo
 dependencies: []
 ordinal: 14000
 ---
