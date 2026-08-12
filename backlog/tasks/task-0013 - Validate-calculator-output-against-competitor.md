@@ -4,7 +4,9 @@ title: Validate calculator output against competitor
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - core-calculator
 dependencies:
   - TASK-0011
 ordinal: 13000
