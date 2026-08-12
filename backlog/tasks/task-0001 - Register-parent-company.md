@@ -4,7 +4,9 @@ title: Register parent company
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:36'
-labels: []
+updated_date: '2026-08-12 23:40'
+labels:
+  - business-legal
 dependencies: []
 ordinal: 1000
 ---
