@@ -1,14 +1,14 @@
 ---
 id: TASK-0003
 title: Confirm domain secured
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-08-12 23:37'
 updated_date: '2026-08-13 06:53'
 labels:
   - business-legal
 dependencies: []
-ordinal: 3000
+ordinal: 1000
 ---
 
 ## Description
