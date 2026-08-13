@@ -4,7 +4,7 @@ title: Register parent company
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:36'
-updated_date: '2026-08-12 23:40'
+updated_date: '2026-08-13 06:46'
 labels:
   - business-legal
 dependencies: []
@@ -21,4 +21,7 @@ Register the parent company through a company formation service so we have a leg
 <!-- AC:BEGIN -->
 - [ ] #1 Company is registered and incorporation confirmation/number received
 - [ ] #2 Registered office and director details recorded
+- [ ] #3 Formation service to use decided
+- [ ] #4 Company name decided
+- [ ] #5 All details for creation noted
 <!-- AC:END -->
