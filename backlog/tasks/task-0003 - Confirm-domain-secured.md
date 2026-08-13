@@ -21,5 +21,5 @@ Verify freecalculators.co.uk is registered to us, has auto-renew enabled, and DN
 <!-- AC:BEGIN -->
 - [x] #1 Domain ownership confirmed under our account
 - [x] #2 Auto-renew enabled
-- [ ] #3 DNS management access confirmed
+- [x] #3 DNS management access confirmed
 <!-- AC:END -->
