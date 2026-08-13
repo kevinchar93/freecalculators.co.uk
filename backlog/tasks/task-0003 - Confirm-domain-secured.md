@@ -20,6 +20,6 @@ Verify freecalculators.co.uk is registered to us, has auto-renew enabled, and DN
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [x] #1 Domain ownership confirmed under our account
-- [ ] #2 Auto-renew enabled
+- [x] #2 Auto-renew enabled
 - [ ] #3 DNS management access confirmed
 <!-- AC:END -->
