@@ -1,7 +1,7 @@
 ---
 id: TASK-0003
 title: Confirm domain secured
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-08-12 23:37'
 updated_date: '2026-08-13 06:53'
