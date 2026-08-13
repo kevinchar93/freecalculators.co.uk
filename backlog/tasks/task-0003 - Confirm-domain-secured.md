@@ -4,7 +4,7 @@ title: Confirm domain secured
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:37'
-updated_date: '2026-08-12 23:40'
+updated_date: '2026-08-13 06:53'
 labels:
   - business-legal
 dependencies: []
@@ -19,7 +19,7 @@ Verify freecalculators.co.uk is registered to us, has auto-renew enabled, and DN
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Domain ownership confirmed under our account
+- [x] #1 Domain ownership confirmed under our account
 - [ ] #2 Auto-renew enabled
 - [ ] #3 DNS management access confirmed
 <!-- AC:END -->
