@@ -1,44 +1,46 @@
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
 import { blog } from '@/routes';
 import {
   calcLoanAmount,
   depositPercentToAmount,
   calcLoanToValue,
-  depositAmountToPercent,
 } from './calculations';
 import { MortgageForm } from './components/mortgage-form';
 import { ResultsPanel } from './components/results-panel';
 import copy from './copy.json';
-import defaults from './defaults.json';
-import type { DealType, DepositMode, MortgageType } from './types';
+import { useMortgageStore } from './store';
 
 export default function MortgageCalculatorPage() {
-  const [mortgageType, setMortgageType] = useState<MortgageType>(
-    defaults.mortgageType as MortgageType,
-  );
-  const [propertyPrice, setPropertyPrice] = useState(defaults.propertyPrice);
-
-  const [activeDepositMode, setDepositMode] = useState<DepositMode>(
-    defaults.depositMode as DepositMode,
-  );
-  const [deposit, setDeposit] = useState(defaults.deposit);
-  const [depositPercent, setDepositPercent] = useState(defaults.depositPercent);
-
-  const [mortgageTerm, setMortgageTerm] = useState(defaults.mortgageTerm);
-  const [interestRate, setInterestRate] = useState(defaults.interestRate);
-
-  const [startDate, setStartDate] = useState(defaults.startDate);
-
-  const [hasDeal, setHasDeal] = useState(defaults.hasDeal);
-  const [dealType, setDealType] = useState<DealType>(
-    defaults.dealType as DealType,
-  );
-  const [dealTerm, setDealTerm] = useState(defaults.dealTerm);
-
-  const [svr, setSvr] = useState(defaults.svr);
-  const [baseRate, setBaseRate] = useState(defaults.baseRate);
-  const [margin, setMargin] = useState(defaults.margin);
+  const {
+    mortgageType,
+    setMortgageType,
+    propertyPrice,
+    setPropertyPrice,
+    depositMode,
+    setDepositMode,
+    deposit,
+    setDeposit,
+    depositPercent,
+    setDepositPercent,
+    mortgageTerm,
+    setMortgageTerm,
+    interestRate,
+    setInterestRate,
+    startDate,
+    setStartDate,
+    hasDeal,
+    setHasDeal,
+    dealType,
+    setDealType,
+    dealTerm,
+    setDealTerm,
+    svr,
+    setSvr,
+    baseRate,
+    setBaseRate,
+    margin,
+    setMargin,
+  } = useMortgageStore();
 
   const isInterestOnly = mortgageType === 'interest-only';
   const isTracker = dealType === 'tracker';
@@ -46,7 +48,7 @@ export default function MortgageCalculatorPage() {
   const showAfterDealCard = hasDeal && dealTerm < mortgageTerm;
 
   const depositAmount =
-    activeDepositMode === 'amount'
+    depositMode === 'amount'
       ? deposit
       : depositPercentToAmount(propertyPrice, depositPercent);
 
@@ -55,20 +57,6 @@ export default function MortgageCalculatorPage() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-  }
-
-  function handleDepositModeChange(newMode: DepositMode) {
-    if (newMode === activeDepositMode) {
-      return;
-    }
-
-    if (newMode === 'percent') {
-      setDepositPercent(depositAmountToPercent(propertyPrice, deposit));
-    } else {
-      setDeposit(depositPercentToAmount(propertyPrice, depositPercent));
-    }
-
-    setDepositMode(newMode);
   }
 
   return (
@@ -97,8 +85,8 @@ export default function MortgageCalculatorPage() {
             setMortgageType={setMortgageType}
             propertyPrice={propertyPrice}
             setPropertyPrice={setPropertyPrice}
-            depositMode={activeDepositMode}
-            onDepositModeChange={handleDepositModeChange}
+            depositMode={depositMode}
+            onDepositModeChange={setDepositMode}
             deposit={deposit}
             setDeposit={setDeposit}
             depositPercent={depositPercent}

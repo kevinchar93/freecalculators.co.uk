@@ -70,19 +70,19 @@ export function ResultsPanel({
         >
           <div className="p-5">
             <h2 className="mb-4 text-xl font-semibold">
-              {copy['results.yourResultsHeading']}
+              {copy['results.noDeal.yourResultsHeading']}
             </h2>
             <div className="flex flex-col gap-4">
               <div>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {copy['results.monthlyPaymentLabel']}
+                  {copy['results.noDeal.monthlyPaymentLabel']}
                 </p>
-                <p className="text-4xl font-bold text-brand-subtle-foreground">
+                <p className="text-5xl font-bold text-brand-subtle-foreground">
                   {single.monthly}
                 </p>
               </div>
 
-              <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
+              <dl className="flex flex-col gap-2 border-t border-brand-border pt-4 text-sm">
                 <div className="flex justify-between">
                   <dt>{copy['results.housePriceLabel']}</dt>
                   <dd>{single.housePrice}</dd>
@@ -96,14 +96,16 @@ export function ResultsPanel({
                   <dd>{single.loan}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>{single.totalPaidLabel}</dt>
-                  <dd>{single.totalPaid}</dd>
-                </div>
-                <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
                   <dt>{copy['results.totalInterestLabel']}</dt>
                   <dd>{single.totalInterest}</dd>
                 </div>
+                <div className="flex justify-between font-semibold">
+                  <dt>{copy['results.totalPaidLabel']}</dt>
+                  <dd>{single.totalPaid}</dd>
+                </div>
               </dl>
+
+              <div className="border-t border-brand-border pt-1"></div>
 
               {single.showSplit && (
                 <PaymentBreakdownBar
@@ -115,11 +117,11 @@ export function ResultsPanel({
                 />
               )}
 
-              <div className="flex justify-between text-sm">
-                <span className="text-neutral-600 dark:text-neutral-400">
-                  {single.dateLabel}
+              <div className="flex justify-between text-sm font-semibold">
+                <span>{single.dateLabel}</span>
+                <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                  {single.date}
                 </span>
-                <span>{single.date}</span>
               </div>
 
               {single.showVehicleNotice && (
@@ -137,7 +139,7 @@ export function ResultsPanel({
           {/* during your deal results */}
           <Card
             className={cn(
-              'rounded-2xl border-brand-border p-0',
+              'gap-0 rounded-2xl border-brand-border p-0',
               frostedCardClass,
             )}
           >
@@ -147,9 +149,11 @@ export function ResultsPanel({
             <div className="flex flex-col gap-4 p-5">
               <div>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {copy['results.monthlyPaymentLowerLabel']}
+                  {copy['results.deal.monthlyPaymentLabel']}
                 </p>
-                <p className="text-4xl font-bold">{during.monthly}</p>
+                <p className="text-5xl font-bold text-brand-subtle-foreground">
+                  {during.monthly}
+                </p>
               </div>
 
               <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
@@ -194,7 +198,7 @@ export function ResultsPanel({
           {showAfterDealCard && (
             <Card
               className={cn(
-                'rounded-2xl border-brand-border p-0',
+                'gap-0 rounded-2xl border-brand-border p-0',
                 frostedCardClass,
               )}
             >

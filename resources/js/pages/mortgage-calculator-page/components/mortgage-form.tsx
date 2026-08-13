@@ -93,7 +93,7 @@ export function MortgageForm({
           {/* mortgage type */}
           <fieldset>
             <legend className="mb-2 block text-sm font-medium">
-              {copy['form.mortgageTypeLegend']}
+              {copy['form.mortgageType.FieldLabel']}
             </legend>
             <ToggleGroup
               type="single"
@@ -110,13 +110,13 @@ export function MortgageForm({
                 value="repayment"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                {copy['form.mortgageTypeRepayment']}
+                {copy['form.mortgageType.RepaymentOptionLabel']}
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="interest-only"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                {copy['form.mortgageTypeInterestOnly']}
+                {copy['form.mortgageType.InterestOnlyOptionLabel']}
               </ToggleGroupItem>
             </ToggleGroup>
           </fieldset>
@@ -124,19 +124,19 @@ export function MortgageForm({
           {/* property price */}
           <div>
             <Label htmlFor={`${formId}-propertyPrice`}>
-              {copy['form.propertyPriceLabel']}
+              {copy['form.propertyPrice.FieldLabel']}
             </Label>
             <div className="mt-2 flex gap-2">
               <Button
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label={copy['form.propertyPriceSubtractAria']}
+                aria-label={copy['form.propertyPrice.SubtractAria']}
                 onClick={() =>
                   setPropertyPrice((value) => Math.max(0, value - 10000))
                 }
               >
-                {copy['form.propertyPriceSubtractButton']}
+                {copy['form.propertyPrice.SubtractButtonLabel']}
               </Button>
               <div className="flex grow items-center gap-2">
                 <span aria-hidden="true">£</span>
@@ -155,10 +155,10 @@ export function MortgageForm({
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label={copy['form.propertyPriceAddAria']}
+                aria-label={copy['form.propertyPrice.AddAria']}
                 onClick={() => setPropertyPrice((value) => value + 10000)}
               >
-                {copy['form.propertyPriceAddButton']}
+                {copy['form.propertyPrice.AddButtonLabel']}
               </Button>
             </div>
           </div>
