@@ -8,7 +8,7 @@ updated_date: '2026-08-12 23:40'
 labels:
   - core-calculator
 dependencies: []
-ordinal: 11000
+ordinal: 1000
 ---
 
 ## Description

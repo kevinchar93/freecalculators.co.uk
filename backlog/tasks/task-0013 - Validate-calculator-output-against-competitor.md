@@ -9,7 +9,7 @@ labels:
   - core-calculator
 dependencies:
   - TASK-0011
-ordinal: 13000
+ordinal: 3000
 ---
 
 ## Description
