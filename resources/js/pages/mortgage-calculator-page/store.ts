@@ -1,7 +1,12 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { create } from 'zustand';
 import { depositAmountToPercent, depositPercentToAmount } from './calculations';
 import defaults from './defaults.json';
 import type { DealType, DepositMode, MortgageType } from './types';
+
+function resolve<T>(value: SetStateAction<T>, prev: T): T {
+  return typeof value === 'function' ? (value as (prev: T) => T)(prev) : value;
+}
 
 interface MortgageInputs {
   mortgageType: MortgageType;
@@ -21,20 +26,20 @@ interface MortgageInputs {
 }
 
 interface MortgageActions {
-  setMortgageType: (v: MortgageType) => void;
-  setPropertyPrice: (v: number) => void;
+  setMortgageType: Dispatch<SetStateAction<MortgageType>>;
+  setPropertyPrice: Dispatch<SetStateAction<number>>;
   setDepositMode: (mode: DepositMode) => void;
-  setDeposit: (v: number) => void;
-  setDepositPercent: (v: number) => void;
-  setMortgageTerm: (v: number) => void;
-  setInterestRate: (v: number) => void;
-  setStartDate: (v: string) => void;
-  setHasDeal: (v: boolean) => void;
-  setDealType: (v: DealType) => void;
-  setDealTerm: (v: number) => void;
-  setSvr: (v: number) => void;
-  setBaseRate: (v: number) => void;
-  setMargin: (v: number) => void;
+  setDeposit: Dispatch<SetStateAction<number>>;
+  setDepositPercent: Dispatch<SetStateAction<number>>;
+  setMortgageTerm: Dispatch<SetStateAction<number>>;
+  setInterestRate: Dispatch<SetStateAction<number>>;
+  setStartDate: Dispatch<SetStateAction<string>>;
+  setHasDeal: Dispatch<SetStateAction<boolean>>;
+  setDealType: Dispatch<SetStateAction<DealType>>;
+  setDealTerm: Dispatch<SetStateAction<number>>;
+  setSvr: Dispatch<SetStateAction<number>>;
+  setBaseRate: Dispatch<SetStateAction<number>>;
+  setMargin: Dispatch<SetStateAction<number>>;
   reset: () => void;
 }
 
@@ -60,8 +65,8 @@ const initialState: MortgageInputs = {
 export const useMortgageStore = create<MortgageStore>((set, get) => ({
   ...initialState,
 
-  setMortgageType: (v) => set({ mortgageType: v }),
-  setPropertyPrice: (v) => set({ propertyPrice: v }),
+  setMortgageType: (v) => set((s) => ({ mortgageType: resolve(v, s.mortgageType) })),
+  setPropertyPrice: (v) => set((s) => ({ propertyPrice: resolve(v, s.propertyPrice) })),
   setDepositMode: (newMode) => {
     const { depositMode, propertyPrice, deposit, depositPercent } = get();
     if (newMode === depositMode) {
@@ -82,16 +87,16 @@ export const useMortgageStore = create<MortgageStore>((set, get) => ({
     });
     return;
   },
-  setDeposit: (v) => set({ deposit: v }),
-  setDepositPercent: (v) => set({ depositPercent: v }),
-  setMortgageTerm: (v) => set({ mortgageTerm: v }),
-  setInterestRate: (v) => set({ interestRate: v }),
-  setStartDate: (v) => set({ startDate: v }),
-  setHasDeal: (v) => set({ hasDeal: v }),
-  setDealType: (v) => set({ dealType: v }),
-  setDealTerm: (v) => set({ dealTerm: v }),
-  setSvr: (v) => set({ svr: v }),
-  setBaseRate: (v) => set({ baseRate: v }),
-  setMargin: (v) => set({ margin: v }),
+  setDeposit: (v) => set((s) => ({ deposit: resolve(v, s.deposit) })),
+  setDepositPercent: (v) => set((s) => ({ depositPercent: resolve(v, s.depositPercent) })),
+  setMortgageTerm: (v) => set((s) => ({ mortgageTerm: resolve(v, s.mortgageTerm) })),
+  setInterestRate: (v) => set((s) => ({ interestRate: resolve(v, s.interestRate) })),
+  setStartDate: (v) => set((s) => ({ startDate: resolve(v, s.startDate) })),
+  setHasDeal: (v) => set((s) => ({ hasDeal: resolve(v, s.hasDeal) })),
+  setDealType: (v) => set((s) => ({ dealType: resolve(v, s.dealType) })),
+  setDealTerm: (v) => set((s) => ({ dealTerm: resolve(v, s.dealTerm) })),
+  setSvr: (v) => set((s) => ({ svr: resolve(v, s.svr) })),
+  setBaseRate: (v) => set((s) => ({ baseRate: resolve(v, s.baseRate) })),
+  setMargin: (v) => set((s) => ({ margin: resolve(v, s.margin) })),
   reset: () => set(initialState),
 }));
