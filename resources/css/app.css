@@ -8,6 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --breakpoint-xs: 25rem;
+
   --font-sans: 'DM Sans', sans-serif;
   --font-logo: 'Inter', sans-serif;
 

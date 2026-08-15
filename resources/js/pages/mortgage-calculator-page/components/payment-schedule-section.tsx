@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { ChevronDownIcon } from 'lucide-react';
 import {
   Collapsible,
   CollapsibleContent,
@@ -9,33 +9,28 @@ import type { ScheduleRow } from '../types';
 
 export function PaymentScheduleSection({ rows }: { rows: ScheduleRow[] }) {
   return (
-    <Collapsible>
-      <CollapsibleTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full justify-between"
-        >
-          {copy['paymentScheduleSection.triggerButton']}
-        </Button>
+    <Collapsible className="overflow-hidden rounded-md border border-brand-border">
+      <CollapsibleTrigger className="group flex w-full items-center justify-between px-4 py-3 text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50">
+        {copy['paymentScheduleSection.triggerButton']}
+        <ChevronDownIcon className="size-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
       </CollapsibleTrigger>
-      <CollapsibleContent className="mt-2 max-h-85 overflow-auto rounded-md border border-brand-border">
-        <table className="w-full text-left text-sm">
+      <CollapsibleContent className="max-h-85 overflow-auto border-t border-brand-border">
+        <table className="w-full text-left text-xs xs:text-sm">
           <caption className="sr-only">
             {copy['paymentScheduleSection.captionSr']}
           </caption>
           <thead>
             <tr>
-              <th scope="col" className="px-3 py-2">
+              <th scope="col" className="sticky top-0 bg-background px-3 py-2">
                 {copy['paymentScheduleSection.columnMonth']}
               </th>
-              <th scope="col" className="px-3 py-2">
+              <th scope="col" className="sticky top-0 bg-background px-3 py-2">
                 {copy['paymentScheduleSection.columnInterest']}
               </th>
-              <th scope="col" className="px-3 py-2">
+              <th scope="col" className="sticky top-0 bg-background px-3 py-2">
                 {copy['paymentScheduleSection.columnPrincipal']}
               </th>
-              <th scope="col" className="px-3 py-2">
+              <th scope="col" className="sticky top-0 bg-background px-3 py-2">
                 {copy['paymentScheduleSection.columnBalance']}
               </th>
             </tr>
