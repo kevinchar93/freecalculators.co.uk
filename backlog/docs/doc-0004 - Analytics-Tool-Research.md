@@ -4,6 +4,10 @@ title: Analytics Tool Research
 type: other
 created_date: '2026-08-15 01:23'
 updated_date: '2026-08-15 01:26'
+tags:
+  - research
+  - analytics
+  - decisions
 ---
 Research to support TASK-0008 (Choose analytics tool). Related: doc-0003 (Privacy Policy Research), TASK-0006 (AdSense application), TASK-0009 (Consent banner service).
 
