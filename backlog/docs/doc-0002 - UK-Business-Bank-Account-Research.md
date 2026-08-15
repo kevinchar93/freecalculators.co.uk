@@ -3,7 +3,7 @@ id: doc-0002
 title: UK Business Bank Account Research
 type: other
 created_date: '2026-08-15 01:14'
-updated_date: '2026-08-15 01:14'
+updated_date: '2026-08-15 01:24'
 tags:
   - business-legal
   - research
@@ -26,7 +26,7 @@ Taken from your brief:
 Two more that fall out of the rest of the backlog and matter more than they look:
 
 7. **Must be able to receive Google AdSense payouts** (TASK-0006) — a GBP account in the company name with a sort code and account number.
-8. **Must survive the "parent company" framing of TASK-0001** — see the eligibility section below. This is the single biggest gotcha in this research.
+8. **Must suit a single Ltd operating a portfolio of ad-funded websites.** Confirmed intent for TASK-0001: one trading limited company, sole director and shareholder, under whose banner multiple websites are built and monetised — *not* a holding company owning subsidiaries. If an individual site later gets big enough to justify its own company, that's a separate decision at that time. This resolves what was otherwise the biggest eligibility risk in this research; see below.
 
 ## The three things that actually decide this
 
@@ -39,21 +39,25 @@ Not all "business accounts" are bank accounts.
 
 Tide is a hybrid: some Tide accounts are issued through **ClearBank** and are FSCS-protected to £120,000; others are e-money. You don't fully control which you get. For a company whose float is a few thousand pounds of AdSense income this is a low-stakes difference, but it costs nothing to prefer the FSCS side.
 
-### 2. Eligibility — the "parent company" problem
+### 2. Eligibility — resolved, but with a future trap
 
-**Starling explicitly does not open accounts for holding companies**, and requires that all Persons of Significant Control be **UK-resident natural persons — no corporate shareholders**.
+The intended structure is **one trading Ltd, you as sole director and sole shareholder, operating many websites**. On that basis every free option below accepts you, and the rest of this section is about what would break it later.
 
-**Mettle** is tighter still: limited companies only (no LLPs, PLCs, charities, CLGs), **maximum two PSCs and both must be individuals**, only one owner can access the account, UK resident, UK tax resident only, not a US Person for tax, balance up to £1m.
+The relevant limits:
 
-**Monzo** requires all directors and PSCs to be UK-resident; a single overseas shareholder, however small, ends the application.
+- **Starling** does not open accounts for **holding companies**, and requires all Persons of Significant Control to be **UK-resident natural persons — no corporate shareholders**.
+- **Mettle** is tighter: limited companies only (no LLPs, PLCs, charities, CLGs), **maximum two PSCs, both individuals**, only one owner can access the account, UK resident, UK tax resident only, not a US Person for tax, balance up to £1m.
+- **Monzo** requires all directors and PSCs to be UK-resident; a single overseas shareholder, however small, ends the application.
+- **Tide and Revolut** are the accommodating ones for group structures and unusual ownership.
 
-TASK-0001 is titled "Register parent company". If that just means *the company that owns the site* — one Ltd, you as sole director and sole shareholder, actually trading — every option below is open to you. If it means a genuine **holding company** with trading subsidiaries beneath it, or if you plan to insert a holdco above this company later, then:
+Your structure clears all of these comfortably. Two things would change that:
 
-- Starling would decline the holdco (and would decline any subsidiary, since its shareholder is a company).
-- Mettle and Monzo would decline the subsidiary for the same corporate-shareholder reason.
-- **Tide and Revolut are the accommodating ones** for group structures and non-standard ownership.
+1. **Taking on a second or third shareholder.** Two is Mettle's ceiling, and only one of them can operate the account. Starling and Monzo have no such cap.
+2. **Spinning a successful site into its own company.** This is in your stated plan, so it's worth being precise about it. If the new company is owned **by you personally**, it's just another plain Ltd and can open its own Mettle or Starling account with no difficulty. If the new company is owned **by this company** — the natural instinct, and what makes the original one a true parent — then it has a corporate PSC, and **Starling, Mettle and Monzo will all refuse it**, and Starling would additionally refuse the parent once it becomes a holding company.
 
-**This is a decision you need to make before applying**, because a cluster of declined applications is itself a risk signal to the next bank. Recommendation: register one plain trading Ltd now (which is what doc-0001 assumes), and if a group structure is ever wanted, deal with the banking then.
+The practical consequence: **nothing to do now**, but when the day comes to spin a site out, the ownership choice (personally-held sibling company vs subsidiary) has banking consequences, and there are tax and admin trade-offs on the other side that an accountant should price. Don't let the banking tail wag that dog — just don't make the decision unaware of it.
+
+One general caution: a cluster of declined applications is itself a risk signal to the next bank, so apply where you're eligible rather than trying your luck.
 
 ### 3. Formation service and registered office
 
@@ -65,6 +69,26 @@ Two caveats worth knowing:
 - A shared prestige-London formation-agent address used by tens of thousands of companies is a mild risk signal to some onboarding systems. It rarely blocks anything; it occasionally means extra manual review.
 
 The bank-bundled formation offers (Tide, ANNA) were already ruled out in doc-0001 because they don't include an address service. That reasoning stands. Note this rules out the *formation* bundle, not the *bank* — you can still open a Tide account for a company formed elsewhere.
+
+## What the multi-site plan changes
+
+Building a portfolio of ad-funded sites under one company, to see what sticks, changes the shape of the banking requirement in a few specific ways.
+
+**One bank account covers all the sites.** The sites are not legal entities; they're products of one company. There is no need for an account per site, and no bank here charges for extra "sub-accounts" anyway — Starling has Spaces, Monzo and Mettle have Pots. Use those for setting aside Corporation Tax and VAT rather than for splitting sites.
+
+**One AdSense account covers all the sites too.** Google's rule is **one AdSense account per publisher**, but that single account may serve **any number of websites — there is no limit**. Because you're operating as an organisation, the account should be an **organisation** account with tax and payee details matching the registered company. That is consistent with everything above: one company, one AdSense account, one bank account.
+
+⚠️ **The flip side is concentration risk, and it matters a lot for a spray-and-see strategy.** With every site under one AdSense account, a policy violation on any one of them puts the whole account — and therefore *all* the sites' revenue — at risk. This is the standard, widely-reported drawback of running many sites on one account. It doesn't change the banking decision, but it's the biggest structural risk in the overall plan, and it argues for holding each new site to the same content and policy standards as the ones already earning. Worth carrying into TASK-0006.
+
+**The expense pattern is many small recurring card payments, not many bank transfers.** A portfolio of sites means domains, hosting, an analytics tool, a consent service, APIs — a long tail of £5–£30/month card subscriptions across the backlog (TASK-0007, 0008, 0009). Implications:
+
+- Tide's headline weakness, **5 free bank transfers per month**, is less damaging than it first appears, because card subscriptions aren't bank transfers. It's still a real constraint if you pay contractors or a bookkeeper.
+- What actually matters is **card usage with no per-transaction fee, good auto-categorisation, and virtual cards** to keep subscriptions separable. Mettle, Starling and Monzo all do the first two free; virtual cards are a Monzo Pro feature.
+- Receipt capture matters more with many small subscriptions than with a few big invoices. Free on Mettle via FreeAgent; £7/mo on Starling via Toolkit.
+
+**Per-site profitability tracking is a bookkeeping job, not a banking one.** To know which sites are worth keeping you need revenue and costs attributed per site. AdSense reports per-site revenue on its side; the cost side needs tagging in the accounting tool. FreeAgent (free with Mettle) supports **projects/categories** that can carry this. This is another point in Mettle's favour: the tracking you need for "see what sticks" is a bookkeeping feature, and Mettle is the option that gives you the bookkeeping software free.
+
+**Trading names — worth knowing, feeds TASK-0004/0005.** A UK Ltd may trade under **any number of business/trading names without registering them**, which is exactly the "one limited banner, many site brands" model. But under the Companies Act 2006 and the Names and Trading Disclosures Regulations 2015, **each website must disclose the company's registered name, company number, place of registration and registered office address**. So every site in the portfolio needs that in its footer or legal pages, not just the flagship. Trading names also mustn't be misleading or use restricted/sensitive words. Flagging here because it's cheap to build into the shared layout once and expensive to retrofit across twenty sites.
 
 ## Options compared
 
@@ -152,28 +176,28 @@ All the shortlisted providers support **CSV export of transactions** plus PDF st
 
 ## Recommendation
 
-**Open Mettle, on the assumption that TASK-0001 produces one plain trading Ltd with you as sole director and shareholder.**
-
-It is the only option that satisfies every stated requirement at zero cost: free account, FSCS-protected, mobile *and* web, and — the deciding factor — **FreeAgent included free**, which is a full limited-company accounting package covering VAT, MTD and Corporation Tax filing, worth ~£400/year, and which closes out the bookkeeping question entirely rather than deferring it.
+**Open Mettle.** With the structure confirmed as one trading Ltd with you as sole director and shareholder, it is eligible and it is the only option that satisfies every stated requirement at zero cost: free account, FSCS-protected to £120k, mobile *and* web, and — the deciding factor — **FreeAgent included free**, a full limited-company accounting package covering VAT, MTD and Corporation Tax filing, worth ~£400/year. For a portfolio strategy it also happens to supply the per-site cost tracking you'll need to judge which sites are working, which is otherwise a separate purchase.
 
 **Second choice: Starling**, if you want the better bank rather than the better bundle — stronger web app, stronger support, no two-PSC ceiling — and are content to pay for accounting software separately.
 
-**Fallback: Tide**, only if the company ends up with a structure (holdco, corporate shareholder, more than two PSCs) that Mettle and Starling refuse.
+**Fallback: Tide**, if a future structure (holdco, corporate shareholder, more than two PSCs) puts Mettle and Starling out of reach. Its 5-free-transfers cap is less painful than it looks for a business whose costs are mostly card subscriptions.
 
 **A reasonable hedge**, since both are free: open **Mettle** for the FreeAgent bundle and everyday running, and add **Starling** later if Mettle's app-first support or thin web app grates. Two free accounts cost nothing but a second onboarding.
+
+**Revisit this decision** only if you take on a second shareholder, or when you spin a site out into its own company — at which point the sibling-vs-subsidiary choice determines whether Mettle and Starling remain available to the new entity.
 
 ### Before applying, have ready
 
 - Company number and incorporation date (from TASK-0001)
 - Registered office and director service address (per doc-0001)
 - Your ID (passport/driving licence) and a selfie/liveness check
-- The company's SIC code and a plain description of what it does — "advertising-funded online calculator website" is fine and honest
+- The company's SIC code and a plain description of what it does — "advertising-funded online calculator and information websites" is fine and honest, and describing it as a portfolio of sites up front avoids questions later
 - Expected turnover and where money comes from (Google Ireland Ltd, AdSense advertising revenue)
 
 ### Open questions for you
 
-1. **Is TASK-0001 forming a genuine holding company, or one trading Ltd?** This decides whether Mettle and Starling are even available. Everything above assumes the latter.
-2. Will there be a **second shareholder**? Mettle caps at two PSCs and only one can operate the account.
+1. ~~Holding company or one trading Ltd?~~ **Resolved:** one trading Ltd operating multiple websites. Mettle and Starling are both available.
+2. Will there be a **second shareholder**? Mettle caps at two PSCs and only one can operate the account. Sole ownership keeps every option open.
 3. Do you want to **run bookkeeping yourself** (FreeAgent free with Mettle is then decisive) or **hand it to an accountant** (who may have a strong preference for Xero, which no one bundles free)?
 
 ## Sources
@@ -201,6 +225,14 @@ Google (primary, for AdSense):
 - [AdSense — enter your payments information](https://support.google.com/adsense/answer/47333?hl=en)
 - [AdSense — address (PIN) verification overview](https://support.google.com/adsense/answer/157667?hl=en-GB)
 - [AdSense — payment thresholds](https://support.google.com/adsense/answer/1709871?hl=en)
+- [AdSense — if you want more than one AdSense account (one-account rule, organisation exception)](https://support.google.com/adsense/answer/9729?hl=en)
+
+Legislation and legal guidance (for trading names / website disclosures):
+
+- [Companies Act 2006, Part 5, Chapter 6 — Trading disclosures](https://www.legislation.gov.uk/ukpga/2006/46/part/5/chapter/6)
+- [The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015](https://www.legislation.gov.uk/uksi/2015/17/contents/made)
+- [LexisNexis — UK company name and trading disclosure obligations (as amended by ECCTA 2023)](https://www.lexisnexis.com/en-gb/legal/guidance/trading-disclosures)
+- [Sprintlaw UK — Limited company trading as: UK rules for trading names](https://sprintlaw.co.uk/articles/limited-company-trading-as-using-a-trading-name-in-the-uk/)
 
 Secondary comparison sources (used for cross-checking fees, tier limits and pricing; treat as indicative and verify against the provider before applying):
 
@@ -220,3 +252,5 @@ Secondary comparison sources (used for cross-checking fees, tier limits and pric
 - [Forbes Advisor UK — Best business bank accounts 2026](https://www.forbes.com/advisor/uk/banking/best-business-bank-accounts/)
 - [Statrys — Monzo Business account review 2026](https://statrys.com/reviews/monzo-business-account)
 - [goForma — FreeAgent vs Xero 2026 pricing](https://www.goforma.com/freeagent/freeagent-vs-xero)
+- [Niche Site Project — Using AdSense on multiple websites](https://nichesiteproject.com/adsense-multiple-sites/)
+- [Monetize Helper — Multiple AdSense accounts: rules and risks](https://monetizehelper.com/blog/multiple-adsense-accounts-rules)
