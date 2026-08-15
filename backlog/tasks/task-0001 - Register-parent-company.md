@@ -4,7 +4,7 @@ title: Register parent company
 status: To Do
 assignee: []
 created_date: '2026-08-12 23:36'
-updated_date: '2026-08-14 07:38'
+updated_date: '2026-08-15 01:25'
 labels:
   - business-legal
 dependencies: []
@@ -40,4 +40,6 @@ Ruled out Tide/ANNA bank-bundled formation: no address service, so the home addr
 Key 2026 constraints captured: Companies House digital incorporation fee rose to GBP 100 on 1 Feb 2026; director/PSC identity verification mandatory since 18 Nov 2025 (get the personal code free via GOV.UK One Login); use a commercial registered office from incorporation, since suppressing a home address afterwards needs form SR01 at GBP 34 per document and cannot be done for a current registered office.
 
 AC #3 still needs your decision between the two shortlisted options; AC #4 (company name) is untouched.
+
+Structure clarified (Aug 2026): 'parent company' here means one trading Ltd operating multiple ad-funded websites under a single banner, sole director and shareholder - not a holding company owning subsidiaries. doc-0001's recommendation is unaffected. Practical consequences captured in doc-0002: banks reject holding companies and corporate PSCs, so if a successful site is later spun into its own company, holding it personally rather than under this company keeps the free bank accounts available. Company name should therefore be a portfolio-neutral banner, not tied to freecalculators.co.uk, since individual sites can trade under their own unregistered trading names.
 <!-- SECTION:NOTES:END -->
