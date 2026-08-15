@@ -45,12 +45,12 @@ export function DuringDealCard({
       )}
     >
       <div className="rounded-t-2xl bg-brand-subtle-foreground px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-        {copy['results.duringDealBadge']}
+        {copy['duringDealCard.badge']}
       </div>
       <div className="flex flex-col gap-4 p-5">
         <div>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            {copy['results.deal.monthlyPaymentLabel']}
+            {copy['duringDealCard.monthlyPaymentLabel']}
           </p>
           <p className="text-5xl font-bold text-brand-subtle-foreground">
             {monthlyPayment}
@@ -63,11 +63,11 @@ export function DuringDealCard({
             <dd>{totalPaid}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>{copy['results.interestPaymentsLabel']}</dt>
+            <dt>{copy['duringDealCard.interestPaymentsLabel']}</dt>
             <dd>{totalInterest}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>{copy['results.principalPaymentsLabel']}</dt>
+            <dt>{copy['duringDealCard.principalPaymentsLabel']}</dt>
             <dd>{totalPrincipal}</dd>
           </div>
         </dl>
@@ -83,12 +83,12 @@ export function DuringDealCard({
         )}
 
         <div className="flex justify-between border-t border-brand-border pt-1 text-sm font-semibold">
-          <dt>{copy['results.balanceAtEndLabel']}</dt>
+          <dt>{copy['duringDealCard.balanceAtEndLabel']}</dt>
           <dd>{balanceAtEnd}</dd>
         </div>
 
         <div className="rounded-md border border-brand-border bg-brand-subtle px-3 py-2.5 text-sm">
-          {copy['results.dealEndNoticePrefix']} {endDate}
+          {copy['duringDealCard.dealEndNoticePrefix']} {endDate}
         </div>
 
         <PaymentScheduleSection rows={paymentSchedule} />

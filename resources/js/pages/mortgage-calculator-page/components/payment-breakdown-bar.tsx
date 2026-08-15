@@ -16,11 +16,11 @@ export function PaymentBreakdownBar({
   return (
     <div>
       <h3 className="mb-2 text-sm font-semibold">
-        {copy['paymentBreakdown.heading']}
+        {copy['paymentBreakdownBar.heading']}
       </h3>
       <div
         role="img"
-        aria-label={`${copy['paymentBreakdown.principalPrefix']} ${principalPercentLabel}, ${copy['paymentBreakdown.interestPrefix']} ${interestPercentLabel}`}
+        aria-label={`${copy['paymentBreakdownBar.principalPrefix']} ${principalPercentLabel}, ${copy['paymentBreakdownBar.interestPrefix']} ${interestPercentLabel}`}
         className="flex h-2 w-full overflow-hidden rounded-full"
       >
         <span
@@ -34,10 +34,10 @@ export function PaymentBreakdownBar({
       </div>
       <div className="mt-2 flex justify-between text-sm">
         <span>
-          {copy['paymentBreakdown.principalPrefix']} {principalPercentLabel}
+          {copy['paymentBreakdownBar.principalPrefix']} {principalPercentLabel}
         </span>
         <span>
-          {copy['paymentBreakdown.interestPrefix']} {interestPercentLabel}
+          {copy['paymentBreakdownBar.interestPrefix']} {interestPercentLabel}
         </span>
       </div>
     </div>

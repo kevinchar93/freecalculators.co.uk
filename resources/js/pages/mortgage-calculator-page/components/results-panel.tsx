@@ -43,9 +43,9 @@ export function ResultsPanel({
   return (
     <div className="flex flex-col gap-6">
       <AdvertCard
-        heading={copy['results.adTopHeading']}
-        body={copy['results.adTopBody']}
-        linkText={copy['results.adTopLink']}
+        heading={copy['resultsPanel.adTopHeading']}
+        body={copy['resultsPanel.adTopBody']}
+        linkText={copy['resultsPanel.adTopLink']}
         linkHref=""
       />
 
@@ -125,9 +125,9 @@ export function ResultsPanel({
       )}
 
       <AdvertCard
-        heading={copy['results.adBottomHeading']}
-        body={copy['results.adBottomBody']}
-        linkText={copy['results.adBottomLink']}
+        heading={copy['resultsPanel.adBottomHeading']}
+        body={copy['resultsPanel.adBottomBody']}
+        linkText={copy['resultsPanel.adBottomLink']}
         linkHref=""
       />
     </div>

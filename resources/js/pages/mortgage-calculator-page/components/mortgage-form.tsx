@@ -93,7 +93,7 @@ export function MortgageForm({
           {/* mortgage type */}
           <fieldset>
             <legend className="mb-2 block text-sm font-medium">
-              {copy['form.mortgageType.FieldLabel']}
+              {copy['mortgageForm.mortgageType.FieldLabel']}
             </legend>
             <ToggleGroup
               type="single"
@@ -110,13 +110,13 @@ export function MortgageForm({
                 value="repayment"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                {copy['form.mortgageType.RepaymentOptionLabel']}
+                {copy['mortgageForm.mortgageType.RepaymentOptionLabel']}
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="interest-only"
                 className={cn('flex-1', toggleSelectedClass)}
               >
-                {copy['form.mortgageType.InterestOnlyOptionLabel']}
+                {copy['mortgageForm.mortgageType.InterestOnlyOptionLabel']}
               </ToggleGroupItem>
             </ToggleGroup>
           </fieldset>
@@ -124,19 +124,19 @@ export function MortgageForm({
           {/* property price */}
           <div>
             <Label htmlFor={`${formId}-propertyPrice`}>
-              {copy['form.propertyPrice.FieldLabel']}
+              {copy['mortgageForm.propertyPrice.FieldLabel']}
             </Label>
             <div className="mt-2 flex gap-2">
               <Button
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label={copy['form.propertyPrice.SubtractAria']}
+                aria-label={copy['mortgageForm.propertyPrice.SubtractAria']}
                 onClick={() =>
                   setPropertyPrice((value) => Math.max(0, value - 10000))
                 }
               >
-                {copy['form.propertyPrice.SubtractButtonLabel']}
+                {copy['mortgageForm.propertyPrice.SubtractButtonLabel']}
               </Button>
               <div className="flex grow items-center gap-2">
                 <span aria-hidden="true">£</span>
@@ -155,10 +155,10 @@ export function MortgageForm({
                 type="button"
                 variant="outline"
                 className="w-16"
-                aria-label={copy['form.propertyPrice.AddAria']}
+                aria-label={copy['mortgageForm.propertyPrice.AddAria']}
                 onClick={() => setPropertyPrice((value) => value + 10000)}
               >
-                {copy['form.propertyPrice.AddButtonLabel']}
+                {copy['mortgageForm.propertyPrice.AddButtonLabel']}
               </Button>
             </div>
           </div>
@@ -167,7 +167,7 @@ export function MortgageForm({
           <div>
             <div className="flex items-center justify-between">
               <Label htmlFor={`${formId}-deposit`}>
-                {copy['form.depositLabel']}
+                {copy['mortgageForm.depositLabel']}
               </Label>
               <ToggleGroup
                 type="single"
@@ -183,17 +183,17 @@ export function MortgageForm({
               >
                 <ToggleGroupItem
                   value="amount"
-                  aria-label={copy['form.depositModeAmountAria']}
+                  aria-label={copy['mortgageForm.depositModeAmountAria']}
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.depositModeAmountButton']}
+                  {copy['mortgageForm.depositModeAmountButton']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="percent"
-                  aria-label={copy['form.depositModePercentAria']}
+                  aria-label={copy['mortgageForm.depositModePercentAria']}
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.depositModePercentButton']}
+                  {copy['mortgageForm.depositModePercentButton']}
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
@@ -203,8 +203,8 @@ export function MortgageForm({
                 variant="outline"
                 aria-label={
                   depositMode === 'amount'
-                    ? copy['form.depositSubtractAmountAria']
-                    : copy['form.depositSubtractPercentAria']
+                    ? copy['mortgageForm.depositSubtractAmountAria']
+                    : copy['mortgageForm.depositSubtractPercentAria']
                 }
                 onClick={() =>
                   depositMode === 'amount'
@@ -213,8 +213,8 @@ export function MortgageForm({
                 }
               >
                 {depositMode === 'amount'
-                  ? copy['form.depositSubtractAmountButton']
-                  : copy['form.depositSubtractPercentButton']}
+                  ? copy['mortgageForm.depositSubtractAmountButton']
+                  : copy['mortgageForm.depositSubtractPercentButton']}
               </Button>
               <div className="flex grow items-center gap-2">
                 {depositMode === 'amount' && <span aria-hidden="true">£</span>}
@@ -237,8 +237,8 @@ export function MortgageForm({
                 variant="outline"
                 aria-label={
                   depositMode === 'amount'
-                    ? copy['form.depositAddAmountAria']
-                    : copy['form.depositAddPercentAria']
+                    ? copy['mortgageForm.depositAddAmountAria']
+                    : copy['mortgageForm.depositAddPercentAria']
                 }
                 onClick={() =>
                   depositMode === 'amount'
@@ -247,14 +247,14 @@ export function MortgageForm({
                 }
               >
                 {depositMode === 'amount'
-                  ? copy['form.depositAddAmountButton']
-                  : copy['form.depositAddPercentButton']}
+                  ? copy['mortgageForm.depositAddAmountButton']
+                  : copy['mortgageForm.depositAddPercentButton']}
               </Button>
             </div>
             <div className="mt-3 flex">
               <div className="inline-flex items-center gap-2">
                 <span className="text-sm font-medium">
-                  {copy['form.loanToValueLabel']}
+                  {copy['mortgageForm.loanToValueLabel']}
                 </span>
                 <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
                   {loanToValue.toFixed(1)}%
@@ -267,7 +267,7 @@ export function MortgageForm({
           <div className="grid grid-cols-1 gap-5">
             <div>
               <Label htmlFor={`${formId}-mortgageTerm`}>
-                {copy['form.mortgageTermLabel']}
+                {copy['mortgageForm.mortgageTermLabel']}
               </Label>
               <div className="mt-2 flex items-center gap-2">
                 <Input
@@ -281,7 +281,7 @@ export function MortgageForm({
                   }
                 />
                 <span aria-hidden="true">
-                  {copy['form.mortgageTermYearsSuffix']}
+                  {copy['mortgageForm.mortgageTermYearsSuffix']}
                 </span>
               </div>
               <ToggleGroup
@@ -299,32 +299,32 @@ export function MortgageForm({
                   value="15"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.mortgageTerm15Label']}
+                  {copy['mortgageForm.mortgageTerm15Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="20"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.mortgageTerm20Label']}
+                  {copy['mortgageForm.mortgageTerm20Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="25"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.mortgageTerm25Label']}
+                  {copy['mortgageForm.mortgageTerm25Label']}
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value="30"
                   className={cn('flex-1', toggleSelectedClass)}
                 >
-                  {copy['form.mortgageTerm30Label']}
+                  {copy['mortgageForm.mortgageTerm30Label']}
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
 
             <div>
               <Label htmlFor={`${formId}-interestRate`}>
-                {copy['form.interestRateLabel']}
+                {copy['mortgageForm.interestRateLabel']}
               </Label>
               <div className="mt-2 flex items-center gap-2">
                 <Input
@@ -343,7 +343,7 @@ export function MortgageForm({
               </div>
               {hasDeal && isTracker && (
                 <p className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
-                  {copy['form.interestRateDisabledNotice']}
+                  {copy['mortgageForm.interestRateDisabledNotice']}
                 </p>
               )}
             </div>
@@ -352,7 +352,7 @@ export function MortgageForm({
           {/* start date */}
           <div>
             <Label htmlFor={`${formId}-startDate`}>
-              {copy['form.startDateLabel']}
+              {copy['mortgageForm.startDateLabel']}
             </Label>
             <Input
               type="month"
@@ -370,14 +370,14 @@ export function MortgageForm({
               checked={hasDeal}
               onCheckedChange={(checked) => setHasDeal(checked === true)}
             />
-            {copy['form.hasDealCheckboxLabel']}
+            {copy['mortgageForm.hasDealCheckboxLabel']}
           </label>
 
           {hasDeal && (
             <div className="flex flex-col gap-5 rounded-md border border-brand-border bg-brand-subtle p-4">
               <fieldset>
                 <legend className="mb-2 block text-sm font-medium">
-                  {copy['form.dealTypeLegend']}
+                  {copy['mortgageForm.dealTypeLegend']}
                 </legend>
                 <ToggleGroup
                   type="single"
@@ -394,13 +394,13 @@ export function MortgageForm({
                     value="fixed"
                     className={cn('flex-1', toggleSelectedClass)}
                   >
-                    {copy['form.dealTypeFixed']}
+                    {copy['mortgageForm.dealTypeFixed']}
                   </ToggleGroupItem>
                   <ToggleGroupItem
                     value="tracker"
                     className={cn('flex-1', toggleSelectedClass)}
                   >
-                    {copy['form.dealTypeTracker']}
+                    {copy['mortgageForm.dealTypeTracker']}
                   </ToggleGroupItem>
                 </ToggleGroup>
               </fieldset>
@@ -409,7 +409,7 @@ export function MortgageForm({
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <Label htmlFor={`${formId}-baseRate`}>
-                      {copy['form.baseRateLabel']}
+                      {copy['mortgageForm.baseRateLabel']}
                     </Label>
                     <div className="mt-2 flex items-center gap-2">
                       <Input
@@ -428,7 +428,7 @@ export function MortgageForm({
                   </div>
                   <div>
                     <Label htmlFor={`${formId}-margin`}>
-                      {copy['form.marginLabel']}
+                      {copy['mortgageForm.marginLabel']}
                     </Label>
                     <div className="mt-2 flex items-center gap-2">
                       <Input
@@ -450,7 +450,7 @@ export function MortgageForm({
 
               <div>
                 <Label htmlFor={`${formId}-dealTerm`}>
-                  {copy['form.dealTermLabel']}
+                  {copy['mortgageForm.dealTermLabel']}
                 </Label>
                 <div className="mt-2 flex items-center gap-2">
                   <Input
@@ -464,13 +464,13 @@ export function MortgageForm({
                     }
                   />
                   <span aria-hidden="true">
-                    {copy['form.dealTermYearsSuffix']}
+                    {copy['mortgageForm.dealTermYearsSuffix']}
                   </span>
                 </div>
               </div>
 
               <div>
-                <Label htmlFor={`${formId}-svr`}>{copy['form.svrLabel']}</Label>
+                <Label htmlFor={`${formId}-svr`}>{copy['mortgageForm.svrLabel']}</Label>
                 <div className="mt-2 flex items-center gap-2">
                   <Input
                     type="number"
@@ -484,7 +484,7 @@ export function MortgageForm({
                   <span aria-hidden="true">%</span>
                 </div>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  {copy['form.svrNotice']}
+                  {copy['mortgageForm.svrNotice']}
                 </p>
               </div>
             </div>
@@ -495,7 +495,7 @@ export function MortgageForm({
             size="lg"
             className="bg-brand text-brand-foreground hover:bg-brand/90"
           >
-            {copy['form.submitButton']}
+            {copy['mortgageForm.submitButton']}
           </Button>
         </div>
       </form>

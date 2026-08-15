@@ -45,12 +45,12 @@ export function AfterDealCard({
       )}
     >
       <div className="rounded-t-2xl bg-neutral-500 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-        {copy['results.afterDealBadge']}
+        {copy['afterDealCard.badge']}
       </div>
       <div className="flex flex-col gap-4 p-5">
         <div>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            {copy['results.deal.monthlyPaymentLabel']}
+            {copy['afterDealCard.monthlyPaymentLabel']}
           </p>
           <p className="text-4xl font-bold">{monthlyPayment}</p>
           <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
@@ -64,7 +64,7 @@ export function AfterDealCard({
             <dd>{totalPaid}</dd>
           </div>
           <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
-            <dt>{copy['results.totalInterestLabel']}</dt>
+            <dt>{copy['afterDealCard.totalInterestLabel']}</dt>
             <dd>{totalInterest}</dd>
           </div>
         </dl>

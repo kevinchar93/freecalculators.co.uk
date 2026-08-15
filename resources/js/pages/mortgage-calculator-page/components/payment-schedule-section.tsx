@@ -16,27 +16,27 @@ export function PaymentScheduleSection({ rows }: { rows: ScheduleRow[] }) {
           variant="outline"
           className="w-full justify-between"
         >
-          {copy['paymentSchedule.triggerButton']}
+          {copy['paymentScheduleSection.triggerButton']}
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="mt-2 max-h-85 overflow-auto rounded-md border border-brand-border">
         <table className="w-full text-left text-sm">
           <caption className="sr-only">
-            {copy['paymentSchedule.captionSr']}
+            {copy['paymentScheduleSection.captionSr']}
           </caption>
           <thead>
             <tr>
               <th scope="col" className="px-3 py-2">
-                {copy['paymentSchedule.columnMonth']}
+                {copy['paymentScheduleSection.columnMonth']}
               </th>
               <th scope="col" className="px-3 py-2">
-                {copy['paymentSchedule.columnInterest']}
+                {copy['paymentScheduleSection.columnInterest']}
               </th>
               <th scope="col" className="px-3 py-2">
-                {copy['paymentSchedule.columnPrincipal']}
+                {copy['paymentScheduleSection.columnPrincipal']}
               </th>
               <th scope="col" className="px-3 py-2">
-                {copy['paymentSchedule.columnBalance']}
+                {copy['paymentScheduleSection.columnBalance']}
               </th>
             </tr>
           </thead>

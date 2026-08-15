@@ -50,12 +50,12 @@ export function SingleResultCard({
     >
       <div className="p-5">
         <h2 className="mb-4 text-xl font-semibold">
-          {copy['results.noDeal.yourResultsHeading']}
+          {copy['singleResultCard.yourResultsHeading']}
         </h2>
         <div className="flex flex-col gap-4">
           <div>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              {copy['results.noDeal.monthlyPaymentLabel']}
+              {copy['singleResultCard.monthlyPaymentLabel']}
             </p>
             <p className="text-5xl font-bold text-brand-subtle-foreground">
               {monthlyPayment}
@@ -64,25 +64,25 @@ export function SingleResultCard({
 
           <dl className="flex flex-col gap-2 border-t border-brand-border pt-4 text-sm">
             <div className="flex justify-between">
-              <dt>{copy['results.housePriceLabel']}</dt>
+              <dt>{copy['singleResultCard.housePriceLabel']}</dt>
               <dd>{housePrice}</dd>
             </div>
             <div className="flex justify-between">
-              <dt>{copy['results.depositLabel']}</dt>
+              <dt>{copy['singleResultCard.depositLabel']}</dt>
               <dd>
                 {deposit} ({depositPercentage})
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt>{copy['results.loanAmountLabel']}</dt>
+              <dt>{copy['singleResultCard.loanAmountLabel']}</dt>
               <dd>{loan}</dd>
             </div>
             <div className="flex justify-between">
-              <dt>{copy['results.totalInterestLabel']}</dt>
+              <dt>{copy['singleResultCard.totalInterestLabel']}</dt>
               <dd>{totalInterest}</dd>
             </div>
             <div className="flex justify-between font-semibold">
-              <dt>{copy['results.totalPaidLabel']}</dt>
+              <dt>{copy['singleResultCard.totalPaidLabel']}</dt>
               <dd>{totalPaid}</dd>
             </div>
           </dl>
