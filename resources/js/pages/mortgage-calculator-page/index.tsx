@@ -1,58 +1,18 @@
 import { Head, Link } from '@inertiajs/react';
 import { blog } from '@/routes';
-import {
-  calcLoanAmount,
-  depositPercentToAmount,
-  calcLoanToValue,
-} from './calculations';
 import { MortgageForm } from './components/mortgage-form';
 import { ResultsPanel } from './components/results-panel';
 import copy from './copy.json';
 import { useMortgageStore } from './store';
 
 export default function MortgageCalculatorPage() {
-  const {
-    mortgageType,
-    setMortgageType,
-    propertyPrice,
-    setPropertyPrice,
-    depositMode,
-    setDepositMode,
-    deposit,
-    setDeposit,
-    depositPercent,
-    setDepositPercent,
-    mortgageTerm,
-    setMortgageTerm,
-    interestRate,
-    setInterestRate,
-    startDate,
-    setStartDate,
-    hasDeal,
-    setHasDeal,
-    dealType,
-    setDealType,
-    dealTerm,
-    setDealTerm,
-    svr,
-    setSvr,
-    baseRate,
-    setBaseRate,
-    margin,
-    setMargin,
-  } = useMortgageStore();
+  const mortgageType = useMortgageStore((s) => s.mortgageType);
+  const hasDeal = useMortgageStore((s) => s.hasDeal);
+  const dealTerm = useMortgageStore((s) => s.dealTerm);
+  const mortgageTerm = useMortgageStore((s) => s.mortgageTerm);
 
   const isInterestOnly = mortgageType === 'interest-only';
-  const isTracker = dealType === 'tracker';
   const showAfterDealCard = hasDeal && dealTerm < mortgageTerm;
-
-  const depositAmount =
-    depositMode === 'amount'
-      ? deposit
-      : depositPercentToAmount(propertyPrice, depositPercent);
-
-  const loanAmount = calcLoanAmount(propertyPrice, depositAmount);
-  const loanToValue = calcLoanToValue(propertyPrice, loanAmount);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -79,39 +39,7 @@ export default function MortgageCalculatorPage() {
           </p>
         </div>
         <div className="mx-auto mt-8 grid max-w-120 grid-cols-1 gap-6 px-4 sm:px-6 md:max-w-240 md:grid-cols-[13fr_9fr] md:items-start lg:px-8">
-          <MortgageForm
-            mortgageType={mortgageType}
-            setMortgageType={setMortgageType}
-            propertyPrice={propertyPrice}
-            setPropertyPrice={setPropertyPrice}
-            depositMode={depositMode}
-            onDepositModeChange={setDepositMode}
-            deposit={deposit}
-            setDeposit={setDeposit}
-            depositPercent={depositPercent}
-            setDepositPercent={setDepositPercent}
-            loanToValue={loanToValue}
-            mortgageTerm={mortgageTerm}
-            setMortgageTerm={setMortgageTerm}
-            interestRate={interestRate}
-            setInterestRate={setInterestRate}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            hasDeal={hasDeal}
-            setHasDeal={setHasDeal}
-            isTracker={isTracker}
-            dealType={dealType}
-            setDealType={setDealType}
-            dealTerm={dealTerm}
-            setDealTerm={setDealTerm}
-            svr={svr}
-            setSvr={setSvr}
-            baseRate={baseRate}
-            setBaseRate={setBaseRate}
-            margin={margin}
-            setMargin={setMargin}
-            onSubmit={handleSubmit}
-          />
+          <MortgageForm onSubmit={handleSubmit} />
 
           <ResultsPanel
             isInterestOnly={isInterestOnly}
