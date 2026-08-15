@@ -35,7 +35,10 @@ export function SingleResultCard({
 }: SingleResultCardProps) {
   return (
     <Card
-      className={cn('rounded-2xl border-brand-border p-0', frostedCardClass)}
+      className={cn(
+        'gap-0 rounded-2xl border-brand-border p-0',
+        frostedCardClass,
+      )}
     >
       <div className="p-5">
         <h2 className="mb-4 text-xl font-semibold">
@@ -90,10 +93,10 @@ export function SingleResultCard({
           </div>
 
           {showVehicleNotice && <RepaymentVehicleNotice loanAmount={loan} />}
-
-          <PaymentScheduleSection rows={paymentSchedule} />
         </div>
       </div>
+
+      <PaymentScheduleSection rows={paymentSchedule} tone="brand" />
     </Card>
   );
 }

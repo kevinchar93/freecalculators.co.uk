@@ -90,9 +90,9 @@ export function DuringDealCard({
             </span>
           </div>
         </div>
-
-        <PaymentScheduleSection rows={paymentSchedule} />
       </div>
+
+      <PaymentScheduleSection rows={paymentSchedule} tone="brand" />
     </Card>
   );
 }

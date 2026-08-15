@@ -88,9 +88,9 @@ export function AfterDealCard({
             </span>
           </div>
         </div>
-
-        <PaymentScheduleSection rows={paymentSchedule} />
       </div>
+
+      <PaymentScheduleSection rows={paymentSchedule} tone="neutral" />
     </Card>
   );
 }
