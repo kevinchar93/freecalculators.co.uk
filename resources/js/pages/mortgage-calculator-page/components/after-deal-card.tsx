@@ -71,17 +71,22 @@ export function AfterDealCard({
             <dt>{copy['afterDealCard.principalPaymentsLabel']}</dt>
             <dd>{totalPrincipal}</dd>
           </div>
-          <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
+        </dl>
+
+        <div className="border-t border-brand-border pt-1"></div>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between text-sm font-semibold">
             <dt>{totalPaidLabel}</dt>
             <dd>{totalPaid}</dd>
           </div>
-        </dl>
 
-        <div className="flex justify-between text-sm font-semibold">
-          <span>{dateLabel}</span>
-          <span className="rounded-lg bg-neutral-200 px-3 py-1 text-sm font-semibold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-            {endDate}
-          </span>
+          <div className="flex justify-between text-sm font-semibold">
+            <span>{dateLabel}</span>
+            <span className="rounded-lg bg-neutral-200 px-3 py-1 text-sm font-semibold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+              {endDate}
+            </span>
+          </div>
         </div>
 
         <PaymentScheduleSection rows={paymentSchedule} />

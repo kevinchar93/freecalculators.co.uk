@@ -72,21 +72,23 @@ export function DuringDealCard({
 
         <div className="border-t border-brand-border pt-1"></div>
 
-        <div className="flex justify-between text-sm font-semibold">
-          <dt>{totalPaidLabel}</dt>
-          <dd>{totalPaid}</dd>
-        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between text-sm font-semibold">
+            <dt>{totalPaidLabel}</dt>
+            <dd>{totalPaid}</dd>
+          </div>
 
-        <div className="flex justify-between text-sm font-semibold">
-          <dt>{copy['duringDealCard.balanceAtEndLabel']}</dt>
-          <dd>{balanceAtEnd}</dd>
-        </div>
+          <div className="flex justify-between text-sm font-semibold">
+            <dt>{copy['duringDealCard.balanceAtEndLabel']}</dt>
+            <dd>{balanceAtEnd}</dd>
+          </div>
 
-        <div className="flex justify-between text-sm font-semibold">
-          <span>{dateLabel}</span>
-          <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-            {endDate}
-          </span>
+          <div className="flex justify-between text-sm font-semibold">
+            <span>{dateLabel}</span>
+            <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+              {endDate}
+            </span>
+          </div>
         </div>
 
         <PaymentScheduleSection rows={paymentSchedule} />

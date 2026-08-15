@@ -54,7 +54,7 @@ export function SingleResultCard({
             </p>
           </div>
 
-          <dl className="flex flex-col gap-2 border-t border-brand-border pt-4 text-sm">
+          <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
             <div className="flex justify-between">
               <dt>{copy['singleResultCard.housePriceLabel']}</dt>
               <dd>{housePrice}</dd>
@@ -75,16 +75,18 @@ export function SingleResultCard({
 
           <div className="border-t border-brand-border pt-1"></div>
 
-          <div className="flex justify-between text-sm font-semibold">
-            <span>{copy['singleResultCard.totalPaidLabel']}</span>
-            <span>{totalPaid}</span>
-          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between text-sm font-semibold">
+              <span>{copy['singleResultCard.totalPaidLabel']}</span>
+              <span>{totalPaid}</span>
+            </div>
 
-          <div className="flex justify-between text-sm font-semibold">
-            <span>{dateLabel}</span>
-            <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-              {endDate}
-            </span>
+            <div className="flex justify-between text-sm font-semibold">
+              <span>{dateLabel}</span>
+              <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                {endDate}
+              </span>
+            </div>
           </div>
 
           {showVehicleNotice && <RepaymentVehicleNotice loanAmount={loan} />}

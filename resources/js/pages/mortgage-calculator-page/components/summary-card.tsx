@@ -33,7 +33,7 @@ export function SummaryCard({
       <div className="rounded-t-2xl bg-neutral-700 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
         {copy['summaryCard.badge']}
       </div>
-      <div className="p-5">
+      <div className="flex flex-col gap-4 p-5">
         <dl className="flex flex-col gap-1 text-sm">
           <div className="flex justify-between">
             <dt>{copy['summaryCard.housePriceLabel']}</dt>
@@ -51,17 +51,16 @@ export function SummaryCard({
             <dt>{copy['summaryCard.totalInterestLabel']}</dt>
             <dd>{totalInterest}</dd>
           </div>
-          <div className="flex justify-between border-t border-brand-border pt-1 font-semibold">
-            <dt>{totalPaidLabel}</dt>
-            <dd>{totalPaid}</dd>
-          </div>
         </dl>
 
-        {showVehicleNotice && (
-          <div className="mt-4">
-            <RepaymentVehicleNotice loanAmount={loan} />
-          </div>
-        )}
+        <div className="border-t border-brand-border pt-1"></div>
+
+        <div className="flex justify-between text-sm font-semibold">
+          <dt>{totalPaidLabel}</dt>
+          <dd>{totalPaid}</dd>
+        </div>
+
+        {showVehicleNotice && <RepaymentVehicleNotice loanAmount={loan} />}
       </div>
     </Card>
   );
