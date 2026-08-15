@@ -32,3 +32,15 @@ export function formatGBP(value: number): string {
 export function formatPercent(value: number): string {
   return `${value.toFixed(1)}%`;
 }
+
+export function formatDuration(months: number): string {
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+  const yearsPart = years > 0 ? `${years} year${years === 1 ? '' : 's'}` : '';
+  const monthsPart =
+    remainingMonths > 0
+      ? `${remainingMonths} month${remainingMonths === 1 ? '' : 's'}`
+      : '';
+
+  return [yearsPart, monthsPart].filter(Boolean).join(', ');
+}

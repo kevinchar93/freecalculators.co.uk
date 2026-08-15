@@ -88,15 +88,11 @@ export function buildAmortisationSchedule(
   return rows;
 }
 
-export function changeText(increase: number, percent?: number): string {
-  const sign = increase >= 0 ? '+' : '−';
+export function changeText(increase: number): string {
   const magnitude = formatGBP(Math.abs(increase));
-  const suffix =
-    percent === undefined
-      ? ''
-      : ` (${increase >= 0 ? '+' : '−'}${Math.abs(percent).toFixed(1)}%)`;
+  const direction = increase >= 0 ? 'An increase' : 'A decrease';
 
-  return `${sign}${magnitude} once your deal ends${suffix}`;
+  return `${direction} of ${magnitude} when your deal ends`;
 }
 
 export function depositPercentToAmount(propertyPrice: number, depositPercent: number): number {

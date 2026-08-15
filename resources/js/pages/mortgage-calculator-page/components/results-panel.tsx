@@ -52,9 +52,9 @@ export function ResultsPanel({
       {!hasDeal && (
         <SingleResultCard
           monthlyPayment={single.monthly}
+          paymentTermText={single.paymentTermText}
           housePrice={single.housePrice}
           deposit={single.deposit}
-          depositPercentage={single.depositPercentage}
           loan={single.loan}
           totalInterest={single.totalInterest}
           totalPaid={single.totalPaid}
@@ -62,11 +62,6 @@ export function ResultsPanel({
           endDate={single.date}
           showVehicleNotice={single.showVehicleNotice}
           paymentSchedule={single.schedule}
-          showSplit={single.showSplit}
-          principalPercent={single.principalPercent}
-          interestPercent={single.interestPercent}
-          principalPercentLabel={single.principalPercentLabel}
-          interestPercentLabel={single.interestPercentLabel}
         />
       )}
 
@@ -74,52 +69,42 @@ export function ResultsPanel({
         <>
           <DuringDealCard
             monthlyPayment={during.monthly}
+            paymentTermText={during.paymentTermText}
+            loan={during.loan}
             totalPaidLabel={during.totalPaidLabel}
             totalPaid={during.totalPaid}
             totalInterest={during.totalInterest}
             totalPrincipal={during.totalPrincipal}
             balanceAtEnd={during.balanceAtEnd}
+            dateLabel={during.dateLabel}
             endDate={during.date}
             paymentSchedule={during.schedule}
-            showSplit={during.showSplit}
-            principalPercent={during.principalPercent}
-            interestPercent={during.interestPercent}
-            principalPercentLabel={during.principalPercentLabel}
-            interestPercentLabel={during.interestPercentLabel}
           />
 
           {showAfterDealCard && (
             <AfterDealCard
               monthlyPayment={after.monthly}
+              paymentTermText={after.paymentTermText}
               changeText={after.changeText}
+              loan={after.loan}
               totalPaidLabel={after.totalPaidLabel}
               totalPaid={after.totalPaid}
               totalInterest={after.totalInterest}
+              totalPrincipal={after.totalPrincipal}
               dateLabel={after.dateLabel}
               endDate={after.date}
               paymentSchedule={after.schedule}
-              showSplit={after.showSplit}
-              principalPercent={after.principalPercent}
-              interestPercent={after.interestPercent}
-              principalPercentLabel={after.principalPercentLabel}
-              interestPercentLabel={after.interestPercentLabel}
             />
           )}
 
           <SummaryCard
             housePrice={summary.housePrice}
             deposit={summary.deposit}
-            depositPercentage={summary.depositPercentage}
             loan={summary.loan}
             totalPaidLabel={summary.totalPaidLabel}
             totalPaid={summary.totalPaid}
             totalInterest={summary.totalInterest}
             showVehicleNotice={summary.showVehicleNotice}
-            showSplit={summary.showSplit}
-            principalPercent={summary.principalPercent}
-            interestPercent={summary.interestPercent}
-            principalPercentLabel={summary.principalPercentLabel}
-            interestPercentLabel={summary.interestPercentLabel}
           />
         </>
       )}

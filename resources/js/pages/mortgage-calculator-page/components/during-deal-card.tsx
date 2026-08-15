@@ -3,39 +3,34 @@ import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { ScheduleRow } from '../types';
 import { frostedCardClass } from '../styles';
-import { PaymentBreakdownBar } from './payment-breakdown-bar';
 import { PaymentScheduleSection } from './payment-schedule-section';
 
 interface DuringDealCardProps {
   monthlyPayment: string;
+  paymentTermText: string;
+  loan: string;
   totalPaidLabel: string;
   totalPaid: string;
   totalInterest: string;
   totalPrincipal: string;
   balanceAtEnd: string;
+  dateLabel: string;
   endDate: string;
   paymentSchedule: ScheduleRow[];
-  showSplit: boolean;
-  principalPercent: number;
-  interestPercent: number;
-  principalPercentLabel: string;
-  interestPercentLabel: string;
 }
 
 export function DuringDealCard({
   monthlyPayment,
+  paymentTermText,
+  loan,
   totalPaidLabel,
   totalPaid,
   totalInterest,
   totalPrincipal,
   balanceAtEnd,
+  dateLabel,
   endDate,
   paymentSchedule,
-  showSplit,
-  principalPercent,
-  interestPercent,
-  principalPercentLabel,
-  interestPercentLabel,
 }: DuringDealCardProps) {
   return (
     <Card
@@ -53,14 +48,17 @@ export function DuringDealCard({
             {copy['duringDealCard.monthlyPaymentLabel']}
           </p>
           <p className="text-5xl font-bold text-brand-subtle-foreground">
-            {monthlyPayment}
+            {monthlyPayment}{' '}
+            <span className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+              ({paymentTermText})
+            </span>
           </p>
         </div>
 
         <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
           <div className="flex justify-between">
-            <dt>{totalPaidLabel}</dt>
-            <dd>{totalPaid}</dd>
+            <dt>{copy['duringDealCard.loanAmountLabel']}</dt>
+            <dd>{loan}</dd>
           </div>
           <div className="flex justify-between">
             <dt>{copy['duringDealCard.interestPaymentsLabel']}</dt>
@@ -72,23 +70,23 @@ export function DuringDealCard({
           </div>
         </dl>
 
-        {showSplit && (
-          <PaymentBreakdownBar
-            principalPercent={principalPercent}
-            interestPercent={interestPercent}
-            principalPercentLabel={principalPercentLabel}
-            interestPercentLabel={interestPercentLabel}
-            barClassName="bg-brand-subtle-foreground"
-          />
-        )}
+        <div className="border-t border-brand-border pt-1"></div>
 
-        <div className="flex justify-between border-t border-brand-border pt-1 text-sm font-semibold">
+        <div className="flex justify-between text-sm font-semibold">
+          <dt>{totalPaidLabel}</dt>
+          <dd>{totalPaid}</dd>
+        </div>
+
+        <div className="flex justify-between text-sm font-semibold">
           <dt>{copy['duringDealCard.balanceAtEndLabel']}</dt>
           <dd>{balanceAtEnd}</dd>
         </div>
 
-        <div className="rounded-md border border-brand-border bg-brand-subtle px-3 py-2.5 text-sm">
-          {copy['duringDealCard.dealEndNoticePrefix']} {endDate}
+        <div className="flex justify-between text-sm font-semibold">
+          <span>{dateLabel}</span>
+          <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+            {endDate}
+          </span>
         </div>
 
         <PaymentScheduleSection rows={paymentSchedule} />

@@ -3,15 +3,14 @@ import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { ScheduleRow } from '../types';
 import { frostedCardClass } from '../styles';
-import { PaymentBreakdownBar } from './payment-breakdown-bar';
 import { PaymentScheduleSection } from './payment-schedule-section';
 import { RepaymentVehicleNotice } from './repayment-vehicle-notice';
 
 interface SingleResultCardProps {
   monthlyPayment: string;
+  paymentTermText: string;
   housePrice: string;
   deposit: string;
-  depositPercentage: string;
   loan: string;
   totalInterest: string;
   totalPaid: string;
@@ -19,18 +18,13 @@ interface SingleResultCardProps {
   endDate: string;
   showVehicleNotice: boolean;
   paymentSchedule: ScheduleRow[];
-  showSplit: boolean;
-  principalPercent: number;
-  interestPercent: number;
-  principalPercentLabel: string;
-  interestPercentLabel: string;
 }
 
 export function SingleResultCard({
   monthlyPayment,
+  paymentTermText,
   housePrice,
   deposit,
-  depositPercentage,
   loan,
   totalInterest,
   totalPaid,
@@ -38,11 +32,6 @@ export function SingleResultCard({
   endDate,
   showVehicleNotice,
   paymentSchedule,
-  showSplit,
-  principalPercent,
-  interestPercent,
-  principalPercentLabel,
-  interestPercentLabel,
 }: SingleResultCardProps) {
   return (
     <Card
@@ -58,7 +47,10 @@ export function SingleResultCard({
               {copy['singleResultCard.monthlyPaymentLabel']}
             </p>
             <p className="text-5xl font-bold text-brand-subtle-foreground">
-              {monthlyPayment}
+              {monthlyPayment}{' '}
+              <span className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+                ({paymentTermText})
+              </span>
             </p>
           </div>
 
@@ -69,9 +61,7 @@ export function SingleResultCard({
             </div>
             <div className="flex justify-between">
               <dt>{copy['singleResultCard.depositLabel']}</dt>
-              <dd>
-                {deposit} ({depositPercentage})
-              </dd>
+              <dd>{deposit}</dd>
             </div>
             <div className="flex justify-between">
               <dt>{copy['singleResultCard.loanAmountLabel']}</dt>
@@ -81,23 +71,14 @@ export function SingleResultCard({
               <dt>{copy['singleResultCard.totalInterestLabel']}</dt>
               <dd>{totalInterest}</dd>
             </div>
-            <div className="flex justify-between font-semibold">
-              <dt>{copy['singleResultCard.totalPaidLabel']}</dt>
-              <dd>{totalPaid}</dd>
-            </div>
           </dl>
 
           <div className="border-t border-brand-border pt-1"></div>
 
-          {showSplit && (
-            <PaymentBreakdownBar
-              principalPercent={principalPercent}
-              interestPercent={interestPercent}
-              principalPercentLabel={principalPercentLabel}
-              interestPercentLabel={interestPercentLabel}
-              barClassName="bg-brand-subtle-foreground"
-            />
-          )}
+          <div className="flex justify-between text-sm font-semibold">
+            <span>{copy['singleResultCard.totalPaidLabel']}</span>
+            <span>{totalPaid}</span>
+          </div>
 
           <div className="flex justify-between text-sm font-semibold">
             <span>{dateLabel}</span>
