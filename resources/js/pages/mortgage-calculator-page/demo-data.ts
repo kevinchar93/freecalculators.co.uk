@@ -21,7 +21,8 @@ const DEMO_DEAL_MONTHS = 60;
 const DEMO_POST_DEAL_MONTHS = DEMO_TERM_MONTHS - DEMO_DEAL_MONTHS;
 const DEMO_WHOLE_TERM_RATE = 5.25 / 100 / 12;
 const DEMO_SVR_RATE = 7.5 / 100 / 12;
-const DEMO_DEPOSIT_LINE = `${formatGBP(DEMO_DEPOSIT)} (${formatPercent(DEMO_DEPOSIT_PERCENT)})`;
+const DEMO_DEPOSIT_FORMATTED = formatGBP(DEMO_DEPOSIT);
+const DEMO_DEPOSIT_PERCENT_FORMATTED = formatPercent(DEMO_DEPOSIT_PERCENT);
 
 // "Your Results" (no deal period)
 const noDealMonthlyRepay = monthlyRepayment(
@@ -45,7 +46,8 @@ const noDealTotalPaidIO = noDealMonthlyIO * DEMO_TERM_MONTHS;
 export const singleCardRepayment = {
   monthly: formatGBP(noDealMonthlyRepay),
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
-  depositLine: DEMO_DEPOSIT_LINE,
+  deposit: DEMO_DEPOSIT_FORMATTED,
+  depositPercentage: DEMO_DEPOSIT_PERCENT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} months)`,
   totalPaid: formatGBP(noDealTotalPaidRepay),
@@ -68,7 +70,8 @@ export const singleCardRepayment = {
 export const singleCardInterestOnly = {
   monthly: formatGBP(noDealMonthlyIO),
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
-  depositLine: DEMO_DEPOSIT_LINE,
+  deposit: DEMO_DEPOSIT_FORMATTED,
+  depositPercentage: DEMO_DEPOSIT_PERCENT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} months)`,
   totalPaid: formatGBP(noDealTotalPaidIO),
@@ -243,7 +246,8 @@ const summaryTotalPaidIO = dealTotalPaidIO + postTotalPaidIO;
 
 export const summaryCardRepayment = {
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
-  depositLine: DEMO_DEPOSIT_LINE,
+  deposit: DEMO_DEPOSIT_FORMATTED,
+  depositPercentage: DEMO_DEPOSIT_PERCENT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} monthly payments)`,
   totalPaid: formatGBP(summaryTotalPaidRepay),
@@ -255,7 +259,8 @@ export const summaryCardRepayment = {
 
 export const summaryCardInterestOnly = {
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
-  depositLine: DEMO_DEPOSIT_LINE,
+  deposit: DEMO_DEPOSIT_FORMATTED,
+  depositPercentage: DEMO_DEPOSIT_PERCENT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} monthly payments)`,
   totalPaid: formatGBP(summaryTotalPaidIO),

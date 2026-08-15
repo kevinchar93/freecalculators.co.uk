@@ -9,7 +9,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { DealType, DepositMode, MortgageType } from '../types';
-import { frostedCardClass } from './results-panel';
+import { frostedCardClass } from '../styles';
 
 const toggleSelectedClass =
   'data-[state=on]:border-brand data-[state=on]:bg-brand data-[state=on]:text-brand-foreground data-[state=off]:bg-background';

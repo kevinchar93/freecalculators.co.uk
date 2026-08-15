@@ -44,7 +44,6 @@ export default function MortgageCalculatorPage() {
 
   const isInterestOnly = mortgageType === 'interest-only';
   const isTracker = dealType === 'tracker';
-  const showSingleCard = !hasDeal;
   const showAfterDealCard = hasDeal && dealTerm < mortgageTerm;
 
   const depositAmount =
@@ -117,7 +116,6 @@ export default function MortgageCalculatorPage() {
           <ResultsPanel
             isInterestOnly={isInterestOnly}
             hasDeal={hasDeal}
-            showSingleCard={showSingleCard}
             showAfterDealCard={showAfterDealCard}
           />
         </div>
