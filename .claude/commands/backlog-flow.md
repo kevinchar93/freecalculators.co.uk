@@ -45,6 +45,14 @@ For the chosen task only: **research the current codebase** and write an impleme
 into the task (via the CLI). Do the research now so the plan reflects the code as it actually
 is today.
 
+The plan should contain
+- a summary of the steps that will be performed and in what order
+- a list of the files that will be created, the path to them & their name
+  - nested in that list is any key functions / methods
+    - nested under each is brief 1 line summary about the responsibility or its purpose
+- for changes a similar list is to be created but not what the key changes will be
+- the aim is so the programmer can have input on the file names shape & purpose early on so there is not too much tweaking  
+
 🛑 **Checkpoint #2** — Stop. Present the plan and wait for my explicit approval. Do not write
 any implementation code until I approve. If I ask for changes, revise the plan and re-present.
 

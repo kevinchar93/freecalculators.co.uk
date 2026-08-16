@@ -98,7 +98,7 @@ When breaking down features:
 ### Additional task requirements
 
 - Tasks must be **atomic** and **testable**. If a task is too large, break it down into smaller subtasks.
-  Each task should represent a single unit of work that can be completed in a single PR.
+  Each task should represent a single unit of work that can be completed in a single PR under 400-600 lines of code.
 
 - **Never** reference tasks that are to be done in the future or that are not yet created. You can only reference
   previous tasks (id < current task id).
@@ -125,6 +125,14 @@ Short, imperative explanation of the goal of the task and why it is needed.
 - [ ] P95 latency ≤ 50 ms under 100 RPS
 
 ## Implementation Plan (the how) (added after putting the task in progress but before implementing any code change)
+
+*The plan should contain*
+- *a summary of the steps that will be performed and in what order*
+- *a list of the files that will be created, the path to them & their name*
+  - *nested in that list is any key functions / methods*
+    - *nested under each is brief 1 line summary about the responsibility or its purpose*
+- *for changes a similar list is to be created but not what the key changes will be*
+- *the aim is so the programmer can have input on the file names shape & purpose early on so there is not too much tweaking*
 
 1. Research existing GraphQL resolver patterns
 2. Implement basic resolver with error handling
