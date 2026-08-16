@@ -5,7 +5,7 @@ import type { ScheduleRow } from '../types';
 import { frostedCardClass } from '../styles';
 import { PaymentScheduleSection } from './payment-schedule-section';
 
-interface DuringDealCardProps {
+export interface DuringDealCardProps {
   monthlyPayment: string;
   paymentTermText: string;
   loan: string;

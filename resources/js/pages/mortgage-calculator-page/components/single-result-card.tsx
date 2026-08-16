@@ -6,7 +6,7 @@ import { frostedCardClass } from '../styles';
 import { PaymentScheduleSection } from './payment-schedule-section';
 import { RepaymentVehicleNotice } from './repayment-vehicle-notice';
 
-interface SingleResultCardProps {
+export interface SingleResultCardProps {
   monthlyPayment: string;
   paymentTermText: string;
   housePrice: string;

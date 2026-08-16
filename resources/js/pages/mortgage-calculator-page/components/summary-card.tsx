@@ -4,7 +4,7 @@ import copy from '../copy.json';
 import { frostedCardClass } from '../styles';
 import { RepaymentVehicleNotice } from './repayment-vehicle-notice';
 
-interface SummaryCardProps {
+export interface SummaryCardProps {
   housePrice: string;
   deposit: string;
   loan: string;

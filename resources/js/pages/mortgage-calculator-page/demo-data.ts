@@ -40,18 +40,17 @@ const noDealMonthlyIO = monthlyRepaymentInterestOnly(
 const noDealTotalPaidIO = noDealMonthlyIO * DEMO_TERM_MONTHS;
 
 export const singleCardRepayment = {
-  monthly: formatGBP(noDealMonthlyRepay),
+  monthlyPayment: formatGBP(noDealMonthlyRepay),
   paymentTermText: DEMO_TERM_DURATION_TEXT,
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
   deposit: DEMO_DEPOSIT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
-  totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} months)`,
   totalPaid: formatGBP(noDealTotalPaidRepay),
   totalInterest: formatGBP(noDealTotalInterestRepay),
   dateLabel: 'Mortgage Payoff Date',
-  date: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_TERM_MONTHS)),
+  endDate: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_TERM_MONTHS)),
   showVehicleNotice: false,
-  schedule: buildAmortisationSchedule(
+  paymentSchedule: buildAmortisationSchedule(
     DEMO_LOAN_AMOUNT,
     DEMO_WHOLE_TERM_RATE,
     DEMO_TERM_MONTHS,
@@ -62,18 +61,17 @@ export const singleCardRepayment = {
 };
 
 export const singleCardInterestOnly = {
-  monthly: formatGBP(noDealMonthlyIO),
+  monthlyPayment: formatGBP(noDealMonthlyIO),
   paymentTermText: DEMO_TERM_DURATION_TEXT,
   housePrice: formatGBP(DEMO_HOUSE_PRICE),
   deposit: DEMO_DEPOSIT_FORMATTED,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
-  totalPaidLabel: `Total Paid (${DEMO_TERM_MONTHS} months)`,
   totalPaid: formatGBP(noDealTotalPaidIO),
   totalInterest: formatGBP(noDealTotalPaidIO),
   dateLabel: 'Mortgage term ends',
-  date: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_TERM_MONTHS)),
+  endDate: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_TERM_MONTHS)),
   showVehicleNotice: true,
-  schedule: buildAmortisationSchedule(
+  paymentSchedule: buildAmortisationSchedule(
     DEMO_LOAN_AMOUNT,
     DEMO_WHOLE_TERM_RATE,
     DEMO_TERM_MONTHS,
@@ -107,7 +105,7 @@ const dealMonthlyIO = monthlyRepaymentInterestOnly(
 const dealTotalPaidIO = dealMonthlyIO * DEMO_DEAL_MONTHS;
 
 export const duringDealCardRepayment = {
-  monthly: formatGBP(dealMonthlyRepay),
+  monthlyPayment: formatGBP(dealMonthlyRepay),
   paymentTermText: DEMO_DEAL_DURATION_TEXT,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: 'Total paid',
@@ -116,8 +114,8 @@ export const duringDealCardRepayment = {
   totalInterest: formatGBP(dealTotalInterestRepay),
   totalPrincipal: formatGBP(dealTotalPrincipalRepay),
   dateLabel: 'Deal end date',
-  date: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_DEAL_MONTHS)),
-  schedule: buildAmortisationSchedule(
+  endDate: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_DEAL_MONTHS)),
+  paymentSchedule: buildAmortisationSchedule(
     DEMO_LOAN_AMOUNT,
     DEMO_WHOLE_TERM_RATE,
     DEMO_TERM_MONTHS,
@@ -128,7 +126,7 @@ export const duringDealCardRepayment = {
 };
 
 export const duringDealCardInterestOnly = {
-  monthly: formatGBP(dealMonthlyIO),
+  monthlyPayment: formatGBP(dealMonthlyIO),
   paymentTermText: DEMO_DEAL_DURATION_TEXT,
   loan: formatGBP(DEMO_LOAN_AMOUNT),
   totalPaidLabel: 'Total paid',
@@ -137,8 +135,8 @@ export const duringDealCardInterestOnly = {
   totalInterest: formatGBP(dealTotalPaidIO),
   totalPrincipal: formatGBP(0),
   dateLabel: 'Deal period ends',
-  date: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_DEAL_MONTHS)),
-  schedule: buildAmortisationSchedule(
+  endDate: formatMonthYear(addMonthsToPeriod(DEMO_START_PERIOD, DEMO_DEAL_MONTHS)),
+  paymentSchedule: buildAmortisationSchedule(
     DEMO_LOAN_AMOUNT,
     DEMO_WHOLE_TERM_RATE,
     DEMO_TERM_MONTHS,
@@ -168,7 +166,7 @@ const postTotalPaidIO = postMonthlyIO * DEMO_POST_DEAL_MONTHS;
 const paymentIncreaseIO = postMonthlyIO - dealMonthlyIO;
 
 export const afterDealCardRepayment = {
-  monthly: formatGBP(postMonthlyRepay),
+  monthlyPayment: formatGBP(postMonthlyRepay),
   paymentTermText: DEMO_POST_DEAL_DURATION_TEXT,
   changeText: changeText(paymentIncreaseRepay),
   loan: formatGBP(dealBalanceAtEnd),
@@ -177,10 +175,10 @@ export const afterDealCardRepayment = {
   totalInterest: formatGBP(postTotalInterestRepay),
   totalPrincipal: formatGBP(postTotalPrincipalRepay),
   dateLabel: 'Mortgage payoff date',
-  date: formatMonthYear(
+  endDate: formatMonthYear(
     addMonthsToPeriod(postDealPeriod, DEMO_POST_DEAL_MONTHS),
   ),
-  schedule: buildAmortisationSchedule(
+  paymentSchedule: buildAmortisationSchedule(
     dealBalanceAtEnd,
     DEMO_SVR_RATE,
     DEMO_POST_DEAL_MONTHS,
@@ -191,7 +189,7 @@ export const afterDealCardRepayment = {
 };
 
 export const afterDealCardInterestOnly = {
-  monthly: formatGBP(postMonthlyIO),
+  monthlyPayment: formatGBP(postMonthlyIO),
   paymentTermText: DEMO_POST_DEAL_DURATION_TEXT,
   changeText: changeText(paymentIncreaseIO),
   loan: formatGBP(DEMO_LOAN_AMOUNT),
@@ -200,10 +198,10 @@ export const afterDealCardInterestOnly = {
   totalInterest: formatGBP(postTotalPaidIO),
   totalPrincipal: formatGBP(0),
   dateLabel: 'Full balance due on',
-  date: formatMonthYear(
+  endDate: formatMonthYear(
     addMonthsToPeriod(postDealPeriod, DEMO_POST_DEAL_MONTHS),
   ),
-  schedule: buildAmortisationSchedule(
+  paymentSchedule: buildAmortisationSchedule(
     DEMO_LOAN_AMOUNT,
     DEMO_SVR_RATE,
     DEMO_POST_DEAL_MONTHS,

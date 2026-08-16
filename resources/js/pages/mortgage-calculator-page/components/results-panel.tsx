@@ -1,14 +1,5 @@
 import copy from '../copy.json';
-import {
-  afterDealCardInterestOnly,
-  afterDealCardRepayment,
-  duringDealCardInterestOnly,
-  duringDealCardRepayment,
-  singleCardInterestOnly,
-  singleCardRepayment,
-  summaryCardInterestOnly,
-  summaryCardRepayment,
-} from '../demo-data';
+import { getResultsViewModel } from '../view-model';
 import { AfterDealCard } from './after-deal-card';
 import { DuringDealCard } from './during-deal-card';
 import { AdvertCard } from './advert-card';
@@ -26,19 +17,7 @@ export function ResultsPanel({
   hasDeal,
   showAfterDealCard,
 }: ResultsPanelProps) {
-  const single = isInterestOnly ? singleCardInterestOnly : singleCardRepayment;
-
-  const during = isInterestOnly
-    ? duringDealCardInterestOnly
-    : duringDealCardRepayment;
-
-  const after = isInterestOnly
-    ? afterDealCardInterestOnly
-    : afterDealCardRepayment;
-
-  const summary = isInterestOnly
-    ? summaryCardInterestOnly
-    : summaryCardRepayment;
+  const { single, during, after, summary } = getResultsViewModel(isInterestOnly);
 
   return (
     <div className="flex flex-col gap-6">
@@ -51,7 +30,7 @@ export function ResultsPanel({
 
       {!hasDeal && (
         <SingleResultCard
-          monthlyPayment={single.monthly}
+          monthlyPayment={single.monthlyPayment}
           paymentTermText={single.paymentTermText}
           housePrice={single.housePrice}
           deposit={single.deposit}
@@ -59,16 +38,16 @@ export function ResultsPanel({
           totalInterest={single.totalInterest}
           totalPaid={single.totalPaid}
           dateLabel={single.dateLabel}
-          endDate={single.date}
+          endDate={single.endDate}
           showVehicleNotice={single.showVehicleNotice}
-          paymentSchedule={single.schedule}
+          paymentSchedule={single.paymentSchedule}
         />
       )}
 
       {hasDeal && (
         <>
           <DuringDealCard
-            monthlyPayment={during.monthly}
+            monthlyPayment={during.monthlyPayment}
             paymentTermText={during.paymentTermText}
             loan={during.loan}
             totalPaidLabel={during.totalPaidLabel}
@@ -77,13 +56,13 @@ export function ResultsPanel({
             totalPrincipal={during.totalPrincipal}
             balanceAtEnd={during.balanceAtEnd}
             dateLabel={during.dateLabel}
-            endDate={during.date}
-            paymentSchedule={during.schedule}
+            endDate={during.endDate}
+            paymentSchedule={during.paymentSchedule}
           />
 
           {showAfterDealCard && (
             <AfterDealCard
-              monthlyPayment={after.monthly}
+              monthlyPayment={after.monthlyPayment}
               paymentTermText={after.paymentTermText}
               changeText={after.changeText}
               loan={after.loan}
@@ -92,8 +71,8 @@ export function ResultsPanel({
               totalInterest={after.totalInterest}
               totalPrincipal={after.totalPrincipal}
               dateLabel={after.dateLabel}
-              endDate={after.date}
-              paymentSchedule={after.schedule}
+              endDate={after.endDate}
+              paymentSchedule={after.paymentSchedule}
             />
           )}
 
