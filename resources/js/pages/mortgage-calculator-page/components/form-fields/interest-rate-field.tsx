@@ -7,8 +7,10 @@ import { inputClass } from './field-styles';
 
 export function InterestRateField() {
   const fieldId = useId();
-  const interestRate = useMortgageStore((s) => s.interestRate);
-  const setInterestRate = useMortgageStore((s) => s.setInterestRate);
+  const interestRatePercent = useMortgageStore((s) => s.interestRatePercent);
+  const setInterestRatePercent = useMortgageStore(
+    (s) => s.setInterestRatePercent,
+  );
   const hasDeal = useMortgageStore((s) => s.hasDeal);
   const isTracker = useMortgageStore((s) => s.dealType === 'tracker');
   const disabled = hasDeal && isTracker;
@@ -23,9 +25,11 @@ export function InterestRateField() {
           id={fieldId}
           name="interestRate"
           className={inputClass}
-          value={interestRate}
+          value={interestRatePercent}
           disabled={disabled}
-          onChange={(event) => setInterestRate(Number(event.target.value))}
+          onChange={(event) =>
+            setInterestRatePercent(Number(event.target.value))
+          }
         />
         <span aria-hidden="true">%</span>
       </div>

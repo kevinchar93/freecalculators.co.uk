@@ -7,8 +7,12 @@ import { inputClass } from './field-styles';
 
 export function SvrField() {
   const fieldId = useId();
-  const svr = useMortgageStore((s) => s.svr);
-  const setSvr = useMortgageStore((s) => s.setSvr);
+  const standardVariableRatePercent = useMortgageStore(
+    (s) => s.standardVariableRatePercent,
+  );
+  const setStandardVariableRatePercent = useMortgageStore(
+    (s) => s.setStandardVariableRatePercent,
+  );
 
   return (
     <div>
@@ -20,8 +24,10 @@ export function SvrField() {
           id={fieldId}
           name="svr"
           className={inputClass}
-          value={svr}
-          onChange={(event) => setSvr(Number(event.target.value))}
+          value={standardVariableRatePercent}
+          onChange={(event) =>
+            setStandardVariableRatePercent(Number(event.target.value))
+          }
         />
         <span aria-hidden="true">%</span>
       </div>

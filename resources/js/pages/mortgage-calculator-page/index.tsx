@@ -6,13 +6,11 @@ import copy from './copy.json';
 import { useMortgageStore } from './store';
 
 export default function MortgageCalculatorPage() {
-  const mortgageType = useMortgageStore((s) => s.mortgageType);
   const hasDeal = useMortgageStore((s) => s.hasDeal);
-  const dealTerm = useMortgageStore((s) => s.dealTerm);
-  const mortgageTerm = useMortgageStore((s) => s.mortgageTerm);
+  const dealTermYears = useMortgageStore((s) => s.dealTermYears);
+  const mortgageTermYears = useMortgageStore((s) => s.mortgageTermYears);
 
-  const isInterestOnly = mortgageType === 'interest-only';
-  const showAfterDealCard = hasDeal && dealTerm < mortgageTerm;
+  const showAfterDealCard = hasDeal && dealTermYears < mortgageTermYears;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,7 +40,6 @@ export default function MortgageCalculatorPage() {
           <MortgageForm onSubmit={handleSubmit} />
 
           <ResultsPanel
-            isInterestOnly={isInterestOnly}
             hasDeal={hasDeal}
             showAfterDealCard={showAfterDealCard}
           />

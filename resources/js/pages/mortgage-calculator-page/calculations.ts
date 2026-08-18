@@ -1,5 +1,31 @@
 import { formatGBP, formatPercent, formatShortMonthYear } from './formatters';
-import type { ScheduleRow } from './types';
+import type { DealType, DepositMode, ScheduleRow } from './types';
+
+export function annualPercentToMonthlyRate(annualPercent: number): number {
+  return annualPercent / 100 / 12;
+}
+
+export function resolveDepositAmount(
+  propertyPriceGbp: number,
+  depositMode: DepositMode,
+  depositGbp: number,
+  depositPercent: number,
+): number {
+  return depositMode === 'amount'
+    ? depositGbp
+    : depositPercentToAmount(propertyPriceGbp, depositPercent);
+}
+
+export function resolveDealRate(
+  dealType: DealType,
+  interestRatePercent: number,
+  baseRatePercent: number,
+  marginPercent: number,
+): number {
+  return dealType === 'tracker'
+    ? baseRatePercent + marginPercent
+    : interestRatePercent;
+}
 
 export function monthlyRepayment(
   principal: number,
@@ -95,20 +121,20 @@ export function changeText(increase: number): string {
   return `${direction} of ${magnitude} when your deal ends`;
 }
 
-export function depositPercentToAmount(propertyPrice: number, depositPercent: number): number {
-  return Math.round((propertyPrice * depositPercent) / 100)
+export function depositPercentToAmount(propertyPriceGbp: number, depositPercent: number): number {
+  return Math.round((propertyPriceGbp * depositPercent) / 100)
 }
 
-export function depositAmountToPercent(propertyPrice: number, depositAmount: number): number {
-  return propertyPrice > 0
-    ? Math.round((depositAmount / propertyPrice) * 1000) / 10
+export function depositAmountToPercent(propertyPriceGbp: number, depositAmount: number): number {
+  return propertyPriceGbp > 0
+    ? Math.round((depositAmount / propertyPriceGbp) * 1000) / 10
     : 0
 }
 
-export function calcLoanAmount(propertyPrice: number, depositAmount: number) {
-  return Math.max(0, propertyPrice - depositAmount)
+export function calcLoanAmount(propertyPriceGbp: number, depositAmount: number) {
+  return Math.max(0, propertyPriceGbp - depositAmount)
 }
 
-export function calcLoanToValue(propertyPrice: number, loanAmount: number) {
-  return propertyPrice > 0 ? (loanAmount / propertyPrice) * 100 : 0
+export function calcLoanToValue(propertyPriceGbp: number, loanAmount: number) {
+  return propertyPriceGbp > 0 ? (loanAmount / propertyPriceGbp) * 100 : 0
 }

@@ -8,10 +8,10 @@ import { inputClass } from './field-styles';
 export function TrackerRateFields() {
   const baseRateId = useId();
   const marginId = useId();
-  const baseRate = useMortgageStore((s) => s.baseRate);
-  const setBaseRate = useMortgageStore((s) => s.setBaseRate);
-  const margin = useMortgageStore((s) => s.margin);
-  const setMargin = useMortgageStore((s) => s.setMargin);
+  const baseRatePercent = useMortgageStore((s) => s.baseRatePercent);
+  const setBaseRatePercent = useMortgageStore((s) => s.setBaseRatePercent);
+  const marginPercent = useMortgageStore((s) => s.marginPercent);
+  const setMarginPercent = useMortgageStore((s) => s.setMarginPercent);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -24,8 +24,8 @@ export function TrackerRateFields() {
             id={baseRateId}
             name="baseRate"
             className={inputClass}
-            value={baseRate}
-            onChange={(event) => setBaseRate(Number(event.target.value))}
+            value={baseRatePercent}
+            onChange={(event) => setBaseRatePercent(Number(event.target.value))}
           />
           <span aria-hidden="true">%</span>
         </div>
@@ -39,8 +39,8 @@ export function TrackerRateFields() {
             id={marginId}
             name="margin"
             className={inputClass}
-            value={margin}
-            onChange={(event) => setMargin(Number(event.target.value))}
+            value={marginPercent}
+            onChange={(event) => setMarginPercent(Number(event.target.value))}
           />
           <span aria-hidden="true">%</span>
         </div>

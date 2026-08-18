@@ -7,8 +7,8 @@ import { inputClass } from './field-styles';
 
 export function DealTermField() {
   const fieldId = useId();
-  const dealTerm = useMortgageStore((s) => s.dealTerm);
-  const setDealTerm = useMortgageStore((s) => s.setDealTerm);
+  const dealTermYears = useMortgageStore((s) => s.dealTermYears);
+  const setDealTermYears = useMortgageStore((s) => s.setDealTermYears);
 
   return (
     <div>
@@ -19,8 +19,8 @@ export function DealTermField() {
           id={fieldId}
           name="dealTerm"
           className={inputClass}
-          value={dealTerm}
-          onChange={(event) => setDealTerm(Number(event.target.value))}
+          value={dealTermYears}
+          onChange={(event) => setDealTermYears(Number(event.target.value))}
         />
         <span aria-hidden="true">
           {copy['mortgageForm.dealTermYearsSuffix']}

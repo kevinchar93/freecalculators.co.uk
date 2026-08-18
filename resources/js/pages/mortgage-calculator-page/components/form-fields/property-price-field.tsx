@@ -8,8 +8,8 @@ import { inputClass } from './field-styles';
 
 export function PropertyPriceField() {
   const fieldId = useId();
-  const propertyPrice = useMortgageStore((s) => s.propertyPrice);
-  const setPropertyPrice = useMortgageStore((s) => s.setPropertyPrice);
+  const propertyPriceGbp = useMortgageStore((s) => s.propertyPriceGbp);
+  const setPropertyPriceGbp = useMortgageStore((s) => s.setPropertyPriceGbp);
 
   return (
     <div>
@@ -23,7 +23,7 @@ export function PropertyPriceField() {
           className="w-16"
           aria-label={copy['mortgageForm.propertyPrice.SubtractAria']}
           onClick={() =>
-            setPropertyPrice((value) => Math.max(0, value - 10000))
+            setPropertyPriceGbp((value) => Math.max(0, value - 10000))
           }
         >
           {copy['mortgageForm.propertyPrice.SubtractButtonLabel']}
@@ -35,8 +35,10 @@ export function PropertyPriceField() {
             id={fieldId}
             name="propertyPrice"
             className={inputClass}
-            value={propertyPrice}
-            onChange={(event) => setPropertyPrice(Number(event.target.value))}
+            value={propertyPriceGbp}
+            onChange={(event) =>
+              setPropertyPriceGbp(Number(event.target.value))
+            }
           />
         </div>
         <Button
@@ -44,7 +46,7 @@ export function PropertyPriceField() {
           variant="outline"
           className="w-16"
           aria-label={copy['mortgageForm.propertyPrice.AddAria']}
-          onClick={() => setPropertyPrice((value) => value + 10000)}
+          onClick={() => setPropertyPriceGbp((value) => value + 10000)}
         >
           {copy['mortgageForm.propertyPrice.AddButtonLabel']}
         </Button>

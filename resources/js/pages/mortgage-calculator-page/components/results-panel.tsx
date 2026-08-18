@@ -1,4 +1,5 @@
 import copy from '../copy.json';
+import { useMortgageStore } from '../store';
 import { getResultsViewModel } from '../view-model';
 import { AfterDealCard } from './after-deal-card';
 import { DuringDealCard } from './during-deal-card';
@@ -7,17 +8,44 @@ import { SingleResultCard } from './single-result-card';
 import { SummaryCard } from './summary-card';
 
 interface ResultsPanelProps {
-  isInterestOnly: boolean;
   hasDeal: boolean;
   showAfterDealCard: boolean;
 }
 
 export function ResultsPanel({
-  isInterestOnly,
   hasDeal,
   showAfterDealCard,
 }: ResultsPanelProps) {
-  const { single, during, after, summary } = getResultsViewModel(isInterestOnly);
+  const mortgageType = useMortgageStore((s) => s.mortgageType);
+  const propertyPriceGbp = useMortgageStore((s) => s.propertyPriceGbp);
+  const depositMode = useMortgageStore((s) => s.depositMode);
+  const depositGbp = useMortgageStore((s) => s.depositGbp);
+  const depositPercent = useMortgageStore((s) => s.depositPercent);
+  const mortgageTermYears = useMortgageStore((s) => s.mortgageTermYears);
+  const interestRatePercent = useMortgageStore((s) => s.interestRatePercent);
+  const startDate = useMortgageStore((s) => s.startDate);
+  const dealType = useMortgageStore((s) => s.dealType);
+  const dealTermYears = useMortgageStore((s) => s.dealTermYears);
+  const standardVariableRatePercent = useMortgageStore((s) => s.standardVariableRatePercent);
+  const baseRatePercent = useMortgageStore((s) => s.baseRatePercent);
+  const marginPercent = useMortgageStore((s) => s.marginPercent);
+
+  const { single, during, after, summary } = getResultsViewModel({
+    mortgageType,
+    propertyPriceGbp,
+    depositMode,
+    depositGbp,
+    depositPercent,
+    mortgageTermYears,
+    interestRatePercent,
+    startDate,
+    hasDeal,
+    dealType,
+    dealTermYears,
+    standardVariableRatePercent,
+    baseRatePercent,
+    marginPercent,
+  });
 
   return (
     <div className="flex flex-col gap-6">
