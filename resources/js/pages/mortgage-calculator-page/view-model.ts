@@ -165,7 +165,7 @@ function buildAfterDealCard(
       totalPrincipal: formatGBP(0),
       dateLabel: isInterestOnly ? 'Full balance due on' : 'Mortgage payoff date',
       endDate: '',
-      paymentSchedule: [],
+      paymentSchedule: { monthly: [], annual: [] },
     };
 
     return { card: zeroCard, totalPaidRaw: 0 };

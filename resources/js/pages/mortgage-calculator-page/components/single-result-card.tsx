@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
-import type { ScheduleRow } from '../types';
 import { frostedCardClass } from '../styles';
+import type { AmortisationSchedule } from '../types';
 import { PaymentScheduleSection } from './payment-schedule-section';
 import { RepaymentVehicleNotice } from './repayment-vehicle-notice';
 
@@ -17,7 +17,7 @@ export interface SingleResultCardProps {
   dateLabel: string;
   endDate: string;
   showVehicleNotice: boolean;
-  paymentSchedule: ScheduleRow[];
+  paymentSchedule: AmortisationSchedule;
 }
 
 export function SingleResultCard({
@@ -96,7 +96,7 @@ export function SingleResultCard({
         </div>
       </div>
 
-      <PaymentScheduleSection rows={paymentSchedule} tone="brand" />
+      <PaymentScheduleSection schedule={paymentSchedule} tone="brand" />
     </Card>
   );
 }

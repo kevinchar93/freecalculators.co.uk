@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
-import type { ScheduleRow } from '../types';
 import { frostedCardClass } from '../styles';
+import type { AmortisationSchedule } from '../types';
 import { PaymentScheduleSection } from './payment-schedule-section';
 
 export interface DuringDealCardProps {
@@ -16,7 +16,7 @@ export interface DuringDealCardProps {
   balanceAtEnd: string;
   dateLabel: string;
   endDate: string;
-  paymentSchedule: ScheduleRow[];
+  paymentSchedule: AmortisationSchedule;
 }
 
 export function DuringDealCard({
@@ -92,7 +92,7 @@ export function DuringDealCard({
         </div>
       </div>
 
-      <PaymentScheduleSection rows={paymentSchedule} tone="brand" />
+      <PaymentScheduleSection schedule={paymentSchedule} tone="brand" />
     </Card>
   );
 }

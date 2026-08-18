@@ -1,5 +1,5 @@
 import { formatGBP, formatPercent, formatShortMonthYear } from './formatters';
-import type { DealType, DepositMode, ScheduleRow } from './types';
+import type { AmortisationSchedule, DealType, DepositMode, ScheduleRow } from './types';
 
 export function annualPercentToMonthlyRate(annualPercent: number): number {
   return annualPercent / 100 / 12;
@@ -90,12 +90,15 @@ export function buildAmortisationSchedule(
   rowsToShow: number,
   startPeriod: string,
   interestOnly: boolean,
-): ScheduleRow[] {
+): AmortisationSchedule {
   const payment = interestOnly
     ? monthlyRepaymentInterestOnly(principal, monthlyRate)
     : monthlyRepayment(principal, monthlyRate, amortisationMonths);
   let balance = principal;
-  const rows: ScheduleRow[] = [];
+  const monthly: ScheduleRow[] = [];
+  const annual: ScheduleRow[] = [];
+  let yearInterest = 0;
+  let yearPrincipal = 0;
 
   for (let month = 1; month <= rowsToShow; month++) {
     const interest = balance * monthlyRate;
@@ -103,15 +106,30 @@ export function buildAmortisationSchedule(
     balance = interestOnly
       ? principal
       : Math.max(0, balance - principalPortion);
-    rows.push({
+
+    monthly.push({
       period: formatShortMonthYear(addMonthsToPeriod(startPeriod, month)),
       interest: formatGBP(interest),
       principal: formatGBP(principalPortion),
       balance: formatGBP(balance),
     });
+
+    yearInterest += interest;
+    yearPrincipal += principalPortion;
+
+    if (month % 12 === 0 || month === rowsToShow) {
+      annual.push({
+        period: `Year ${Math.ceil(month / 12)}`,
+        interest: formatGBP(yearInterest),
+        principal: formatGBP(yearPrincipal),
+        balance: formatGBP(balance),
+      });
+      yearInterest = 0;
+      yearPrincipal = 0;
+    }
   }
 
-  return rows;
+  return { monthly, annual };
 }
 
 export function changeText(increase: number): string {

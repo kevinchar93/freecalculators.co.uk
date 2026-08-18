@@ -81,7 +81,10 @@
   "paymentScheduleSection.triggerButton": "Payment Schedule",
   "paymentScheduleSection.captionSr": "Payment amortisation schedule",
   "paymentScheduleSection.columnMonth": "Month",
+  "paymentScheduleSection.columnYear": "Year",
   "paymentScheduleSection.columnInterest": "Interest",
   "paymentScheduleSection.columnPrincipal": "Principal",
-  "paymentScheduleSection.columnBalance": "Balance"
+  "paymentScheduleSection.columnBalance": "Balance",
+  "paymentScheduleSection.showAnnualButton": "Annual",
+  "paymentScheduleSection.showMonthlyButton": "Monthly"
 }

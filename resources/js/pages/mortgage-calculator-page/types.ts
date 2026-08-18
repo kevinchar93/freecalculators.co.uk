@@ -8,3 +8,8 @@ export interface ScheduleRow {
   principal: string;
   balance: string;
 }
+
+export interface AmortisationSchedule {
+  monthly: ScheduleRow[];
+  annual: ScheduleRow[];
+}
