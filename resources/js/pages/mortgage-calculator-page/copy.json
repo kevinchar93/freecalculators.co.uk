@@ -1,7 +1,9 @@
 {
   "page.headTitle": "Mortgage Calculator",
   "page.heading": "Mortgage Payment Calculator",
-  "page.intro": "Calculate the monthly payment for a mortgage based on your property value and deposit.",
+  "page.introBeforeLink": "This calculator works out your monthly mortgage payment and how much of it goes towards interest, with a full amortisation schedule and view of how payments can change after your deal period ends. It's built specifically for UK mortgages and makes ",
+  "page.introLinkText": "some assumptions",
+  "page.introAfterLink": " you should be aware of.",
   "page.blogLinkText": "Read our guide to mortgages.",
   "mortgageForm.mortgageType.FieldLabel": "Mortgage Type",
   "mortgageForm.mortgageType.RepaymentOptionLabel": "Repayment",

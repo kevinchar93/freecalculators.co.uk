@@ -7,6 +7,7 @@ Route::inertia('/', 'welcome')->name('home');
 Route::prefix('calculators')->group(function () {
     Route::inertia('/', 'calculators-page')->name('calculators');
     Route::inertia('/mortgage', 'mortgage-calculator-page/index')->name('mortgage-calculator');
+    Route::inertia('/mortgage/assumptions', 'mortgage-calculator-page/assumptions')->name('mortgage-calculator.assumptions');
 });
 
 Route::inertia('/blog', 'blog-page')->name('blog');
