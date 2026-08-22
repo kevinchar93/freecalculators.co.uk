@@ -15,6 +15,16 @@ export default function MortgageCalculatorPage() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const resultCardId = hasDeal ? 'during-deal-card' : 'single-result-card';
+    const resultCard = document.getElementById(resultCardId);
+
+    if (resultCard) {
+      const pxAbove = 120;
+      const top =
+        resultCard.getBoundingClientRect().top + window.scrollY - pxAbove;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   }
 
   return (

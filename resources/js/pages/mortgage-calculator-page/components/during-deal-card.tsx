@@ -34,6 +34,7 @@ export function DuringDealCard({
 }: DuringDealCardProps) {
   return (
     <Card
+      id="during-deal-card"
       className={cn(
         'gap-0 rounded-2xl border-brand-border p-0',
         frostedCardClass,
