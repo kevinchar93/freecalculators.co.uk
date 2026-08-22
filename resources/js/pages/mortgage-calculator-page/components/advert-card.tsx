@@ -7,23 +7,11 @@ interface AdvertCardProps {
   linkHref: string;
 }
 
-export function AdvertCard({
-  heading,
-  body,
-  linkText,
-  linkHref,
-}: AdvertCardProps) {
+export function AdvertCard({}: AdvertCardProps) {
   return (
-    <Card className="rounded-2xl border-brand-border bg-brand-subtle p-5">
-      <p className="font-semibold">{heading}</p>
-      <p className="text-sm text-neutral-600 dark:text-neutral-400">{body}</p>
-      <p>
-        <a
-          href={linkHref}
-          className="text-brand-subtle-foreground underline underline-offset-4"
-        >
-          {linkText}
-        </a>
+    <Card className="flex min-h-40 items-center justify-center rounded-2xl border-brand-border bg-brand-subtle p-5 text-center">
+      <p className="text-lg text-neutral-400 italic dark:text-neutral-500">
+        Advert
       </p>
     </Card>
   );
