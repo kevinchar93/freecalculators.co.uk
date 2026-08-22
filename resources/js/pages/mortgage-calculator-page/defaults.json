@@ -1,6 +1,6 @@
 {
   "mortgageType": "repayment",
-  "propertyPriceGbp": 250000,
+  "propertyPriceGbp": 275000,
   "depositMode": "amount",
   "depositGbp": 50000,
   "depositPercent": 20,

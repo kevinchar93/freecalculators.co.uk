@@ -27,12 +27,8 @@ export function MortgageForm({ onSubmit }: MortgageFormProps) {
           <MortgageTypeField />
           <PropertyPriceField />
           <DepositField />
-
-          <div className="grid grid-cols-1 gap-5">
-            <MortgageTermField />
-            <InterestRateField />
-          </div>
-
+          <MortgageTermField />
+          <InterestRateField />
           <StartDateField />
           <HasDealCheckbox />
           <DealFieldsGroup />
