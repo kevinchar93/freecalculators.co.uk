@@ -17,7 +17,7 @@ export interface SingleResultCardProps {
   dateLabel: string;
   endDate: string;
   showVehicleNotice: boolean;
-  paymentSchedule: AmortisationSchedule;
+  getPaymentSchedule: () => AmortisationSchedule;
 }
 
 export function SingleResultCard({
@@ -31,7 +31,7 @@ export function SingleResultCard({
   dateLabel,
   endDate,
   showVehicleNotice,
-  paymentSchedule,
+  getPaymentSchedule,
 }: SingleResultCardProps) {
   return (
     <Card
@@ -97,7 +97,7 @@ export function SingleResultCard({
         </div>
       </div>
 
-      <PaymentScheduleSection schedule={paymentSchedule} tone="brand" />
+      <PaymentScheduleSection getSchedule={getPaymentSchedule} tone="brand" />
     </Card>
   );
 }

@@ -16,7 +16,7 @@ export interface AfterDealCardProps {
   totalPrincipal: string;
   dateLabel: string;
   endDate: string;
-  paymentSchedule: AmortisationSchedule;
+  getPaymentSchedule: () => AmortisationSchedule;
 }
 
 export function AfterDealCard({
@@ -30,7 +30,7 @@ export function AfterDealCard({
   totalPrincipal,
   dateLabel,
   endDate,
-  paymentSchedule,
+  getPaymentSchedule,
 }: AfterDealCardProps) {
   return (
     <Card
@@ -90,7 +90,7 @@ export function AfterDealCard({
         </div>
       </div>
 
-      <PaymentScheduleSection schedule={paymentSchedule} tone="neutral" />
+      <PaymentScheduleSection getSchedule={getPaymentSchedule} tone="neutral" />
     </Card>
   );
 }

@@ -68,7 +68,7 @@ export function ResultsPanel({
           dateLabel={single.dateLabel}
           endDate={single.endDate}
           showVehicleNotice={single.showVehicleNotice}
-          paymentSchedule={single.paymentSchedule}
+          getPaymentSchedule={single.getPaymentSchedule}
         />
       )}
 
@@ -85,7 +85,7 @@ export function ResultsPanel({
             balanceAtEnd={during.balanceAtEnd}
             dateLabel={during.dateLabel}
             endDate={during.endDate}
-            paymentSchedule={during.paymentSchedule}
+            getPaymentSchedule={during.getPaymentSchedule}
           />
 
           {showAfterDealCard && (
@@ -100,7 +100,7 @@ export function ResultsPanel({
               totalPrincipal={after.totalPrincipal}
               dateLabel={after.dateLabel}
               endDate={after.endDate}
-              paymentSchedule={after.paymentSchedule}
+              getPaymentSchedule={after.getPaymentSchedule}
             />
           )}
 

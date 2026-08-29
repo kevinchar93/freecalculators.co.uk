@@ -1,10 +1,11 @@
 import { ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { AmortisationSchedule } from '../types';
@@ -15,15 +16,27 @@ const toneClasses = {
     'bg-neutral-100 text-neutral-700 dark:bg-neutral-800/60 dark:text-neutral-300',
 } as const;
 
+const EMPTY_SCHEDULE: AmortisationSchedule = { monthly: [], annual: [] };
+const SCHEDULE_DEBOUNCE_MS = 300;
+
 export function PaymentScheduleSection({
-  schedule,
+  getSchedule,
   tone = 'brand',
 }: {
-  schedule: AmortisationSchedule;
+  getSchedule: () => AmortisationSchedule;
   tone?: keyof typeof toneClasses;
 }) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'monthly' | 'annual'>('monthly');
+
+  const debouncedGetSchedule = useDebouncedValue(
+    getSchedule,
+    SCHEDULE_DEBOUNCE_MS,
+  );
+  const schedule = useMemo(
+    () => (open ? debouncedGetSchedule() : EMPTY_SCHEDULE),
+    [open, debouncedGetSchedule],
+  );
   const rows = view === 'monthly' ? schedule.monthly : schedule.annual;
   const periodColumnLabel =
     view === 'monthly'

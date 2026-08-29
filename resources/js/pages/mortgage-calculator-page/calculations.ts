@@ -5,12 +5,17 @@ export function annualPercentToMonthlyRate(annualPercent: number): number {
   return annualPercent / 100 / 12;
 }
 
-export function resolveDepositAmount(
-  propertyPriceGbp: number,
-  depositMode: DepositMode,
-  depositGbp: number,
-  depositPercent: number,
-): number {
+export function resolveDepositAmount({
+  propertyPriceGbp,
+  depositMode,
+  depositGbp,
+  depositPercent,
+}: {
+  propertyPriceGbp: number;
+  depositMode: DepositMode;
+  depositGbp: number;
+  depositPercent: number;
+}): number {
   return depositMode === 'amount'
     ? depositGbp
     : depositPercentToAmount(propertyPriceGbp, depositPercent);
@@ -145,14 +150,18 @@ export function depositPercentToAmount(propertyPriceGbp: number, depositPercent:
 
 export function depositAmountToPercent(propertyPriceGbp: number, depositAmount: number): number {
   return propertyPriceGbp > 0
-    ? Math.round((depositAmount / propertyPriceGbp) * 1000) / 10
+    ? Math.round((depositAmount / propertyPriceGbp) * 10_000) / 100
     : 0
 }
 
-export function calcLoanAmount(propertyPriceGbp: number, depositAmount: number) {
+export function calculateLoanAmount(propertyPriceGbp: number, depositAmount: number) {
   return Math.max(0, propertyPriceGbp - depositAmount)
 }
 
-export function calcLoanToValue(propertyPriceGbp: number, loanAmount: number) {
-  return propertyPriceGbp > 0 ? (loanAmount / propertyPriceGbp) * 100 : 0
+export function calculateLoanToValuePercentage(propertyPriceGbp: number, loanAmount: number) {
+  if (propertyPriceGbp <= 0) {
+    return 0;
+  }
+
+  return Math.round((loanAmount / propertyPriceGbp) * 100);
 }

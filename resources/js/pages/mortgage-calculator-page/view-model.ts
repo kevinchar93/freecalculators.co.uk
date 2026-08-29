@@ -2,7 +2,7 @@ import {
   addMonthsToPeriod,
   annualPercentToMonthlyRate,
   buildAmortisationSchedule,
-  calcLoanAmount,
+  calculateLoanAmount,
   changeText,
   monthlyRepayment,
   monthlyRepaymentInterestOnly,
@@ -26,13 +26,13 @@ export interface ResultsViewModel {
 
 export function getResultsViewModel(inputs: MortgageInputs): ResultsViewModel {
   const isInterestOnly = inputs.mortgageType === 'interest-only';
-  const depositAmount = resolveDepositAmount(
-    inputs.propertyPriceGbp,
-    inputs.depositMode,
-    inputs.depositGbp,
-    inputs.depositPercent,
-  );
-  const loanAmount = calcLoanAmount(inputs.propertyPriceGbp, depositAmount);
+  const depositAmount = resolveDepositAmount({
+    propertyPriceGbp: inputs.propertyPriceGbp,
+    depositMode: inputs.depositMode,
+    depositGbp: inputs.depositGbp,
+    depositPercent: inputs.depositPercent,
+  });
+  const loanAmount = calculateLoanAmount(inputs.propertyPriceGbp, depositAmount);
   const termMonths = inputs.mortgageTermYears * 12;
   const dealMonths = inputs.dealTermYears * 12;
   const postDealMonths = termMonths - dealMonths;
@@ -84,14 +84,15 @@ function buildSingleCard(
     dateLabel: isInterestOnly ? 'Mortgage term ends' : 'Mortgage Payoff Date',
     endDate: formatMonthYear(addMonthsToPeriod(inputs.startDate, termMonths)),
     showVehicleNotice: isInterestOnly,
-    paymentSchedule: buildAmortisationSchedule(
-      loanAmount,
-      rate,
-      termMonths,
-      termMonths,
-      inputs.startDate,
-      isInterestOnly,
-    ),
+    getPaymentSchedule: () =>
+      buildAmortisationSchedule(
+        loanAmount,
+        rate,
+        termMonths,
+        termMonths,
+        inputs.startDate,
+        isInterestOnly,
+      ),
   };
 }
 
@@ -132,14 +133,15 @@ function buildDuringDealCard(
     totalPrincipal: formatGBP(totalPrincipalRaw),
     dateLabel: isInterestOnly ? 'Deal period ends' : 'Deal end date',
     endDate: formatMonthYear(addMonthsToPeriod(inputs.startDate, dealMonths)),
-    paymentSchedule: buildAmortisationSchedule(
-      loanAmount,
-      rate,
-      termMonths,
-      dealMonths,
-      inputs.startDate,
-      isInterestOnly,
-    ),
+    getPaymentSchedule: () =>
+      buildAmortisationSchedule(
+        loanAmount,
+        rate,
+        termMonths,
+        dealMonths,
+        inputs.startDate,
+        isInterestOnly,
+      ),
   };
 
   return { card, balanceAtEndRaw, monthlyPaymentRaw, totalPaidRaw };
@@ -165,7 +167,7 @@ function buildAfterDealCard(
       totalPrincipal: formatGBP(0),
       dateLabel: isInterestOnly ? 'Full balance due on' : 'Mortgage payoff date',
       endDate: '',
-      paymentSchedule: { monthly: [], annual: [] },
+      getPaymentSchedule: () => ({ monthly: [], annual: [] }),
     };
 
     return { card: zeroCard, totalPaidRaw: 0 };
@@ -192,14 +194,15 @@ function buildAfterDealCard(
     totalPrincipal: formatGBP(totalPrincipalRaw),
     dateLabel: isInterestOnly ? 'Full balance due on' : 'Mortgage payoff date',
     endDate: formatMonthYear(addMonthsToPeriod(postDealStartPeriod, postDealMonths)),
-    paymentSchedule: buildAmortisationSchedule(
-      postDealBalanceRaw,
-      rate,
-      postDealMonths,
-      postDealMonths,
-      postDealStartPeriod,
-      isInterestOnly,
-    ),
+    getPaymentSchedule: () =>
+      buildAmortisationSchedule(
+        postDealBalanceRaw,
+        rate,
+        postDealMonths,
+        postDealMonths,
+        postDealStartPeriod,
+        isInterestOnly,
+      ),
   };
 
   return { card, totalPaidRaw };

@@ -16,7 +16,7 @@ export interface DuringDealCardProps {
   balanceAtEnd: string;
   dateLabel: string;
   endDate: string;
-  paymentSchedule: AmortisationSchedule;
+  getPaymentSchedule: () => AmortisationSchedule;
 }
 
 export function DuringDealCard({
@@ -30,7 +30,7 @@ export function DuringDealCard({
   balanceAtEnd,
   dateLabel,
   endDate,
-  paymentSchedule,
+  getPaymentSchedule,
 }: DuringDealCardProps) {
   return (
     <Card
@@ -93,7 +93,7 @@ export function DuringDealCard({
         </div>
       </div>
 
-      <PaymentScheduleSection schedule={paymentSchedule} tone="brand" />
+      <PaymentScheduleSection getSchedule={getPaymentSchedule} tone="brand" />
     </Card>
   );
 }
