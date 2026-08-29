@@ -1,18 +1,19 @@
 import { useId } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import {
-  calcLoanAmount,
-  calcLoanToValue,
+  calculateLoanAmount,
+  calculateLoanToValuePercentage,
   resolveDepositAmount,
 } from '../../calculations';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
 import type { DepositMode } from '../../types';
-import { inputClass, toggleSelectedClass } from './field-styles';
+import { toggleSelectedClass } from './field-styles';
+import { PercentInput } from './percent-input';
+import { ThousandsInput } from './thousands-input';
 
 export function DepositField() {
   const fieldId = useId();
@@ -27,14 +28,43 @@ export function DepositField() {
   const depositPercent = useMortgageStore((s) => s.depositPercent);
   const setDepositPercent = useMortgageStore((s) => s.setDepositPercent);
 
-  const depositAmount = resolveDepositAmount(
+  const depositAmount = resolveDepositAmount({
     propertyPriceGbp,
     depositMode,
     depositGbp,
     depositPercent,
+  });
+
+  const loanAmount = calculateLoanAmount(propertyPriceGbp, depositAmount);
+  const loanToValue = calculateLoanToValuePercentage(
+    propertyPriceGbp,
+    loanAmount,
   );
-  const loanAmount = calcLoanAmount(propertyPriceGbp, depositAmount);
-  const loanToValue = calcLoanToValue(propertyPriceGbp, loanAmount);
+
+  const depositAmountStepAmount = 10_000;
+  const depositPercentStepAmount = 5;
+
+  const stepUpDeposit = () => {
+    depositMode === 'amount'
+      ? setDepositGbp((value) =>
+          Math.min(propertyPriceGbp, value + depositAmountStepAmount),
+        )
+      : setDepositPercent((value) => {
+          const newValue = value + depositPercentStepAmount;
+          const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
+          return Math.min(100, newValue2DecimalPlaces);
+        });
+  };
+
+  const stepDownDeposit = () => {
+    depositMode === 'amount'
+      ? setDepositGbp((value) => Math.max(0, value - depositAmountStepAmount))
+      : setDepositPercent((value) => {
+          const newValue = value - depositPercentStepAmount;
+          const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
+          return Math.max(0, newValue2DecimalPlaces);
+        });
+  };
 
   return (
     <div>
@@ -77,11 +107,7 @@ export function DepositField() {
               ? copy['mortgageForm.depositSubtractAmountAria']
               : copy['mortgageForm.depositSubtractPercentAria']
           }
-          onClick={() =>
-            depositMode === 'amount'
-              ? setDepositGbp((value) => Math.max(0, value - 10000))
-              : setDepositPercent((value) => Math.max(0, value - 5))
-          }
+          onClick={stepDownDeposit}
         >
           {depositMode === 'amount'
             ? copy['mortgageForm.depositSubtractAmountButton']
@@ -89,18 +115,21 @@ export function DepositField() {
         </Button>
         <div className="flex grow items-center gap-2">
           {depositMode === 'amount' && <span aria-hidden="true">£</span>}
-          <Input
-            type="number"
-            id={fieldId}
-            name="deposit"
-            className={inputClass}
-            value={depositMode === 'amount' ? depositGbp : depositPercent}
-            onChange={(event) =>
-              depositMode === 'amount'
-                ? setDepositGbp(Number(event.target.value))
-                : setDepositPercent(Number(event.target.value))
-            }
-          />
+          {depositMode === 'amount' ? (
+            <ThousandsInput
+              id={fieldId}
+              name="deposit"
+              value={depositGbp}
+              onChange={setDepositGbp}
+            />
+          ) : (
+            <PercentInput
+              id={fieldId}
+              name="deposit"
+              value={depositPercent}
+              onChange={setDepositPercent}
+            />
+          )}
           {depositMode === 'percent' && <span aria-hidden="true">%</span>}
         </div>
         <Button
@@ -111,11 +140,7 @@ export function DepositField() {
               ? copy['mortgageForm.depositAddAmountAria']
               : copy['mortgageForm.depositAddPercentAria']
           }
-          onClick={() =>
-            depositMode === 'amount'
-              ? setDepositGbp((value) => value + 10000)
-              : setDepositPercent((value) => value + 5)
-          }
+          onClick={stepUpDeposit}
         >
           {depositMode === 'amount'
             ? copy['mortgageForm.depositAddAmountButton']
