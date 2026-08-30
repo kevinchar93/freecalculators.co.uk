@@ -12,6 +12,7 @@ type PercentInputProps = {
   max?: number;
   onChange: (value: number) => void;
   className?: string;
+  disabled?: boolean;
 };
 
 export function PercentInput({
@@ -21,6 +22,7 @@ export function PercentInput({
   max = 100,
   onChange,
   className,
+  disabled,
 }: PercentInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [displayValue, setDisplayValue] = useState(() => String(value));
@@ -39,6 +41,7 @@ export function PercentInput({
       name={name}
       className={cn(inputClass, className)}
       value={displayValue}
+      disabled={disabled}
       onFocus={() => {
         setIsFocused(true);
         setDisplayValue(value === 0 ? '' : String(value));

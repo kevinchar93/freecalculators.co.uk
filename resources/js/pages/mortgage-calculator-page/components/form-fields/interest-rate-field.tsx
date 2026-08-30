@@ -1,9 +1,8 @@
 import { useId } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
-import { inputClass } from './field-styles';
+import { PercentInput } from './percent-input';
 
 export function InterestRateField() {
   const fieldId = useId();
@@ -19,17 +18,13 @@ export function InterestRateField() {
     <div>
       <Label htmlFor={fieldId}>{copy['mortgageForm.interestRateLabel']}</Label>
       <div className="mt-2 flex items-center gap-2">
-        <Input
-          type="number"
-          step="0.01"
+        <PercentInput
           id={fieldId}
           name="interestRate"
-          className={inputClass}
           value={interestRatePercent}
+          max={10}
           disabled={disabled}
-          onChange={(event) =>
-            setInterestRatePercent(Number(event.target.value))
-          }
+          onChange={setInterestRatePercent}
         />
         <span aria-hidden="true">%</span>
       </div>
