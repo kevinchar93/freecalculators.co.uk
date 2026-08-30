@@ -1,9 +1,8 @@
 import { useId } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
-import { inputClass } from './field-styles';
+import { PercentInput } from './percent-input';
 
 export function SvrField() {
   const fieldId = useId();
@@ -18,16 +17,12 @@ export function SvrField() {
     <div>
       <Label htmlFor={fieldId}>{copy['mortgageForm.svrLabel']}</Label>
       <div className="mt-2 flex items-center gap-2">
-        <Input
-          type="number"
-          step="0.01"
+        <PercentInput
           id={fieldId}
           name="svr"
-          className={inputClass}
           value={standardVariableRatePercent}
-          onChange={(event) =>
-            setStandardVariableRatePercent(Number(event.target.value))
-          }
+          max={15}
+          onChange={setStandardVariableRatePercent}
         />
         <span aria-hidden="true">%</span>
       </div>
