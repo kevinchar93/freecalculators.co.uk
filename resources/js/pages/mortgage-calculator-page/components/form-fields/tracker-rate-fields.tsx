@@ -1,9 +1,8 @@
 import { useId } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
-import { inputClass } from './field-styles';
+import { PercentInput } from './percent-input';
 
 export function TrackerRateFields() {
   const baseRateId = useId();
@@ -18,14 +17,12 @@ export function TrackerRateFields() {
       <div>
         <Label htmlFor={baseRateId}>{copy['mortgageForm.baseRateLabel']}</Label>
         <div className="mt-2 flex items-center gap-2">
-          <Input
-            type="number"
-            step="0.01"
+          <PercentInput
             id={baseRateId}
             name="baseRate"
-            className={inputClass}
             value={baseRatePercent}
-            onChange={(event) => setBaseRatePercent(Number(event.target.value))}
+            max={15}
+            onChange={setBaseRatePercent}
           />
           <span aria-hidden="true">%</span>
         </div>
@@ -33,14 +30,12 @@ export function TrackerRateFields() {
       <div>
         <Label htmlFor={marginId}>{copy['mortgageForm.marginLabel']}</Label>
         <div className="mt-2 flex items-center gap-2">
-          <Input
-            type="number"
-            step="0.01"
+          <PercentInput
             id={marginId}
             name="margin"
-            className={inputClass}
             value={marginPercent}
-            onChange={(event) => setMarginPercent(Number(event.target.value))}
+            max={10}
+            onChange={setMarginPercent}
           />
           <span aria-hidden="true">%</span>
         </div>
