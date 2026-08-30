@@ -1,11 +1,11 @@
 import { useId } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
-import { inputClass, toggleSelectedClass } from './field-styles';
+import { toggleSelectedClass } from './field-styles';
+import { WholeNumberInput } from './whole-number-input';
 
 export function MortgageTermField() {
   const fieldId = useId();
@@ -16,13 +16,13 @@ export function MortgageTermField() {
     <div>
       <Label htmlFor={fieldId}>{copy['mortgageForm.mortgageTermLabel']}</Label>
       <div className="mt-2 flex items-center gap-2">
-        <Input
-          type="number"
+        <WholeNumberInput
           id={fieldId}
           name="mortgageTerm"
-          className={inputClass}
           value={mortgageTermYears}
-          onChange={(event) => setMortgageTermYears(Number(event.target.value))}
+          min={1}
+          max={45}
+          onChange={setMortgageTermYears}
         />
         <span aria-hidden="true">
           {copy['mortgageForm.mortgageTermYearsSuffix']}
