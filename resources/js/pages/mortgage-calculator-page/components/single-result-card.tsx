@@ -42,25 +42,22 @@ export function SingleResultCard({
       )}
     >
       <div className="p-5">
-        <h2 className="mb-4 text-xl font-semibold">
-          {copy['singleResultCard.yourResultsHeading']}
-        </h2>
         <div className="flex flex-col gap-4">
-          <div>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+          <h3>
+            <p className="text-base text-neutral-600 dark:text-neutral-400">
               {copy['singleResultCard.monthlyPaymentLabel']}
             </p>
             <p className="text-5xl font-bold text-brand-subtle-foreground">
               {monthlyPayment}{' '}
-              <span className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+              <span className="text-lg font-normal text-neutral-500 dark:text-neutral-400">
                 ({paymentTermText})
               </span>
             </p>
-          </div>
+          </h3>
 
           <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
             <div className="flex justify-between">
-              <dt>{copy['singleResultCard.housePriceLabel']}</dt>
+              <dt>{copy['singleResultCard.propertyPriceLabel']}</dt>
               <dd>{housePrice}</dd>
             </div>
             <div className="flex justify-between">

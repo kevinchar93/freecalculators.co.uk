@@ -9,7 +9,6 @@ export interface DuringDealCardProps {
   monthlyPayment: string;
   paymentTermText: string;
   loan: string;
-  totalPaidLabel: string;
   totalPaid: string;
   totalInterest: string;
   totalPrincipal: string;
@@ -23,7 +22,6 @@ export function DuringDealCard({
   monthlyPayment,
   paymentTermText,
   loan,
-  totalPaidLabel,
   totalPaid,
   totalInterest,
   totalPrincipal,
@@ -41,20 +39,22 @@ export function DuringDealCard({
       )}
     >
       <div className="rounded-t-2xl bg-brand-subtle-foreground px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-        {copy['duringDealCard.badge']}
+        <h2 className="text-xl font-semibold">
+          {copy['duringDealCard.badge']}
+        </h2>
       </div>
-      <div className="flex flex-col gap-4 p-5">
-        <div>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+      <div className="flex flex-col gap-4 p-4">
+        <h3>
+          <p className="text-base text-neutral-600 dark:text-neutral-400">
             {copy['duringDealCard.monthlyPaymentLabel']}
           </p>
           <p className="text-5xl font-bold text-brand-subtle-foreground">
             {monthlyPayment}{' '}
-            <span className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <span className="text-lg font-normal text-neutral-500 dark:text-neutral-400">
               ({paymentTermText})
             </span>
           </p>
-        </div>
+        </h3>
 
         <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
           <div className="flex justify-between">
@@ -75,7 +75,7 @@ export function DuringDealCard({
 
         <div className="flex flex-col gap-2">
           <div className="flex justify-between text-sm font-semibold">
-            <dt>{totalPaidLabel}</dt>
+            <dt>{copy['duringDealCard.totalPaidLabel']}</dt>
             <dd>{totalPaid}</dd>
           </div>
 
@@ -86,7 +86,7 @@ export function DuringDealCard({
 
           <div className="flex justify-between text-sm font-semibold">
             <span>{dateLabel}</span>
-            <span className="rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+            <span className="-mr-3 rounded-lg bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
               {endDate}
             </span>
           </div>

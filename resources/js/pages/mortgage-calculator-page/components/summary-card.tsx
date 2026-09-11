@@ -8,7 +8,6 @@ export interface SummaryCardProps {
   housePrice: string;
   deposit: string;
   loan: string;
-  totalPaidLabel: string;
   totalPaid: string;
   totalInterest: string;
   showVehicleNotice: boolean;
@@ -18,7 +17,6 @@ export function SummaryCard({
   housePrice,
   deposit,
   loan,
-  totalPaidLabel,
   totalPaid,
   totalInterest,
   showVehicleNotice,
@@ -31,24 +29,24 @@ export function SummaryCard({
       )}
     >
       <div className="rounded-t-2xl bg-neutral-700 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-        {copy['summaryCard.badge']}
+        <h2 className="text-xl font-semibold">{copy['summaryCard.badge']}</h2>
       </div>
       <div className="flex flex-col gap-4 p-5">
         <dl className="flex flex-col gap-1 text-sm">
           <div className="flex justify-between">
-            <dt>{copy['summaryCard.housePriceLabel']}</dt>
+            <dt>{copy['summaryCard.propertyPriceLabel']}</dt>
             <dd>{housePrice}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt>{copy['summaryCard.loanAmountLabel']}</dt>
-            <dd>{loan}</dd>
           </div>
           <div className="flex justify-between">
             <dt>{copy['summaryCard.depositLabel']}</dt>
             <dd>{deposit}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>{copy['summaryCard.totalInterestLabel']}</dt>
+            <dt>{copy['summaryCard.loanAmountLabel']}</dt>
+            <dd>{loan}</dd>
+          </div>
+          <div className="flex justify-between">
+            <dt>{copy['summaryCard.interestPaidLabel']}</dt>
             <dd>{totalInterest}</dd>
           </div>
         </dl>
@@ -56,11 +54,13 @@ export function SummaryCard({
         <div className="border-t border-brand-border pt-1"></div>
 
         <div className="flex justify-between text-sm font-semibold">
-          <dt>{totalPaidLabel}</dt>
+          <dt>{copy['summaryCard.totalPaidLabel']}</dt>
           <dd>{totalPaid}</dd>
         </div>
 
-        {showVehicleNotice && <RepaymentVehicleNotice loanAmount={loan} />}
+        {showVehicleNotice && (
+          <RepaymentVehicleNotice loanAmount={loan} tone="neutral" />
+        )}
       </div>
     </Card>
   );

@@ -16,6 +16,7 @@ import type { SingleResultCardProps } from './components/single-result-card';
 import type { SummaryCardProps } from './components/summary-card';
 import { formatDuration, formatGBP, formatMonthYear } from './formatters';
 import type { MortgageInputs } from './store';
+import copy from '../mortgage-calculator-page/copy.json';
 
 export interface ResultsViewModel {
   single: SingleResultCardProps;
@@ -26,12 +27,14 @@ export interface ResultsViewModel {
 
 export function getResultsViewModel(inputs: MortgageInputs): ResultsViewModel {
   const isInterestOnly = inputs.mortgageType === 'interest-only';
+
   const depositAmount = resolveDepositAmount({
     propertyPriceGbp: inputs.propertyPriceGbp,
     depositMode: inputs.depositMode,
     depositGbp: inputs.depositGbp,
     depositPercent: inputs.depositPercent,
   });
+
   const loanAmount = calculateLoanAmount(inputs.propertyPriceGbp, depositAmount);
   const termMonths = inputs.mortgageTermYears * 12;
   const dealMonths = inputs.dealTermYears * 12;
@@ -39,6 +42,7 @@ export function getResultsViewModel(inputs: MortgageInputs): ResultsViewModel {
 
   const single = buildSingleCard(inputs, loanAmount, depositAmount, termMonths, isInterestOnly);
   const during = buildDuringDealCard(inputs, loanAmount, termMonths, dealMonths, isInterestOnly);
+
   const after = buildAfterDealCard(
     inputs,
     during.balanceAtEndRaw,
@@ -47,6 +51,7 @@ export function getResultsViewModel(inputs: MortgageInputs): ResultsViewModel {
     during.monthlyPaymentRaw,
     isInterestOnly,
   );
+
   const summary = buildSummaryCard(
     inputs,
     loanAmount,
@@ -67,6 +72,7 @@ function buildSingleCard(
   isInterestOnly: boolean,
 ): SingleResultCardProps {
   const rate = annualPercentToMonthlyRate(inputs.interestRatePercent);
+
   const monthlyPaymentRaw = isInterestOnly
     ? monthlyRepaymentInterestOnly(loanAmount, rate)
     : monthlyRepayment(loanAmount, rate, termMonths);
@@ -81,7 +87,7 @@ function buildSingleCard(
     loan: formatGBP(loanAmount),
     totalPaid: formatGBP(totalPaidRaw),
     totalInterest: formatGBP(totalInterestRaw),
-    dateLabel: isInterestOnly ? 'Mortgage term ends' : 'Mortgage Payoff Date',
+    dateLabel: isInterestOnly ? copy['singleResultCard.mortgagePayoffDateInterestOnly'] : copy['singleResultCard.mortgagePayoffDateRepayment'],
     endDate: formatMonthYear(addMonthsToPeriod(inputs.startDate, termMonths)),
     showVehicleNotice: isInterestOnly,
     getPaymentSchedule: () =>
@@ -126,12 +132,11 @@ function buildDuringDealCard(
     monthlyPayment: formatGBP(monthlyPaymentRaw),
     paymentTermText: `for ${formatDuration(dealMonths)}`,
     loan: formatGBP(loanAmount),
-    totalPaidLabel: 'Total paid',
     totalPaid: formatGBP(totalPaidRaw),
     balanceAtEnd: formatGBP(balanceAtEndRaw),
     totalInterest: formatGBP(totalInterestRaw),
     totalPrincipal: formatGBP(totalPrincipalRaw),
-    dateLabel: isInterestOnly ? 'Deal period ends' : 'Deal end date',
+    dateLabel: isInterestOnly ? copy['duringDealCard.mortgagePayoffDateInterestOnly'] : copy['duringDealCard.mortgagePayoffDateRepayment'],
     endDate: formatMonthYear(addMonthsToPeriod(inputs.startDate, dealMonths)),
     getPaymentSchedule: () =>
       buildAmortisationSchedule(
@@ -161,11 +166,10 @@ function buildAfterDealCard(
       paymentTermText: '',
       changeText: '',
       loan: formatGBP(postDealBalanceRaw),
-      totalPaidLabel: 'Total paid',
       totalPaid: formatGBP(0),
       totalInterest: formatGBP(0),
       totalPrincipal: formatGBP(0),
-      dateLabel: isInterestOnly ? 'Full balance due on' : 'Mortgage payoff date',
+      dateLabel: isInterestOnly ? copy['afterDealCard.mortgagePayoffDateInterestOnly'] : copy['afterDealCard.mortgagePayoffDateRepayment'],
       endDate: '',
       getPaymentSchedule: () => ({ monthly: [], annual: [] }),
     };
@@ -188,11 +192,10 @@ function buildAfterDealCard(
     paymentTermText: `for ${formatDuration(postDealMonths)}`,
     changeText: changeText(paymentIncreaseRaw),
     loan: formatGBP(postDealBalanceRaw),
-    totalPaidLabel: 'Total paid',
     totalPaid: formatGBP(totalPaidRaw),
     totalInterest: formatGBP(totalInterestRaw),
     totalPrincipal: formatGBP(totalPrincipalRaw),
-    dateLabel: isInterestOnly ? 'Full balance due on' : 'Mortgage payoff date',
+    dateLabel: isInterestOnly ? copy['afterDealCard.mortgagePayoffDateInterestOnly'] : copy['afterDealCard.mortgagePayoffDateRepayment'],
     endDate: formatMonthYear(addMonthsToPeriod(postDealStartPeriod, postDealMonths)),
     getPaymentSchedule: () =>
       buildAmortisationSchedule(
@@ -223,7 +226,6 @@ function buildSummaryCard(
     housePrice: formatGBP(inputs.propertyPriceGbp),
     deposit: formatGBP(depositAmount),
     loan: formatGBP(loanAmount),
-    totalPaidLabel: 'Total Paid',
     totalPaid: formatGBP(totalPaidRaw),
     totalInterest: formatGBP(totalInterestRaw),
     showVehicleNotice: isInterestOnly,

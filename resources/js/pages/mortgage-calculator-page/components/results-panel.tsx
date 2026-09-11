@@ -26,7 +26,9 @@ export function ResultsPanel({
   const startDate = useMortgageStore((s) => s.startDate);
   const dealType = useMortgageStore((s) => s.dealType);
   const dealTermYears = useMortgageStore((s) => s.dealTermYears);
-  const standardVariableRatePercent = useMortgageStore((s) => s.standardVariableRatePercent);
+  const standardVariableRatePercent = useMortgageStore(
+    (s) => s.standardVariableRatePercent,
+  );
   const baseRatePercent = useMortgageStore((s) => s.baseRatePercent);
   const marginPercent = useMortgageStore((s) => s.marginPercent);
 
@@ -78,7 +80,6 @@ export function ResultsPanel({
             monthlyPayment={during.monthlyPayment}
             paymentTermText={during.paymentTermText}
             loan={during.loan}
-            totalPaidLabel={during.totalPaidLabel}
             totalPaid={during.totalPaid}
             totalInterest={during.totalInterest}
             totalPrincipal={during.totalPrincipal}
@@ -94,7 +95,6 @@ export function ResultsPanel({
               paymentTermText={after.paymentTermText}
               changeText={after.changeText}
               loan={after.loan}
-              totalPaidLabel={after.totalPaidLabel}
               totalPaid={after.totalPaid}
               totalInterest={after.totalInterest}
               totalPrincipal={after.totalPrincipal}
@@ -108,7 +108,6 @@ export function ResultsPanel({
             housePrice={summary.housePrice}
             deposit={summary.deposit}
             loan={summary.loan}
-            totalPaidLabel={summary.totalPaidLabel}
             totalPaid={summary.totalPaid}
             totalInterest={summary.totalInterest}
             showVehicleNotice={summary.showVehicleNotice}

@@ -10,7 +10,6 @@ export interface AfterDealCardProps {
   paymentTermText: string;
   changeText: string;
   loan: string;
-  totalPaidLabel: string;
   totalPaid: string;
   totalInterest: string;
   totalPrincipal: string;
@@ -24,7 +23,6 @@ export function AfterDealCard({
   paymentTermText,
   changeText,
   loan,
-  totalPaidLabel,
   totalPaid,
   totalInterest,
   totalPrincipal,
@@ -40,23 +38,23 @@ export function AfterDealCard({
       )}
     >
       <div className="rounded-t-2xl bg-neutral-500 px-5 py-3 text-center text-sm font-semibold tracking-wide text-white uppercase">
-        {copy['afterDealCard.badge']}
+        <h2 className="text-xl font-semibold">{copy['afterDealCard.badge']}</h2>
       </div>
-      <div className="flex flex-col gap-4 p-5">
-        <div>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+      <div className="flex flex-col gap-4 p-4">
+        <h3>
+          <p className="text-base text-neutral-600 dark:text-neutral-400">
             {copy['afterDealCard.monthlyPaymentLabel']}
           </p>
           <p className="text-4xl font-bold">
             {monthlyPayment}{' '}
-            <span className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
+            <span className="text-base font-normal text-neutral-500 dark:text-neutral-400">
               ({paymentTermText})
             </span>
           </p>
           <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
             {changeText}
           </p>
-        </div>
+        </h3>
 
         <dl className="flex flex-col gap-1 border-t border-brand-border pt-4 text-sm">
           <div className="flex justify-between">
@@ -77,13 +75,13 @@ export function AfterDealCard({
 
         <div className="flex flex-col gap-2">
           <div className="flex justify-between text-sm font-semibold">
-            <dt>{totalPaidLabel}</dt>
+            <dt>{copy['afterDealCard.totalPaidLabel']}</dt>
             <dd>{totalPaid}</dd>
           </div>
 
           <div className="flex justify-between text-sm font-semibold">
             <span>{dateLabel}</span>
-            <span className="rounded-lg bg-neutral-200 px-3 py-1 text-sm font-semibold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+            <span className="-mr-3 rounded-lg bg-neutral-200 px-3 py-1 text-sm font-semibold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {endDate}
             </span>
           </div>
