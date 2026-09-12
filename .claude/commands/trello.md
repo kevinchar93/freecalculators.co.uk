@@ -76,6 +76,9 @@ curl -s "https://api.trello.com/1/lists/{listId}/cards?key=${TRELLO_API_KEY}&tok
 - `developer.trello.com` (the docs site) is unreachable from this sandbox — DNS blocked. `api.trello.com` (the actual API host) works fine. Prefer testing live against the API over trying to fetch docs.
 - Card status maps to list: Backlog.md's todo/in-progress/done statuses → To Do/In Progress/Done lists above.
 - When migrating Backlog.md tasks, read them with `backlog task list --plain` or `--json`, then create one Trello card per task via the create-card call above.
+- Backlog.md research **docs** (`backlog doc list`) are NOT mirrored to Trello — a card-per-doc format didn't work well. They live as plain markdown in `docs/research/` in this repo instead (copied from `backlog/docs/`). Keep that in sync manually if a doc changes.
+- POST/PUT requests must send params in the request body (`application/x-www-form-urlencoded`), not the query string — long values like card descriptions will hit a 414 (URI too long) via CloudFront if put in the URL.
+- Migration state as of the last run: all 45 Backlog.md tasks migrated to cards with labels + acceptance-criteria checklists. Nothing was deleted from Backlog.md.
 
 ## Input
 
