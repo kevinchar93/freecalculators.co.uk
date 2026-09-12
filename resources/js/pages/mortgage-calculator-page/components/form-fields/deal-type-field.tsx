@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
 import type { DealType } from '../../types';
-import { toggleSelectedClass } from './field-styles';
+import { toggleGroupItemSelectedBrandClass } from './field-styles';
 
 export function DealTypeField() {
   const dealType = useMortgageStore((s) => s.dealType);
@@ -25,10 +25,16 @@ export function DealTypeField() {
         }}
         className="w-full"
       >
-        <ToggleGroupItem value="fixed" className={cn('flex-1', toggleSelectedClass)}>
+        <ToggleGroupItem
+          value="fixed"
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
+        >
           {copy['mortgageForm.dealTypeFixed']}
         </ToggleGroupItem>
-        <ToggleGroupItem value="tracker" className={cn('flex-1', toggleSelectedClass)}>
+        <ToggleGroupItem
+          value="tracker"
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
+        >
           {copy['mortgageForm.dealTypeTracker']}
         </ToggleGroupItem>
       </ToggleGroup>

@@ -4,7 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
-import { toggleSelectedClass } from './field-styles';
+import { toggleGroupItemSelectedBrandClass } from './field-styles';
 import { WholeNumberInput } from './whole-number-input';
 
 export function MortgageTermField() {
@@ -41,25 +41,25 @@ export function MortgageTermField() {
       >
         <ToggleGroupItem
           value="15"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageTerm15Label']}
         </ToggleGroupItem>
         <ToggleGroupItem
           value="20"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageTerm20Label']}
         </ToggleGroupItem>
         <ToggleGroupItem
           value="25"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageTerm25Label']}
         </ToggleGroupItem>
         <ToggleGroupItem
           value="30"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageTerm30Label']}
         </ToggleGroupItem>

@@ -9,6 +9,11 @@ import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { AmortisationSchedule } from '../types';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
+  toggleGroupItemSelectedBrandClass,
+  toggleGroupItemSelectedNeutralClass,
+} from './form-fields/field-styles';
 
 const toneClasses = {
   brand: 'bg-brand-subtle text-brand-subtle-foreground',
@@ -27,25 +32,28 @@ export function PaymentScheduleSection({
   tone?: keyof typeof toneClasses;
 }) {
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState<'monthly' | 'annual'>('monthly');
+  const [view, setView] = useState<'monthly' | 'annual'>('annual');
+
+  const toggleItemClass =
+    tone === 'brand'
+      ? toggleGroupItemSelectedBrandClass
+      : toggleGroupItemSelectedNeutralClass;
 
   const debouncedGetSchedule = useDebouncedValue(
     getSchedule,
     SCHEDULE_DEBOUNCE_MS,
   );
+
   const schedule = useMemo(
     () => (open ? debouncedGetSchedule() : EMPTY_SCHEDULE),
     [open, debouncedGetSchedule],
   );
+
   const rows = view === 'monthly' ? schedule.monthly : schedule.annual;
   const periodColumnLabel =
     view === 'monthly'
       ? copy['paymentScheduleSection.columnMonth']
       : copy['paymentScheduleSection.columnYear'];
-  const toggleButtonLabel =
-    view === 'monthly'
-      ? copy['paymentScheduleSection.showAnnualButton']
-      : copy['paymentScheduleSection.showMonthlyButton'];
 
   return (
     <Collapsible
@@ -65,13 +73,29 @@ export function PaymentScheduleSection({
         </CollapsibleTrigger>
         <div className="flex items-center gap-3">
           {open && (
-            <button
-              type="button"
-              onClick={() => setView(view === 'monthly' ? 'annual' : 'monthly')}
-              className="rounded-md border border-current/30 px-2.5 py-1 text-xs font-semibold transition-colors hover:bg-current/10"
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              value={view}
+              onValueChange={(value) => {
+                if (value) {
+                  setView(value as 'monthly' | 'annual');
+                }
+              }}
             >
-              {toggleButtonLabel}
-            </button>
+              <ToggleGroupItem
+                value="monthly"
+                className={cn('text-xs', toggleItemClass)}
+              >
+                {copy['paymentScheduleSection.showMonthlyToggle']}
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="annual"
+                className={cn('text-xs', toggleItemClass)}
+              >
+                {copy['paymentScheduleSection.showAnnualToggle']}
+              </ToggleGroupItem>
+            </ToggleGroup>
           )}
           <CollapsibleTrigger
             aria-label={copy['paymentScheduleSection.triggerButton']}

@@ -11,7 +11,7 @@ import {
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
 import type { DepositMode } from '../../types';
-import { toggleSelectedClass } from './field-styles';
+import { toggleGroupItemSelectedBrandClass } from './field-styles';
 import { PercentInput } from './percent-input';
 import { ThousandsInput } from './thousands-input';
 
@@ -85,14 +85,14 @@ export function DepositField() {
           <ToggleGroupItem
             value="amount"
             aria-label={copy['mortgageForm.depositModeAmountAria']}
-            className={cn('flex-1', toggleSelectedClass)}
+            className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
           >
             {copy['mortgageForm.depositModeAmountButton']}
           </ToggleGroupItem>
           <ToggleGroupItem
             value="percent"
             aria-label={copy['mortgageForm.depositModePercentAria']}
-            className={cn('flex-1', toggleSelectedClass)}
+            className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
           >
             {copy['mortgageForm.depositModePercentButton']}
           </ToggleGroupItem>

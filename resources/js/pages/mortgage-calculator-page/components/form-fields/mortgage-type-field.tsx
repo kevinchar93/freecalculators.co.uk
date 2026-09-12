@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';
 import type { MortgageType } from '../../types';
-import { toggleSelectedClass } from './field-styles';
+import { toggleGroupItemSelectedBrandClass } from './field-styles';
 
 export function MortgageTypeField() {
   const mortgageType = useMortgageStore((s) => s.mortgageType);
@@ -27,13 +27,13 @@ export function MortgageTypeField() {
       >
         <ToggleGroupItem
           value="repayment"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageType.RepaymentOptionLabel']}
         </ToggleGroupItem>
         <ToggleGroupItem
           value="interest-only"
-          className={cn('flex-1', toggleSelectedClass)}
+          className={cn('flex-1', toggleGroupItemSelectedBrandClass)}
         >
           {copy['mortgageForm.mortgageType.InterestOnlyOptionLabel']}
         </ToggleGroupItem>
