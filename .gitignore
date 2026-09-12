@@ -28,3 +28,4 @@ yarn-error.log
 /.vscode
 /.zed
 todo.todo
+.env.trello-token
