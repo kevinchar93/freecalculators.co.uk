@@ -70,6 +70,16 @@
         "types:check": [
             "phpstan analyse"
         ],
+        "prod-check": [
+            "Composer\\Config::disableProcessTimeout",
+            "composer install --no-dev --optimize-autoloader",
+            "npm run build",
+            "APP_ENV=production APP_DEBUG=false SESSION_DRIVER=cookie CACHE_STORE=file QUEUE_CONNECTION=sync php artisan optimize"
+        ],
+        "prod-check:clean": [
+            "@php artisan optimize:clear",
+            "composer install"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",

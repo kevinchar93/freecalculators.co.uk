@@ -123,4 +123,23 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Staging Basic Auth
+    |--------------------------------------------------------------------------
+    |
+    | Gates the entire app behind HTTP Basic Auth so staging can be reached
+    | over the open internet without being publicly indexable. Only the
+    | password's hash is stored here — never the plaintext. Generate one
+    | with `php artisan staging:hash-password`. Disabled by default so it
+    | can never accidentally end up live for production visitors.
+    |
+    */
+
+    'staging_basic_auth_enabled' => (bool) env('STAGING_BASIC_AUTH_ENABLED', false),
+
+    'staging_basic_auth_user' => env('STAGING_BASIC_AUTH_USER'),
+
+    'staging_basic_auth_password_hash' => env('STAGING_BASIC_AUTH_PASSWORD_HASH'),
+
 ];
