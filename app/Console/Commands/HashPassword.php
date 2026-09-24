@@ -5,11 +5,11 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class HashStagingPassword extends Command
+class HashPassword extends Command
 {
-    protected $signature = 'staging:hash-password';
+    protected $signature = 'hash:password';
 
-    protected $description = 'Hash a password for STAGING_BASIC_AUTH_PASSWORD_HASH without printing or storing the plaintext';
+    protected $description = 'Hash a password without printing or storing the plaintext';
 
     public function handle(): int
     {
