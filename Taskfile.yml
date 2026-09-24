@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+
+tasks:
+  infra:create:staging-app:
+    cmds:
+      - doctl apps create --spec .do/app-platform-staging.generated.yaml
+    silent: true
+
+  build:image:
+    cmds:
+      - podman build -t freecalculator-co-uk  .
+    silent: true
+
+  start:container:
+    cmds:
+      - podman run --rm -p 8080:8080 --env-file .env --name freecalculator-co-uk freecalculator-co-uk
+    silent: true
