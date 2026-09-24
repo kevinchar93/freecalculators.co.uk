@@ -1,0 +1,72 @@
+# DigitalOcean App Platform spec — staging
+# Reference: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
+# Generate the real spec with: php artisan deploy:build-spec staging
+# Apply with: doctl apps create --spec .do/app-platform-staging.generated.yaml
+# Update with: doctl apps update <app-id> --spec .do/app-platform-staging.generated.yaml
+#
+# Staging is intentionally as close to production as possible
+# the only deliberate differences from app-platform-template-production.yaml are:
+# APP_URL, the domain, and the STAGING_BASIC_AUTH_* vars that gate access.
+name: freecalculators-staging
+region: lon1
+
+services:
+  - name: web
+    github:
+      repo: kevinchar93/freecalculators.co.uk
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    http_port: 8080
+    health_check:
+      http_path: /up
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb-fixed
+    envs:
+      - key: APP_NAME
+        value: freecalculators.co.uk (staging)
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_ENV
+        value: production
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_KEY
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_DEBUG
+        value: "false"
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_URL
+        value: https://staging.freecalculators.co.uk
+        scope: RUN_AND_BUILD_TIME
+
+      - key: STAGING_BASIC_AUTH_ENABLED
+        value: "true"
+        scope: RUN_AND_BUILD_TIME
+
+      - key: STAGING_BASIC_AUTH_USER
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_TIME
+
+      # Generate with `php artisan staging:hash-password` — this is a
+      # bcrypt hash, never the plaintext password itself.
+      - key: STAGING_BASIC_AUTH_PASSWORD_HASH
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: LOG_LEVEL
+        value: info
+        scope: RUN_AND_BUILD_TIME
+
+domains:
+  # zone is the parent zone (freecalculators.co.uk), not the full staging
+  # hostname — see app-platform-template-production.yaml for why this is needed.
+  - domain: staging.freecalculators.co.uk
+    type: PRIMARY
+    zone: freecalculators.co.uk

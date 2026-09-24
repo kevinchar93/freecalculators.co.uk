@@ -1,0 +1,61 @@
+# DigitalOcean App Platform spec — production
+# Reference: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
+# Generate the real spec with: php artisan deploy:build-spec production
+# Apply with: doctl apps create --spec .do/app-platform-production.generated.yaml
+# Update with: doctl apps update <app-id> --spec .do/app-platform-production.generated.yaml
+name: freecalculators-production
+region: lon1 # adjust if you want a different DO region
+
+services:
+  - name: web
+    github:
+      repo: kevinchar93/freecalculators.co.uk
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    http_port: 8080
+    health_check:
+      http_path: /up
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb-fixed
+    envs:
+      - key: APP_NAME
+        value: freecalculators.co.uk
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_ENV
+        value: production
+        scope: RUN_AND_BUILD_TIME
+
+      # SECRET-type values: fill the real value locally when you first run
+      # `doctl apps create`, never commit the real value. After the app
+      # exists, run `doctl apps spec get <app-id>` and copy the resulting
+      # EV[1:...] ciphertext back into this file — that's safe to commit.
+      - key: APP_KEY
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_DEBUG
+        value: "false"
+        scope: RUN_AND_BUILD_TIME
+
+      - key: APP_URL
+        value: https://freecalculators.co.uk
+        scope: RUN_AND_BUILD_TIME
+
+      - key: LOG_LEVEL
+        value: info
+        scope: RUN_AND_BUILD_TIME
+
+domains:
+  # `zone` tells App Platform to create the actual DNS records inside the
+  # freecalculators.co.uk zone we already added under Networking > Domains
+  # (which currently has no records) — without it, App Platform serves the
+  # hostname but never writes the DNS record for it.
+  - domain: freecalculators.co.uk
+    type: PRIMARY
+    zone: freecalculators.co.uk
+  - domain: www.freecalculators.co.uk
+    type: ALIAS
+    zone: freecalculators.co.uk
