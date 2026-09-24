@@ -5,7 +5,7 @@
 # build needs PHP: the @laravel/vite-plugin-wayfinder plugin shells out to
 # `php artisan wayfinder:generate` to read the app's routes, so `vendor/`
 # and the app code must exist *before* `npm run build` runs.
-FROM dunglas/frankenphp:1.11-php8.3 AS builder
+FROM dunglas/frankenphp:1.12-php8.4 AS builder
 
 # install nodejs and other necessary packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -44,7 +44,7 @@ RUN npm run build
 RUN rm -rf node_modules
 
 # --- runtime --------------------------------------------------------------
-FROM dunglas/frankenphp:1.11-php8.3
+FROM dunglas/frankenphp:1.12-php8.4
 
 # DO App Platform's http_port for this app is set to 8080 to match.
 ENV SERVER_NAME=:8080
