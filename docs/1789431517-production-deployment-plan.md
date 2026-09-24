@@ -21,44 +21,55 @@ The theme running through all four: **prefer configuration over infrastructure**
 
 ### Why
 
-Laravel ships with three subsystems that default to needing a real, persistent backing store:
+Laravel ships with four subsystems that default to needing a real, persistent backing store (or, for logging, a local disk that doesn't fit this platform):
 
 | Subsystem | `.env` key | Default driver | Needs a DB? |
 |---|---|---|---|
 | Sessions | `SESSION_DRIVER` | `database` | Yes |
 | Cache | `CACHE_STORE` | `database` | Yes |
 | Queue | `QUEUE_CONNECTION` | `database` | Yes |
+| Logging | `LOG_CHANNEL` | `stack` → `storage/logs/*.log` file | No, but needs a disk App Platform doesn't persist |
 
-That default exists because most Laravel apps *do* have a database. This one doesn't need one: per `docs/spec.md`, the calculators read from JSON manifests and Markdown files, not a database. Checking the app confirms this — there's exactly one Eloquent model (`App\Models\User`), no jobs, no `Queue::` calls anywhere in `app/`, and no auth routes registered in `routes/web.php` (Laravel Fortify is installed but unused). The `users`/`cache`/`jobs` tables that ship in `database/migrations/` are Laravel's default scaffolding, not something this app relies on.
+That default exists because most Laravel apps *do* have a database. This one doesn't need one: per `docs/spec.md`, the calculators read from JSON manifests and Markdown files, not a database. Checking the app confirms this — there's exactly one Eloquent model (`App\Models\User`), no jobs, no `Queue::`/`Cache::` calls anywhere in `app/`, and no auth routes registered in `routes/web.php` (Laravel Fortify is installed but unused). All three of Laravel's default scaffolding migrations (`users`, `cache`, `jobs`) have since been deleted — the full test suite still passes with zero migrations, confirming nothing actually depends on them.
+
+`App\Models\User`, `database/factories/UserFactory.php`, `database/seeders/DatabaseSeeder.php`, `app/Actions/Fortify/ResetUserPassword.php`, and `config/auth.php`'s model binding are now dead code referencing a table that doesn't exist anywhere — they don't run today (Fortify's routes are disabled, nothing seeds automatically), so nothing breaks, but they're a candidate for a follow-up cleanup pass rather than left as unused stubs. If a real login/accounts feature is ever built, both the migration and this scaffolding would need to come back deliberately alongside a real, persistent database (see the note above on why SQLite can't be that database on this platform).
 
 You can't literally tell Laravel "there is no database" — `config/database.php` always needs a `default` connection configured, and some framework internals (like `DB::prohibitDestructiveCommands()` in `AppServiceProvider`) assume one exists. So "disable the database" in practice means: **stop anything from actually touching it at request time**, by moving session, cache, and queue off the `database` driver, and leaving the DB connection itself as the cheapest possible no-op (SQLite) so nothing errors if something touches it unexpectedly.
 
 ### What to change
 
-In the staging and production `.env` (set as App Platform environment variables, not committed):
+These aren't set as environment variables at all anymore — they're changed directly in `config/*.php`, so the app behaves this way **everywhere**, including local dev, with no env var required to get there:
 
-```
-DB_CONNECTION=sqlite
-# no DB_HOST / DB_DATABASE / credentials needed — SQLite is a local file, not a service
+| File | Line | Old default | New default |
+|---|---|---|---|
+| `config/session.php` | `'driver' => env('SESSION_DRIVER', ...)` | `database` | `cookie` |
+| `config/cache.php` | `'default' => env('CACHE_STORE', ...)` | `database` | `file` |
+| `config/queue.php` | `'default' => env('QUEUE_CONNECTION', ...)` | `database` | `sync` |
+| `config/logging.php` | `'default' => env('LOG_CHANNEL', ...)` | `stack` | `stderr` |
 
-SESSION_DRIVER=cookie   # session data lives in the encrypted cookie itself
-CACHE_STORE=file        # cached values go to local disk instead of a table
-
-QUEUE_CONNECTION=sync   # queued jobs (there are none today) run inline instead of being dispatched
-```
+Local `.env`/`.env.example` still explicitly set `LOG_CHANNEL=stack` and `LOG_LEVEL=debug` — a deliberate exception, not an oversight: verbose, human-readable single-file logging is genuinely nicer while developing locally, whereas staging/production lean on the new `stderr` default (see below). Everything else (`SESSION_DRIVER`, `CACHE_STORE`, `QUEUE_CONNECTION`) is the same value in `.env.example` as the new config default, so it's redundant there too, but left explicit for readability.
 
 Notes on each:
 
 - **`SESSION_DRIVER=cookie`**: fine for this app because sessions only need to survive one request-response cycle at most (there's no login flow exposed, no per-user state to persist). If a stateful feature ever needs server-side sessions, switch to `file` rather than `database` — still no DB required.
 - **`CACHE_STORE=file`**: App Platform's filesystem is ephemeral per-instance/per-deploy, which is fine for a cache (worst case, a cold cache after a restart — not data loss).
 - **`QUEUE_CONNECTION=sync`**: since there are no queued jobs today, `sync` (run immediately, in-request) is equivalent to not having a queue at all, without needing a `database` or `redis` backend or a separate worker process.
-- **`DB_CONNECTION=sqlite`**: this is the "mark it as not used" state — SQLite is just a file, no separate database service to provision, back up, or pay for. Run `php artisan migrate --force` once at build/deploy time so the file and its (unused) tables exist and nothing errors if a framework internal expects the connection to be queryable.
+- **`LOG_CHANNEL=stderr`**: the same ephemeral-storage problem that rules out SQLite also applies to file-based logging (`single`/`daily` both write to `storage/logs/`, which is wiped on every redeploy and never shared across instances). `stderr` writes to the process's stderr stream instead of a file — App Platform (like any container platform) captures a container's stdout/stderr automatically and surfaces it in its own Runtime Logs view, aggregated across instances, without relying on the container's own disk at all. `LOG_LEVEL` still defaults to `debug` (that fallback wasn't changed), so `LOG_LEVEL=info` is set explicitly as a real env var in both `.do/app-platform-template-*.yaml` files — `info` drops the very noisy framework-internal `debug` chatter while keeping everything that indicates something's actually wrong (see PSR-3/Monolog's severity order: `debug < info < notice < warning < error < critical < alert < emergency` — a level includes everything *more* severe than itself, not less).
+- **`DB_CONNECTION`**: never actually needed changing — `config/database.php`'s default was already `sqlite` from the start. Nothing in the app currently queries it, and there's no migration step in the App Platform deploy (see the note below on why that wouldn't even work).
+
+### A note on App Platform's storage (and why there's no migrate step)
+
+App Platform containers have **no persistent storage** — DO's own docs describe local storage as ephemeral scratch space that's wiped on every redeploy, with no volume-attachment option for App Platform services (unlike Droplets or Kubernetes). Every deploy starts fresh containers with empty disks, and if you ever scale to more than one instance, each instance has its *own* separate ephemeral disk — they don't share one.
+
+This matters beyond just "don't rely on the filesystem for uploads": it means a SQLite file can never meaningfully persist here. Even running `php artisan migrate` in a one-off pre-deploy job wouldn't help — that job would run in its own throwaway container, create `database.sqlite` there, and then that container (and the file) gets discarded; the actual web service starts in a *different* container with its own empty disk, so the migration's output would never reach it. This is why the App Spec files (`.do/app-platform-template-production.yaml`, `.do/app-platform-template-staging.yaml`) have no migrate job at all — it would accomplish nothing for a SQLite-backed app on this platform. If a real, durable database is ever needed, that means provisioning an actual DO Managed Database (or similar), not SQLite — and a migration step would need to come back at that point.
+
+This same fact is why `SESSION_DRIVER=cookie` isn't just "avoid a database dependency" for its own sake — a database-backed session store would silently log every visitor out on every redeploy, and behave inconsistently the moment there's more than one instance. Cookie-based sessions are the only option here that actually survives redeploys and scaling.
 
 ### How to apply
 
-- Update `.env.example` to reflect these as the recommended defaults (local dev can keep `sqlite`/`database` drivers if that's more convenient day-to-day — this only strictly matters for staging/production).
-- Set the three keys above as environment variables on both the staging and production DO App Platform components.
-- Confirm after deploy: `php artisan about` (via `doctl apps console` or a one-off command) shows `Session Driver: cookie`, `Cache Driver: file`, `Queue Driver: sync`.
+- `SESSION_DRIVER`, `CACHE_STORE`, `QUEUE_CONNECTION`, and `LOG_CHANNEL` are now framework defaults in `config/*.php` — nothing to set in DO App Platform's env vars for these; they apply everywhere the app runs, dev included (aside from local `.env` deliberately overriding `LOG_CHANNEL`/`LOG_LEVEL`, as above).
+- `LOG_LEVEL=info` is the one setting from this section still set explicitly, in both `.do/app-platform-template-production.yaml` and `.do/app-platform-template-staging.yaml`, since its framework default (`debug`) wasn't changed.
+- Confirm after deploy: `php artisan about` (via `doctl apps console` or a one-off command) shows `Session Driver: cookie`, `Cache Driver: file`, `Queue Driver: sync`, `Log Channel: stderr`.
 
 ---
 
@@ -79,10 +90,10 @@ Testing this on a laptop first means a production-mode bug is a five-minute loca
 From the project root, with a **separate `.env`** (don't overwrite your dev `.env` — copy it, e.g. to `.env.production.local`, and point `artisan`/`vite` at it per-command, or just temporarily swap `.env`):
 
 ```bash
-# 1. Set production-like flags
+# 1. Set production-like flags (SESSION_DRIVER / CACHE_STORE / QUEUE_CONNECTION /
+# LOG_CHANNEL from section 1 are already the framework defaults — nothing to set)
 APP_ENV=production
 APP_DEBUG=false
-# plus the SESSION_DRIVER / CACHE_STORE / QUEUE_CONNECTION values from section 1
 
 # 2. Install dependencies the way a production build would (no dev tooling, optimized autoloader)
 composer install --no-dev --optimize-autoloader
@@ -167,8 +178,11 @@ Open question to settle when actually provisioning: whether staging runs as a fu
 
 ---
 
+## Update: deploying as a container, not the buildpack
+
+The buildpack open items below were resolved by switching approach entirely: the app now builds from a repo-root `Dockerfile` (multi-stage: Composer + npm/Vite in a builder stage, [FrankenPHP](https://frankenphp.dev/) as the production server) instead of DO's auto-detected PHP buildpack. See [`docs/do-app-spec-guide.md`](do-app-spec-guide.md) for the reasoning and the App Spec files (`.do/app-platform-template-production.yaml`, `.do/app-platform-template-staging.yaml`) that wire it all up — build, health check, and env vars included. There's deliberately no migrate job — see the note on App Platform's ephemeral storage above.
+
 ## Open items / things to confirm once we start provisioning
 
-- Confirm DO App Platform's PHP buildpack picks up `npm run build` automatically, or whether a custom build command needs to be set explicitly in the app spec.
-- Confirm whether `php artisan migrate --force` should run automatically on every deploy (DO supports pre-deploy "run commands") — needed once, technically re-runnable safely since migrations are idempotent, but worth deciding deliberately rather than leaving to default behaviour.
-- Decide where `STAGING_BASIC_AUTH_PASS` and any other secrets get stored long-term (DO App Platform's encrypted env vars are fine for this; just don't let them leak into `.env.example` or git history).
+- Decide where `STAGING_BASIC_AUTH_PASSWORD_HASH` and any other secrets get stored long-term (DO App Platform's encrypted env vars are fine for this; just don't let them leak into `.env.example` or git history — see `do-app-spec-guide.md`'s section on handling secrets in a committed spec file).
+- Actually provision both apps via `doctl` (or the console) and confirm the Dockerfile builds cleanly on DO's infrastructure, not just locally.
