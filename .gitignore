@@ -30,3 +30,4 @@ yarn-error.log
 todo.todo
 .env.trello-token
 .env.production.local
+.do/app-platform-*.generated.yaml
