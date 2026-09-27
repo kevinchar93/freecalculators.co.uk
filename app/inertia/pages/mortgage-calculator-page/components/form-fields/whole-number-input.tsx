@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { inputClass } from './field-styles';
@@ -27,12 +27,6 @@ export function WholeNumberInput({
   const [isFocused, setIsFocused] = useState(false);
   const [displayValue, setDisplayValue] = useState(() => String(value));
 
-  useEffect(() => {
-    if (!isFocused) {
-      setDisplayValue(String(value));
-    }
-  }, [value, isFocused]);
-
   return (
     <Input
       type="text"
@@ -40,7 +34,7 @@ export function WholeNumberInput({
       id={id}
       name={name}
       className={cn(inputClass, className)}
-      value={displayValue}
+      value={isFocused ? displayValue : String(value)}
       onFocus={() => {
         setIsFocused(true);
         setDisplayValue(value === 0 ? '' : String(value));

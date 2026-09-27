@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 
 test.group('Pages', () => {
   const pages = {
-    '/': 'welcome',
+    '/': 'home',
     '/calculators': 'calculators-page',
     '/calculators/mortgage': 'mortgage-calculator-page/index',
     '/calculators/mortgage/assumptions': 'mortgage-calculator-page/assumptions',

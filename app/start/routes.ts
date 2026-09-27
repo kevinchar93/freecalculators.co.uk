@@ -19,7 +19,7 @@ router.get('/up', ({ response }) => response.ok('OK')).as('health');
 
 router
   .group(() => {
-    router.on('/').renderInertia('welcome', {}).as('home');
+    router.on('/').renderInertia('home', {}).as('home');
 
     router
       .group(() => {

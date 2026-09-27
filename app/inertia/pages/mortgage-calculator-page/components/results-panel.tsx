@@ -1,9 +1,9 @@
 import copy from '../copy.json';
 import { useMortgageStore } from '../store';
 import { getResultsViewModel } from '../view-model';
+import { AdvertCard } from './advert-card';
 import { AfterDealCard } from './after-deal-card';
 import { DuringDealCard } from './during-deal-card';
-import { AdvertCard } from './advert-card';
 import { SingleResultCard } from './single-result-card';
 import { SummaryCard } from './summary-card';
 

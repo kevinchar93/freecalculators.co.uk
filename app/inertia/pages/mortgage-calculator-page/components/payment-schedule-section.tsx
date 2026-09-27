@@ -5,11 +5,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { cn } from '@/lib/utils';
 import copy from '../copy.json';
 import type { AmortisationSchedule } from '../types';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
   toggleGroupItemSelectedBrandClass,
   toggleGroupItemSelectedNeutralClass,

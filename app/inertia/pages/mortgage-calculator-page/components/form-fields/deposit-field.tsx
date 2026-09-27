@@ -45,25 +45,35 @@ export function DepositField() {
   const depositPercentStepAmount = 5;
 
   const stepUpDeposit = () => {
-    depositMode === 'amount'
-      ? setDepositGbp((value) =>
-          Math.min(propertyPriceGbp, value + depositAmountStepAmount),
-        )
-      : setDepositPercent((value) => {
-          const newValue = value + depositPercentStepAmount;
-          const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
-          return Math.min(100, newValue2DecimalPlaces);
-        });
+    if (depositMode === 'amount') {
+      setDepositGbp((value) =>
+        Math.min(propertyPriceGbp, value + depositAmountStepAmount),
+      );
+
+      return;
+    }
+
+    setDepositPercent((value) => {
+      const newValue = value + depositPercentStepAmount;
+      const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
+
+      return Math.min(100, newValue2DecimalPlaces);
+    });
   };
 
   const stepDownDeposit = () => {
-    depositMode === 'amount'
-      ? setDepositGbp((value) => Math.max(0, value - depositAmountStepAmount))
-      : setDepositPercent((value) => {
-          const newValue = value - depositPercentStepAmount;
-          const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
-          return Math.max(0, newValue2DecimalPlaces);
-        });
+    if (depositMode === 'amount') {
+      setDepositGbp((value) => Math.max(0, value - depositAmountStepAmount));
+
+      return;
+    }
+
+    setDepositPercent((value) => {
+      const newValue = value - depositPercentStepAmount;
+      const newValue2DecimalPlaces = Math.round(newValue * 100) / 100;
+
+      return Math.max(0, newValue2DecimalPlaces);
+    });
   };
 
   return (

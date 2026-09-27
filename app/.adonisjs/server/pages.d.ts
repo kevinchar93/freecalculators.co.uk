@@ -15,6 +15,7 @@ declare module '@adonisjs/inertia/types' {
     'about-us-page': ExtractProps<(typeof import('../../inertia/pages/about-us-page.tsx'))['default']>
     'blog-page': ExtractProps<(typeof import('../../inertia/pages/blog-page.tsx'))['default']>
     'calculators-page': ExtractProps<(typeof import('../../inertia/pages/calculators-page.tsx'))['default']>
+    'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'mortgage-calculator-page/assumptions': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/assumptions.tsx'))['default']>
     'mortgage-calculator-page/calculations': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/calculations.ts'))['default']>
     'mortgage-calculator-page/components/advert-card': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/components/advert-card.tsx'))['default']>
@@ -44,7 +45,6 @@ declare module '@adonisjs/inertia/types' {
     'mortgage-calculator-page/components/single-result-card': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/components/single-result-card.tsx'))['default']>
     'mortgage-calculator-page/components/summary-card': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/components/summary-card.tsx'))['default']>
     'mortgage-calculator-page/formatters': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/formatters.ts'))['default']>
-    'mortgage-calculator-page/index.test': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/index.test.tsx'))['default']>
     'mortgage-calculator-page/index': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/index.tsx'))['default']>
     'mortgage-calculator-page/store': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/store.ts'))['default']>
     'mortgage-calculator-page/styles': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/styles.ts'))['default']>
@@ -52,6 +52,5 @@ declare module '@adonisjs/inertia/types' {
     'mortgage-calculator-page/view-model': ExtractProps<(typeof import('../../inertia/pages/mortgage-calculator-page/view-model.ts'))['default']>
     'privacy-policy-page': ExtractProps<(typeof import('../../inertia/pages/privacy-policy-page.tsx'))['default']>
     'terms-of-service-page': ExtractProps<(typeof import('../../inertia/pages/terms-of-service-page.tsx'))['default']>
-    'welcome': ExtractProps<(typeof import('../../inertia/pages/welcome.tsx'))['default']>
   }
 }

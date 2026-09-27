@@ -1,5 +1,4 @@
 import { useId } from 'react';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import copy from '../../copy.json';
 import { useMortgageStore } from '../../store';

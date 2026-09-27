@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { inputClass } from './field-styles';
@@ -27,12 +27,6 @@ export function ThousandsInput({
     formatWithCommas(value),
   );
 
-  useEffect(() => {
-    if (!isFocused) {
-      setDisplayValue(formatWithCommas(value));
-    }
-  }, [value, isFocused]);
-
   return (
     <Input
       type="text"
@@ -40,7 +34,7 @@ export function ThousandsInput({
       id={id}
       name={name}
       className={cn(inputClass, className)}
-      value={displayValue}
+      value={isFocused ? displayValue : formatWithCommas(value)}
       onFocus={() => {
         setIsFocused(true);
         setDisplayValue(value === 0 ? '' : String(value));

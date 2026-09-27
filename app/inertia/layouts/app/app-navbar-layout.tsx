@@ -15,10 +15,7 @@ const footerNavItems: NavItem[] = [
   { title: 'Terms of Service', href: urlFor('terms-of-service') },
 ];
 
-export default function AppNavbarLayout({
-  children,
-  breadcrumbs,
-}: AppLayoutProps) {
+export default function AppNavbarLayout({ children }: AppLayoutProps) {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <NavBar items={mainNavItems} />

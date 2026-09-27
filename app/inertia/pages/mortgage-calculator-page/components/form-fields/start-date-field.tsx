@@ -28,6 +28,7 @@ export function StartDateField() {
         onChange={(event) => setStartDate(event.target.value)}
         onBlur={(event) => {
           const value = event.target.value;
+
           if (value && value < MIN_MONTH) {
             setStartDate(MIN_MONTH);
           } else if (value && value > MAX_MONTH) {

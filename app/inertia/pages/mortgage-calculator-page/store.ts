@@ -65,10 +65,13 @@ const initialState: MortgageInputs = {
 export const useMortgageStore = create<MortgageStore>((set, get) => ({
   ...initialState,
 
-  setMortgageType: (v) => set((s) => ({ mortgageType: resolve(v, s.mortgageType) })),
-  setPropertyPriceGbp: (v) => set((s) => ({ propertyPriceGbp: resolve(v, s.propertyPriceGbp) })),
+  setMortgageType: (v) =>
+    set((s) => ({ mortgageType: resolve(v, s.mortgageType) })),
+  setPropertyPriceGbp: (v) =>
+    set((s) => ({ propertyPriceGbp: resolve(v, s.propertyPriceGbp) })),
   setDepositMode: (newMode) => {
     const { depositMode, propertyPriceGbp, depositGbp, depositPercent } = get();
+
     if (newMode === depositMode) {
       return;
     }
@@ -78,6 +81,7 @@ export const useMortgageStore = create<MortgageStore>((set, get) => ({
         depositMode: newMode,
         depositPercent: depositAmountToPercent(propertyPriceGbp, depositGbp),
       });
+
       return;
     }
 
@@ -85,18 +89,28 @@ export const useMortgageStore = create<MortgageStore>((set, get) => ({
       depositMode: newMode,
       depositGbp: depositPercentToAmount(propertyPriceGbp, depositPercent),
     });
+
     return;
   },
   setDepositGbp: (v) => set((s) => ({ depositGbp: resolve(v, s.depositGbp) })),
-  setDepositPercent: (v) => set((s) => ({ depositPercent: resolve(v, s.depositPercent) })),
-  setMortgageTermYears: (v) => set((s) => ({ mortgageTermYears: resolve(v, s.mortgageTermYears) })),
-  setInterestRatePercent: (v) => set((s) => ({ interestRatePercent: resolve(v, s.interestRatePercent) })),
+  setDepositPercent: (v) =>
+    set((s) => ({ depositPercent: resolve(v, s.depositPercent) })),
+  setMortgageTermYears: (v) =>
+    set((s) => ({ mortgageTermYears: resolve(v, s.mortgageTermYears) })),
+  setInterestRatePercent: (v) =>
+    set((s) => ({ interestRatePercent: resolve(v, s.interestRatePercent) })),
   setStartDate: (v) => set((s) => ({ startDate: resolve(v, s.startDate) })),
   setHasDeal: (v) => set((s) => ({ hasDeal: resolve(v, s.hasDeal) })),
   setDealType: (v) => set((s) => ({ dealType: resolve(v, s.dealType) })),
-  setDealTermYears: (v) => set((s) => ({ dealTermYears: resolve(v, s.dealTermYears) })),
-  setStandardVariableRatePercent: (v) => set((s) => ({ standardVariableRatePercent: resolve(v, s.standardVariableRatePercent) })),
-  setBaseRatePercent: (v) => set((s) => ({ baseRatePercent: resolve(v, s.baseRatePercent) })),
-  setMarginPercent: (v) => set((s) => ({ marginPercent: resolve(v, s.marginPercent) })),
+  setDealTermYears: (v) =>
+    set((s) => ({ dealTermYears: resolve(v, s.dealTermYears) })),
+  setStandardVariableRatePercent: (v) =>
+    set((s) => ({
+      standardVariableRatePercent: resolve(v, s.standardVariableRatePercent),
+    })),
+  setBaseRatePercent: (v) =>
+    set((s) => ({ baseRatePercent: resolve(v, s.baseRatePercent) })),
+  setMarginPercent: (v) =>
+    set((s) => ({ marginPercent: resolve(v, s.marginPercent) })),
   reset: () => set(initialState),
 }));

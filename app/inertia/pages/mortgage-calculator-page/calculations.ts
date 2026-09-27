@@ -1,5 +1,10 @@
 import { formatGBP, formatPercent, formatShortMonthYear } from './formatters';
-import type { AmortisationSchedule, DealType, DepositMode, ScheduleRow } from './types';
+import type {
+  AmortisationSchedule,
+  DealType,
+  DepositMode,
+  ScheduleRow,
+} from './types';
 
 export function annualPercentToMonthlyRate(annualPercent: number): number {
   return annualPercent / 100 / 12;
@@ -144,21 +149,33 @@ export function changeText(increase: number): string {
   return `${direction} of ${magnitude} when your deal ends`;
 }
 
-export function depositPercentToAmount(propertyPriceGbp: number, depositPercent: number): number {
-  return Math.round((propertyPriceGbp * depositPercent) / 100)
+export function depositPercentToAmount(
+  propertyPriceGbp: number,
+  depositPercent: number,
+): number {
+  return Math.round((propertyPriceGbp * depositPercent) / 100);
 }
 
-export function depositAmountToPercent(propertyPriceGbp: number, depositAmount: number): number {
+export function depositAmountToPercent(
+  propertyPriceGbp: number,
+  depositAmount: number,
+): number {
   return propertyPriceGbp > 0
     ? Math.round((depositAmount / propertyPriceGbp) * 10_000) / 100
-    : 0
+    : 0;
 }
 
-export function calculateLoanAmount(propertyPriceGbp: number, depositAmount: number) {
-  return Math.max(0, propertyPriceGbp - depositAmount)
+export function calculateLoanAmount(
+  propertyPriceGbp: number,
+  depositAmount: number,
+) {
+  return Math.max(0, propertyPriceGbp - depositAmount);
 }
 
-export function calculateLoanToValuePercentage(propertyPriceGbp: number, loanAmount: number) {
+export function calculateLoanToValuePercentage(
+  propertyPriceGbp: number,
+  loanAmount: number,
+) {
   if (propertyPriceGbp <= 0) {
     return 0;
   }

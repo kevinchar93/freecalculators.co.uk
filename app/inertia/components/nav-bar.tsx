@@ -33,7 +33,11 @@ export function NavBar({
       <div className="mx-auto max-w-240 px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           {/* Logo */}
-          <Link href={urlFor('home')} prefetch className="flex items-center font-logo">
+          <Link
+            href={urlFor('home')}
+            prefetch
+            className="flex items-center font-logo"
+          >
             <span className="text-lg font-bold text-neutral-900 dark:text-white">
               freecalculators
             </span>

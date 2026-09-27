@@ -27,7 +27,7 @@ createInertiaApp({
   },
   layout: (name) => {
     switch (true) {
-      case name === 'welcome':
+      case name === 'home':
         return null;
       default:
         return AppLayout;
