@@ -1,8 +1,9 @@
 # DigitalOcean App Platform spec — production
 # Reference: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
-# Generate the real spec with: php artisan deploy:build-spec production
-# Apply with: doctl apps create --spec .do/app-platform-production.generated.yaml
-# Update with: doctl apps update <app-id> --spec .do/app-platform-production.generated.yaml
+# Generate the real spec with: task spec:build:production (from infrastructure/)
+#   which runs `node ace deploy:build-spec production` in app/
+# Apply with: doctl apps create --spec infrastructure/digitalocean/app-platform-production.generated.yaml
+# Update with: doctl apps update <app-id> --spec infrastructure/digitalocean/app-platform-production.generated.yaml
 name: freecalculators-production
 region: lon1 # adjust if you want a different DO region
 
@@ -12,7 +13,10 @@ services:
       repo: kevinchar93/freecalculators.co.uk
       branch: main
       deploy_on_push: true
-    dockerfile_path: Dockerfile
+    # Build context is the AdonisJS app; the Dockerfile lives with the rest
+    # of the infrastructure config.
+    source_dir: app
+    dockerfile_path: infrastructure/Dockerfile
     http_port: 8080
     health_check:
       http_path: /up
@@ -21,11 +25,33 @@ services:
     envs:
       - key: APP_NAME
         value: freecalculators.co.uk
-        scope: RUN_AND_BUILD_TIME
+        scope: RUN_TIME
 
-      - key: APP_ENV
+      # Baked into the frontend bundle by Vite, so it must be available
+      # when the image is built.
+      - key: VITE_APP_NAME
+        value: freecalculators.co.uk
+        scope: BUILD_TIME
+
+      - key: NODE_ENV
         value: production
-        scope: RUN_AND_BUILD_TIME
+        scope: RUN_TIME
+
+      - key: HOST
+        value: 0.0.0.0
+        scope: RUN_TIME
+
+      - key: PORT
+        value: "8080"
+        scope: RUN_TIME
+
+      - key: TZ
+        value: UTC
+        scope: RUN_TIME
+
+      - key: SESSION_DRIVER
+        value: cookie
+        scope: RUN_TIME
 
       # SECRET-type values: fill the real value locally when you first run
       # `doctl apps create`, never commit the real value. After the app
@@ -34,19 +60,15 @@ services:
       - key: APP_KEY
         value: REPLACE_ME_LOCALLY
         type: SECRET
-        scope: RUN_AND_BUILD_TIME
-
-      - key: APP_DEBUG
-        value: "false"
-        scope: RUN_AND_BUILD_TIME
+        scope: RUN_TIME
 
       - key: APP_URL
         value: https://freecalculators.co.uk
-        scope: RUN_AND_BUILD_TIME
+        scope: RUN_TIME
 
       - key: LOG_LEVEL
         value: info
-        scope: RUN_AND_BUILD_TIME
+        scope: RUN_TIME
 
 domains:
   # `zone` tells App Platform to create the actual DNS records inside the
