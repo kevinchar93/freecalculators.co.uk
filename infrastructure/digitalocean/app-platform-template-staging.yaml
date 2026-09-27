@@ -1,0 +1,94 @@
+# DigitalOcean App Platform spec — staging
+# Reference: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
+# Generate the real spec with: task spec:build:staging (from infrastructure/)
+#   which runs `node ace deploy:build-spec staging` in app/
+# Apply with: doctl apps create --spec infrastructure/digitalocean/app-platform-staging.generated.yaml
+# Update with: doctl apps update <app-id> --spec infrastructure/digitalocean/app-platform-staging.generated.yaml
+#
+# Staging is intentionally as close to production as possible
+# the only deliberate differences from app-platform-template-production.yaml are:
+# APP_URL, the domain, and the STAGING_BASIC_AUTH_* vars that gate access.
+name: freecalculators-staging
+region: lon1
+
+services:
+  - name: web
+    github:
+      repo: kevinchar93/freecalculators.co.uk
+      branch: main
+      deploy_on_push: true
+    # Build context is the AdonisJS app; the Dockerfile lives with the rest
+    # of the infrastructure config.
+    source_dir: app
+    dockerfile_path: infrastructure/Dockerfile
+    http_port: 8080
+    health_check:
+      http_path: /up
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb-fixed
+    envs:
+      - key: APP_NAME
+        value: freecalculators.co.uk (staging)
+        scope: RUN_TIME
+
+      # Baked into the frontend bundle by Vite, so it must be available
+      # when the image is built.
+      - key: VITE_APP_NAME
+        value: freecalculators.co.uk
+        scope: BUILD_TIME
+
+      - key: NODE_ENV
+        value: production
+        scope: RUN_TIME
+
+      - key: HOST
+        value: 0.0.0.0
+        scope: RUN_TIME
+
+      - key: PORT
+        value: "8080"
+        scope: RUN_TIME
+
+      - key: TZ
+        value: UTC
+        scope: RUN_TIME
+
+      - key: SESSION_DRIVER
+        value: cookie
+        scope: RUN_TIME
+
+      - key: APP_KEY
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: APP_URL
+        value: https://staging.freecalculators.co.uk
+        scope: RUN_TIME
+
+      - key: STAGING_BASIC_AUTH_ENABLED
+        value: "true"
+        scope: RUN_TIME
+
+      - key: STAGING_BASIC_AUTH_USER
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_TIME
+
+      # Generate with `node ace hash:password` (run in app/) — this is a
+      # bcrypt hash, never the plaintext password itself.
+      - key: STAGING_BASIC_AUTH_PASSWORD_HASH
+        value: REPLACE_ME_LOCALLY
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: LOG_LEVEL
+        value: info
+        scope: RUN_TIME
+
+domains:
+  # zone is the parent zone (freecalculators.co.uk), not the full staging
+  # hostname — see app-platform-template-production.yaml for why this is needed.
+  - domain: staging.freecalculators.co.uk
+    type: PRIMARY
+    zone: freecalculators.co.uk

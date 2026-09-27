@@ -1,0 +1,38 @@
+# https://taskfile.dev
+# Run from this directory: `task <name>`.
+
+version: '3'
+
+vars:
+  IMAGE: freecalculator-co-uk
+  APP_DIR: ../app
+
+tasks:
+  spec:build:staging:
+    desc: Fill secrets into the staging spec (writes a gitignored copy)
+    dir: '{{.APP_DIR}}'
+    cmds:
+      - node ace deploy:build-spec staging
+    interactive: true
+
+  spec:build:production:
+    desc: Fill secrets into the production spec (writes a gitignored copy)
+    dir: '{{.APP_DIR}}'
+    cmds:
+      - node ace deploy:build-spec production
+    interactive: true
+
+  infra:create:staging-app:
+    cmds:
+      - doctl apps create --spec digitalocean/app-platform-staging.generated.yaml
+    silent: true
+
+  build:image:
+    cmds:
+      - podman build -t {{.IMAGE}} -f Dockerfile {{.APP_DIR}}
+    silent: true
+
+  start:container:
+    cmds:
+      - podman run --rm -p 8080:8080 --env-file {{.APP_DIR}}/.env -e HOST=0.0.0.0 -e PORT=8080 -e NODE_ENV=production --name {{.IMAGE}} {{.IMAGE}}
+    silent: true
