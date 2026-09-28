@@ -1,0 +1,4 @@
+inertia/components/ui/*
+build
+.adonisjs
+public/assets
