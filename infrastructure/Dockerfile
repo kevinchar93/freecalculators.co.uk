@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
-# Build context is the AdonisJS app directory (app/), e.g.
-#   podman build -f infrastructure/Dockerfile app
-# DigitalOcean does the same via `source_dir: app` in the app spec.
+# Build context is the AdonisJS app directory (webapp/), e.g.
+#   podman build -f infrastructure/Dockerfile webapp
+# DigitalOcean does the same via `source_dir: webapp` in the app spec.
 
 # --- builder ------------------------------------------------------------
 # Compiles the TypeScript backend and the Vite frontend bundle into

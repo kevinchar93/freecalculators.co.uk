@@ -5,7 +5,7 @@ version: '3'
 
 vars:
   IMAGE: freecalculator-co-uk
-  APP_DIR: ../app
+  APP_DIR: ../webapp
 
 tasks:
   spec:build:staging:

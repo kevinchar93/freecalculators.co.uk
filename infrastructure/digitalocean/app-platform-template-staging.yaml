@@ -1,7 +1,7 @@
 # DigitalOcean App Platform spec — staging
 # Reference: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
 # Generate the real spec with: task spec:build:staging (from infrastructure/)
-#   which runs `node ace deploy:build-spec staging` in app/
+#   which runs `node ace deploy:build-spec staging` in webapp/
 # Apply with: doctl apps create --spec infrastructure/digitalocean/app-platform-staging.generated.yaml
 # Update with: doctl apps update <app-id> --spec infrastructure/digitalocean/app-platform-staging.generated.yaml
 #
@@ -19,7 +19,7 @@ services:
       deploy_on_push: true
     # Build context is the AdonisJS app; the Dockerfile lives with the rest
     # of the infrastructure config.
-    source_dir: app
+    source_dir: webapp
     dockerfile_path: infrastructure/Dockerfile
     http_port: 8080
     health_check:
@@ -75,7 +75,7 @@ services:
         type: SECRET
         scope: RUN_TIME
 
-      # Generate with `node ace hash:password` (run in app/) — this is a
+      # Generate with `node ace hash:password` (run in webapp/) — this is a
       # bcrypt hash, never the plaintext password itself.
       - key: STAGING_BASIC_AUTH_PASSWORD_HASH
         value: REPLACE_ME_LOCALLY
