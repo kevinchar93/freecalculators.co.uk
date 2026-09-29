@@ -36,7 +36,11 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
       await import('#start/env');
     });
     app.listen('SIGTERM', () => app.terminate());
-    app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate());
+    /**
+     * Always handle SIGINT: as PID 1 in a container, Node ignores signals
+     * it has no handler for, so Ctrl+C would never stop the server.
+     */
+    app.listen('SIGINT', () => app.terminate());
   })
   .httpServer()
   .start()

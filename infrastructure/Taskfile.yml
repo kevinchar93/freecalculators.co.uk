@@ -34,5 +34,7 @@ tasks:
 
   start:container:
     cmds:
-      - podman run --rm -p 8080:8080 --env-file {{.APP_DIR}}/.env -e HOST=0.0.0.0 -e PORT=8080 -e NODE_ENV=production --name {{.IMAGE}} {{.IMAGE}}
+      # Mount .env rather than using --env-file, so Adonis parses it the
+      # same way as in development (e.g. \$ escapes in the password hash).
+      - podman run --rm -p 8080:8080 -v "$(realpath {{.APP_DIR}}/.env)":/app/.env:ro -e HOST=0.0.0.0 -e PORT=8080 -e NODE_ENV=production --name {{.IMAGE}} {{.IMAGE}}
     silent: true

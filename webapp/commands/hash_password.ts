@@ -21,6 +21,15 @@ export default class HashPassword extends BaseCommand {
       return;
     }
 
-    this.logger.log(await hash.make(password));
+    const hashedPassword = await hash.make(password);
+
+    this.logger.log(hashedPassword);
+    this.logger.log('');
+    this.logger.log(
+      'For a .env file, escape each $ so Adonis does not treat it as a variable:',
+    );
+    this.logger.log(
+      `STAGING_BASIC_AUTH_PASSWORD_HASH=${hashedPassword.replaceAll('$', '\\$')}`,
+    );
   }
 }

@@ -32,6 +32,7 @@ export default class BuildDeploySpec extends BaseCommand {
 
     const specsPath =
       this.dir ?? this.app.makePath('..', 'infrastructure', 'digitalocean');
+
     const templatePath = `${specsPath}/app-platform-template-${this.environment}.yaml`;
     const outputPath = `${specsPath}/app-platform-${this.environment}.generated.yaml`;
 
