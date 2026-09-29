@@ -8,14 +8,14 @@ vars:
   APP_DIR: ../webapp
 
 tasks:
-  spec:build:staging:
+  spec:staging:
     desc: Fill secrets into the staging spec (writes a gitignored copy)
     dir: '{{.APP_DIR}}'
     cmds:
       - node ace deploy:build-spec staging
     interactive: true
 
-  spec:build:production:
+  spec:production:
     desc: Fill secrets into the production spec (writes a gitignored copy)
     dir: '{{.APP_DIR}}'
     cmds:

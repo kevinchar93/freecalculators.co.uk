@@ -25,6 +25,14 @@ export const http = defineConfig({
   generateRequestId: true,
 
   /**
+   * Trust X-Forwarded-* headers from any proxy, so request.ip() returns
+   * the visitor's IP rather than DigitalOcean's load balancer. Safe there
+   * because the app is only reachable through DO's proxy; when running
+   * the app directly, clients can spoof their IP with these headers.
+   */
+  trustProxy: true,
+
+  /**
    * Allow HTTP method spoofing via the "_method" form/query parameter.
    * This lets HTML forms target PUT/PATCH/DELETE routes while still
    * submitting with POST.

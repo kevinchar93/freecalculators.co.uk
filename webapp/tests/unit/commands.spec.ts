@@ -1,7 +1,9 @@
 import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { EnvParser } from '@adonisjs/core/env';
 import ace from '@adonisjs/core/services/ace';
+import app from '@adonisjs/core/services/app';
 import hash from '@adonisjs/core/services/hash';
 import { test } from '@japa/runner';
 import { parse } from 'yaml';
@@ -26,6 +28,26 @@ test.group('hash:password', (group) => {
     command.assertSucceeded();
     const [log] = command.ui.logger.getLogs();
     assert.isTrue(await hash.verify(log.message, 'correct-horse'));
+  });
+
+  test('prints a .env line that Adonis parses back to the same hash', async ({
+    assert,
+  }) => {
+    const command = await ace.create(HashPassword, []);
+    command.prompt.trap('Password to hash').replyWith('correct-horse');
+
+    await command.exec();
+
+    const logs = command.ui.logger.getLogs().map((log) => log.message);
+    const envLine = logs.find((message) =>
+      message.startsWith('STAGING_BASIC_AUTH_PASSWORD_HASH='),
+    );
+
+    assert.exists(envLine);
+    const parsed = await new EnvParser(envLine!, app.appRoot, {
+      ignoreProcessEnv: true,
+    }).parse();
+    assert.equal(parsed.STAGING_BASIC_AUTH_PASSWORD_HASH, logs[0]);
   });
 
   test('fails when no password is entered', async () => {
